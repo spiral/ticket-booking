@@ -18,11 +18,15 @@
         "php": ">=8.1",
         "ext-mbstring": "*",
         "doctrine/collections": "^1.6",
+        "spiral-packages/cqrs": "^2.0",
+        "spiral-packages/database-seeder": "^2.0",
         "spiral/cycle-bridge": "^2.0",
+        "spiral/data-grid-bridge": "^3.0",
         "spiral/framework": "3.0.x-dev",
         "spiral/nyholm-bridge": "^1.2",
         "spiral/roadrunner-bridge": "^2.0",
         "spiral/sapi-bridge": "^1.0",
+        "spiral/temporal-bridge": "^2.0",
         "symfony/var-dumper": "^6.0"
     },
     "require-dev": {
@@ -41,7 +45,8 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/src"
+            "App\\": "app/src",
+            "Database\\": "app/database"
         },
         "files": [
             "app/src/helpers.php"

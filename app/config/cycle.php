@@ -30,7 +30,7 @@ return [
         ],
 
         'collections' => [
-            'default' => 'doctrine',
+            'default' => 'array',
             'factories' => [
                 'array' => new ArrayCollectionFactory(),
                 'doctrine' => new DoctrineCollectionFactory(),

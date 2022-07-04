@@ -39,10 +39,8 @@ kv:
     config:
       addrs:
         - localhost:6379
-#grpc:
-#  listen: "tcp://localhost:9001"
-#  proto:
-#    - "first.proto"
 
-metrics:
-  address: localhost:2112
+temporal:
+  address: temporal:7233
+  activities:
+    num_workers: 5

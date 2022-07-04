@@ -39,9 +39,6 @@ class App extends Kernel
         Monolog\MonologBootloader::class,
         Bootloader\ExceptionHandlerBootloader::class,
 
-        // Application specific logs
-        Bootloader\LoggingBootloader::class,
-
         // RoadRunner
         RoadRunnerBridge\CacheBootloader::class,
         RoadRunnerBridge\GRPCBootloader::class,
@@ -81,10 +78,10 @@ class App extends Kernel
         CycleBridge\CommandBootloader::class,
 
         // DataGrid
-        // CycleBridge\DataGridBootloader::class,
+        CycleBridge\DataGridBootloader::class,
 
         // Auth
-        // CycleBridge\AuthTokensBootloader::class,
+        CycleBridge\AuthTokensBootloader::class,
 
         // Entity checker
         // CycleBridge\ValidationBootloader::class,
@@ -107,6 +104,10 @@ class App extends Kernel
         Framework\Debug\HttpCollectorBootloader::class,
 
         RoadRunnerBridge\CommandBootloader::class,
+
+        \Spiral\DatabaseSeeder\Bootloader\DatabaseSeederBootloader::class,
+        \Spiral\TemporalBridge\Bootloader\TemporalBridgeBootloader::class,
+        \Spiral\Cqrs\Bootloader\CqrsBootloader::class,
     ];
 
     /*
@@ -114,6 +115,8 @@ class App extends Kernel
      */
     protected const APP = [
         Bootloader\RoutesBootloader::class,
+        Bootloader\RepositoriesBootloader::class,
+        Bootloader\WorkflowBootloader::class,
 
         // fast code prototyping
         Prototype\PrototypeBootloader::class,

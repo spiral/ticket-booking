@@ -38,8 +38,19 @@ return [
      * the driver class and its connection options.
      */
     'drivers' => [
-        'runtime' => new Config\SQLiteDriverConfig(
-            connection: new Config\SQLite\MemoryConnectionConfig(),
+//        'runtime' => new Config\SQLiteDriverConfig(
+//            connection: new Config\SQLite\FileConnectionConfig(
+//                database: directory('runtime').'/database.sqlite'
+//            ),
+//            queryCache: true
+//        ),
+        'runtime' => new Config\PostgresDriverConfig(
+            connection: new Config\Postgres\TcpConnectionConfig(
+                database: env('DB_DATABASE'),
+                host: env('DB_HOST'),
+                user: env('DB_USER'),
+                password: env('DB_PASSWORD'),
+            ),
             queryCache: true
         ),
         // ...
