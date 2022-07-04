@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Entity\Auditorium\ReservedSeat;
 use App\Repository\Postgres\ScreeningRepository;
 use App\Repository\ScreeningRepositoryInterface;
+use App\ValueObject\Money;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\BelongsTo;
@@ -32,7 +33,9 @@ class Screening
         #[BelongsTo(target: Auditorium::class)]
         private Auditorium $auditorium,
         #[Column(type: 'datetime', name: 'starts_at')]
-        private \DateTimeInterface $startsAt
+        private \DateTimeInterface $startsAt,
+        #[Column(type: 'integer', name: 'price')]
+        private int $price
     ) {
     }
 
@@ -67,5 +70,10 @@ class Screening
     public function isInProgress(): bool
     {
         return $this->startsAt < new \DateTimeImmutable();
+    }
+
+    public function getPrice(): int
+    {
+        return $this->price;
     }
 }

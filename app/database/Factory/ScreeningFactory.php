@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factory;
 
 use App\Entity\Screening;
+use App\ValueObject\Money;
 use Spiral\DatabaseSeeder\Factory\AbstractFactory;
 
 class ScreeningFactory extends AbstractFactory
@@ -26,6 +27,7 @@ class ScreeningFactory extends AbstractFactory
             'movie' => fn() => MovieFactory::new()->createOne(),
             'auditorium' => fn() => AuditoriumFactory::new()->createOne(),
             'startsAt' => $this->faker->dateTime,
+            'price' => $this->faker->numberBetween(3, 10),
         ];
     }
 }

@@ -10,5 +10,5 @@ use Spiral\TemporalBridge\Workflow\RunningWorkflow;
 
 interface BuyTicketHandlerInterface
 {
-    public function buy(BuyTicketCommand $command): RunningWorkflow;
+    public function buy(BuyTicketCommand $command);
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Cycle\ORM\Collection\ArrayCollectionFactory;
 use Cycle\ORM\Collection\DoctrineCollectionFactory;
+use Cycle\ORM\SchemaInterface;
 
 return [
     'schema' => [
@@ -24,9 +25,10 @@ return [
             // SchemaInterface::MAPPER => \Cycle\ORM\Mapper\Mapper::class,
             // SchemaInterface::REPOSITORY => \Cycle\ORM\Select\Repository::class,
             // SchemaInterface::SCOPE => null,
-            // SchemaInterface::TYPECAST_HANDLER => [
-            //    \Cycle\ORM\Parser\Typecast::class
-            // ],
+             SchemaInterface::TYPECAST_HANDLER => [
+                \Cycle\ORM\Parser\Typecast::class,
+                \App\Entity\ExtendedTypecast::class
+             ],
         ],
 
         'collections' => [

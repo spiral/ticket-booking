@@ -18,6 +18,7 @@
         "php": ">=8.1",
         "ext-mbstring": "*",
         "doctrine/collections": "^1.6",
+        "moneyphp/money": "^3.3",
         "spiral-packages/cqrs": "^2.0",
         "spiral-packages/database-seeder": "^2.0",
         "spiral/cycle-bridge": "^2.0",

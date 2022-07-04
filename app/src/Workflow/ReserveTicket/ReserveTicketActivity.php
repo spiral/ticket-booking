@@ -30,8 +30,8 @@ class ReserveTicketActivity implements ReserveTicketActivityInterface
         int $screeningId,
         int $reservationTypeId,
         array $seatIds
-    ) {
-        $this->reservationChecker->checkAvailability($screeningId, $seatIds);
+    ): int {
+        //$this->reservationChecker->checkAvailability($screeningId, $seatIds);
 
         $screening = $this->screenings->getByPK($screeningId);
         $reservationType = $this->reservationType->getByPK($reservationTypeId);
@@ -53,36 +53,35 @@ class ReserveTicketActivity implements ReserveTicketActivityInterface
             $reservedSeat = new ReservedSeat($seat, $reservation);
             $this->entityManager->persist($reservedSeat);
         }
+
         $this->entityManager->run();
         $this->entityManager->clean();
 
-        return \sprintf(
-            'Reservation [%s] created at: %s',
-            $reservationId,
-            $reservation->getCreatedAt()->format(DATE_W3C)
-        );
+        return 600;
     }
 
     public function cancel(string $reservationId)
     {
         $reservation = $this->reservations->getByPK($reservationId);
 
-        if (! $reservation->isPaid() && $reservation->isActive()) {
-            $reservation->markAsCanceled();
-
-            $this->entityManager->persist($reservation);
-
-            foreach ($reservation->getSeats() as $seat) {
-                $this->entityManager->delete($seat);
-            }
-
-            $this->entityManager->run();
-
-            return \sprintf(
-                'Reservation [%s] canceled at: %s',
-                $reservationId,
-                $reservation->getCanceledAt()->format(DATE_W3C)
-            );
+        if ($reservation->isPaid()) {
+            throw new \Exception(\sprintf('reservation %s was paid', $reservationId));
         }
+
+        $reservation->markAsCanceled();
+
+        $this->entityManager->persist($reservation);
+
+        foreach ($reservation->getSeats() as $seat) {
+            $this->entityManager->delete($seat);
+        }
+
+        $this->entityManager->run();
+
+        return \sprintf(
+            'Reservation [%s] canceled at: %s',
+            $reservationId,
+            $reservation->getCanceledAt()->format(DATE_W3C)
+        );
     }
 }

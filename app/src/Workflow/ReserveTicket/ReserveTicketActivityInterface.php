@@ -16,7 +16,7 @@ interface ReserveTicketActivityInterface
         int $screeningId,
         int $reservationTypeId,
         array $seatIds
-    );
+    ): int;
 
     #[ActivityMethod]
     public function cancel(

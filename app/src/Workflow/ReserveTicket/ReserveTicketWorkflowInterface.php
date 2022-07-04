@@ -17,6 +17,15 @@ interface ReserveTicketWorkflowInterface
         string $reservationId,
         int $screeningId,
         int $reservationTypeId,
-        array $seatIds
+        array $seatIds,
     );
+
+    #[SignalMethod]
+    public function cancel(): \Generator;
+
+    #[SignalMethod]
+    public function pay(): \Generator;
+
+    #[QueryMethod]
+    public function isExpired(): bool;
 }

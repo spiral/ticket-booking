@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Repository\MovieRepositoryInterface;
 use App\Repository\Postgres\MovieRepository;
+use App\ValueObject\Duration;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Table\Index;

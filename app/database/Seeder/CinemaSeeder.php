@@ -6,6 +6,7 @@ namespace Database\Seeder;
 
 use App\Entity\Auditorium;
 use App\Entity\Movie;
+use App\ValueObject\Duration;
 use Carbon\Carbon;
 use Database\Factory\AuditoriumFactory;
 use Database\Factory\MovieFactory;
@@ -99,10 +100,10 @@ TEXT
             'name' => 'imax',
         ])->createOne();
 
-        yield from $this->createSeats($auditorium1, rows: 10, seatsInRow: 30);
-        yield from $this->createSeats($auditorium2, rows: 7, seatsInRow: 25);
-        yield from $this->createSeats($auditorium3, rows: 5, seatsInRow: 15);
-        yield from $this->createSeats($auditorium4, rows: 20, seatsInRow: 50);
+        yield from $this->createSeats($auditorium3, rows: 5, seatsInRow: 10);
+        yield from $this->createSeats($auditorium2, rows: 7, seatsInRow: 15);
+        yield from $this->createSeats($auditorium1, rows: 10, seatsInRow: 20);
+        yield from $this->createSeats($auditorium4, rows: 13, seatsInRow: 25);
 
         yield from $this->createSchedule(
             movie: $movie1,
@@ -150,7 +151,7 @@ TEXT
                 'startsAt' => $startAt,
             ])->createOne();
 
-            $startAt = $startAt->addMinutes($movie->getDuration())->addMinutes(5);
+            $startAt = $startAt->addMinutes($movie->getDuration())->addMinutes(20);
         }
     }
 

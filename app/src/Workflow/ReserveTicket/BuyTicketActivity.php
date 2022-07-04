@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Workflow\BuyTicket;
+namespace App\Workflow\ReserveTicket;
 
+use App\Entity\Auditorium\ReservedSeat;
 use App\Repository\ReservationRepositoryInterface;
 use Cycle\ORM\EntityManagerInterface;
 
@@ -15,7 +16,7 @@ class BuyTicketActivity implements BuyTicketActivityInterface
     ) {
     }
 
-    public function buy(string $reservationId)
+    public function pay(string $reservationId): array
     {
         $reservation = $this->reservations->getByPK($reservationId);
         $reservation->markAsPaid();
@@ -24,10 +25,9 @@ class BuyTicketActivity implements BuyTicketActivityInterface
         $this->entityManager->run();
         $this->entityManager->clean();
 
-        return \sprintf(
-            'Reservation [%s] paid at: %s',
-            $reservationId,
-            $reservation->getPaidAt()->format(DATE_W3C)
+        return \array_map(
+            fn(ReservedSeat $seat) => $seat->getSeat()->getId(),
+            $reservation->getSeats()
         );
     }
 }

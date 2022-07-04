@@ -5,23 +5,24 @@ declare(strict_types=1);
 namespace App\Console;
 
 use App\Workflow\ReserveTicket\BuyTicketActivity;
+use App\Workflow\ReserveTicket\ReserveTicketActivity;
 use Ramsey\Uuid\Uuid;
 use Spiral\Console\Command;
 use Spiral\Cqrs\CommandBusInterface;
 
-class BuyTicketCommand extends Command
+class CancelTicketCommand extends Command
 {
-    protected const SIGNATURE = 'buy:ticket {reservation}';
+    protected const SIGNATURE = 'cancel:ticket {reservation}';
 
     public function __invoke(
         CommandBusInterface $bus,
-        BuyTicketActivity $activity
+        ReserveTicketActivity $activity
     ) {
-        $command = new \App\Command\BuyTicketCommand(
+        $command = new \App\Command\CancelTicketCommand(
             Uuid::fromString($this->argument('reservation'))
         );
 
         \dump($bus->dispatch($command));
-        // $activity->pay($command->reservationId->toString());
+        // $activity->cancel($command->reservationId->toString());
     }
 }

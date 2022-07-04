@@ -31,7 +31,7 @@ class Auditorium
 
     public function __construct(
         #[Column(type: 'string', name: 'name')]
-        private string $name
+        private string $name,
     ) {
     }
 

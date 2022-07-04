@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace App\Workflow\BuyTicket;
 
+use App\Workflow\ReserveTicket\BuyTicketActivityInterface;
 use Carbon\CarbonInterval;
 use Temporal\Activity\ActivityOptions;
 use Temporal\Internal\Workflow\ActivityProxy;
 use Temporal\Workflow;
 
-class BuyTicketWorkflow implements BuyTicketWorkflowInterface
+class CancelTicketWorkflow implements CancelTicketWorkflowInterface
 {
     /** @var ActivityProxy|BuyTicketActivityInterface */
     private ActivityProxy $activity;
+    /** @var int[] */
+    private array $seats;
 
     public function __construct()
     {
@@ -23,8 +26,10 @@ class BuyTicketWorkflow implements BuyTicketWorkflowInterface
         );
     }
 
-    public function buy(string $reservationId)
+    public function cancel(string $reservationId)
     {
-        return yield $this->activity->buy($reservationId);
+        $this->seats = yield $this->activity->buy($reservationId);
+
+        return true;
     }
 }

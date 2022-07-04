@@ -28,14 +28,15 @@ class ReserveTicketCommand extends Command
             $activeScreenings[$screening->getId()] = [
                 $screening->getId(),
                 $screening->getMovie()->getTitle(),
-                $screening->getStartsAt()->format(DATE_W3C),
+                $screening->getStartsAt()->format('d.m.Y H:i'),
                 $screening->getMovie()->getDuration().' min',
                 $screening->getAuditorium()->getTotalSeats(),
                 $screening->getAuditorium()->getName(),
+                $screening->getPrice() . '$',
             ];
         }
 
-        $this->table(['ID', 'Movie', 'Starts at', 'Duration', 'Seats', 'Auditorium'], $activeScreenings)->render();
+        $this->table(['ID', 'Movie', 'Starts at', 'Duration', 'Seats', 'Auditorium', 'Price'], $activeScreenings)->render();
 
         do {
             $screeningId = (int)$this->ask('Select movie ID');
@@ -52,8 +53,12 @@ class ReserveTicketCommand extends Command
 
         try {
             $reservationChecker->checkAvailability($screeningId, $seats);
-            $bus->dispatch($command);
-            $this->info(\sprintf('Reservation [%s] started....', $command->reservationId));
+            $workflowId = $bus->dispatch($command);
+
+            $this->info(\sprintf(
+                'Reservation [%s] started. Use it  for purchasing the tickets...',
+                $workflowId
+            ));
         } catch (\Throwable $e) {
             $this->warning($e->getMessage());
         }

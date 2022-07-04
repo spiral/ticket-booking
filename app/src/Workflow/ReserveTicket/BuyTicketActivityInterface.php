@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Workflow\BuyTicket;
+namespace App\Workflow\ReserveTicket;
 
 use Temporal\Activity\ActivityInterface;
 use Temporal\Activity\ActivityMethod;
@@ -11,5 +11,5 @@ use Temporal\Activity\ActivityMethod;
 interface BuyTicketActivityInterface
 {
     #[ActivityMethod]
-    public function buy(string $reservationId);
+    public function pay(string $reservationId);
 }

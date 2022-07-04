@@ -7,7 +7,7 @@ namespace App\Command;
 use Ramsey\Uuid\UuidInterface;
 use Spiral\Cqrs\CommandInterface;
 
-final class BuyTicketCommand implements CommandInterface
+final class CancelTicketCommand implements CommandInterface
 {
     public function __construct(
         public readonly UuidInterface $reservationId
