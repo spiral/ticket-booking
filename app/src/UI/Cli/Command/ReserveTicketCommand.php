@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Console;
+namespace App\UI\Cli\Command;
 
 use App\Entity\Auditorium\ReservedSeat;
 use App\Entity\Auditorium\Seat;

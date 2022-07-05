@@ -94,6 +94,7 @@ class App extends Kernel
 
         // Extensions and bridges
         TwigBootloader::class,
+        Bootloader\TwigExtensionBootloader::class,
 
         // Framework commands
         Framework\CommandBootloader::class,

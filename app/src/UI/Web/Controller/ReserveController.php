@@ -9,16 +9,17 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\UI\Web\Controller;
 
+use App\Application\Query\ActiveScreeningsQuery;
 use Psr\Http\Message\ResponseInterface;
 use Spiral\Router\Annotation\Route;
 
-class HomeController extends AbstractController
+class ReserveController extends AbstractController
 {
-    #[Route('/', name: 'index', methods: 'GET')]
+    #[Route('/screenings', name: 'screenings', methods: 'GET')]
     public function index(): ResponseInterface
     {
-        return $this->render('home');
+        return $this->render('reservation/screenings', ['screenings' => $this->ask(new ActiveScreeningsQuery())]);
     }
 }

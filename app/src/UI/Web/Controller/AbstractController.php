@@ -9,9 +9,11 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\UI\Web\Controller;
 
 use Psr\Http\Message\ResponseInterface;
+use Spiral\Cqrs\QueryBusInterface;
+use Spiral\Cqrs\QueryInterface;
 use Spiral\Http\ResponseWrapper;
 use Spiral\Views\ViewsInterface;
 
@@ -19,12 +21,18 @@ class AbstractController
 {
     public function __construct(
         protected readonly ResponseWrapper $responseWrapper,
-        protected readonly ViewsInterface $views
+        protected readonly ViewsInterface $views,
+        protected readonly QueryBusInterface $queryBus
     ) {
     }
 
     public function render(string $template, array $data = []): ResponseInterface
     {
         return $this->responseWrapper->html($this->views->render($template, $data));
+    }
+
+    public function ask(QueryInterface $query): mixed
+    {
+        return $this->queryBus->ask($query);
     }
 }
