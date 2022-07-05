@@ -2,6 +2,8 @@
 
 {% block title %}[[Active screenings]]{% endblock %}
 
+{% set reservedIds = reserved | map(res => res.seat.id) %}
+
 {% block body %}
     <div class="container">
         <div class="col-md-12">
@@ -18,29 +20,23 @@
                         <tbody>
                         {% for row, rowSeats in seats %}
                             <tr>
-                                <th scope="row">
-                                    {{ row }}
-                                </th>
                                 {% for seat in rowSeats %}
-                                    <td>
-                                        <a href="{{ route('reserve', {'id': seat.id}) }}">
-                                            {{ seat.number }}
-                                        </a>
-                                    </td>
+                                    {% if seat.id in reservedIds %}
+                                        <td style="width: 34px;">
+                                            <i class="bi-x-lg" style="font-size: 1rem; color: #ff0000;"></i>
+                                        </td>
+                                    {% else %}
+                                        <td>
+                                            <a href="{{ route('reserve', {'id': seat.id}) }}">
+                                                {{ seat.number }}
+                                            </a>
+                                        </td>
+                                    {% endif %}
                                 {% endfor %}
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
-                    <p>
-                        {% for row in seats %}
-
-                        {% endfor %}
-
-                        <svg class="bi" width="1em" height="1em" fill="currentColor">
-                            <use xlink:href="bootstrap-icons.svg#check2"></use>
-                        </svg>
-                    </p>
                 </div>
             </div>
         </div>

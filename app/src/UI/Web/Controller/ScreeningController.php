@@ -34,8 +34,6 @@ class ScreeningController extends AbstractController
         }
         \asort($seats);
 
-        \file_put_contents(\dirname(__DIR__) . '/log.txt', \print_r($seats, true));
-
         return $this->render('reservation/seats', [
             'seats' => $seats,
             'reserved' => $screening->getReservedSeats()
