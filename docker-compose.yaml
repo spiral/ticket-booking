@@ -10,6 +10,8 @@ services:
       DB_USER: homestead
       DB_PASSWORD: secret
       ENCRYPTER_KEY: def0000000101d3863b719a539d102fdaf769f11ce514d47c30961727fe1615b7dcca4b9be220c2f1db888eb19937067f5f1d76f3a26b742b7f76d0adeda30e457ca6598
+    ports:
+        - "8080:8080"
     volumes:
       - ./:/var/www/
     depends_on:

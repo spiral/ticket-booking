@@ -28,6 +28,7 @@
         "spiral/roadrunner-bridge": "^2.0",
         "spiral/sapi-bridge": "^1.0",
         "spiral/temporal-bridge": "^2.0",
+        "spiral/twig-bridge": "^2.0",
         "symfony/var-dumper": "^6.0"
     },
     "require-dev": {

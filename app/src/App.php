@@ -12,12 +12,13 @@ use Spiral\Framework\Kernel;
 use Spiral\Monolog\Bootloader as Monolog;
 use Spiral\Nyholm\Bootloader as Nyholm;
 use Spiral\Prototype\Bootloader as Prototype;
+use Spiral\Router\Bootloader\AnnotatedRoutesBootloader;
 use Spiral\Sapi\Bootloader\SapiBootloader;
 use Spiral\Scaffolder\Bootloader as Scaffolder;
-use Spiral\Stempler\Bootloader as Stempler;
 use Spiral\Cycle\Bootloader as CycleBridge;
 use Spiral\RoadRunnerBridge\Bootloader as RoadRunnerBridge;
 use Spiral\Tokenizer\Bootloader\TokenizerBootloader;
+use Spiral\Twig\Bootloader\TwigBootloader;
 use Spiral\Validation\Bootloader\ValidationBootloader;
 use Spiral\Views\Bootloader\ViewsBootloader;
 
@@ -65,6 +66,7 @@ class App extends Kernel
         Framework\Http\CsrfBootloader::class,
         Framework\Http\PaginationBootloader::class,
         SapiBootloader::class,
+        AnnotatedRoutesBootloader::class,
 
         // Databases
         CycleBridge\DatabaseBootloader::class,
@@ -90,9 +92,8 @@ class App extends Kernel
         ViewsBootloader::class,
         Framework\Views\TranslatedCacheBootloader::class,
 
-
         // Extensions and bridges
-        Stempler\StemplerBootloader::class,
+        TwigBootloader::class,
 
         // Framework commands
         Framework\CommandBootloader::class,

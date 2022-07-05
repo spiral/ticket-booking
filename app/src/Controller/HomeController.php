@@ -11,40 +11,14 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Job\Ping;
-use Spiral\Prototype\Traits\PrototypeTrait;
-use Spiral\Queue\QueueInterface;
+use Psr\Http\Message\ResponseInterface;
+use Spiral\Router\Annotation\Route;
 
-class HomeController
+class HomeController extends AbstractController
 {
-    use PrototypeTrait;
-
-    public function __construct(
-        private readonly QueueInterface $queue,
-    ) {
-    }
-
-    public function index(): string
+    #[Route('/', name: 'index', methods: 'GET')]
+    public function index(): ResponseInterface
     {
-        return $this->views->render('home.dark.php');
-    }
-
-    /**
-     * Example of exception page.
-     *
-     * @throws \Error
-     */
-    public function exception(): void
-    {
-        echo $undefined;
-    }
-
-    public function ping(): string
-    {
-        $jobID = $this->queue->push(Ping::class, [
-            'value' => 'hello world',
-        ]);
-
-        return sprintf('Job ID: %s', $jobID);
+        return $this->render('home');
     }
 }
