@@ -122,5 +122,7 @@ class App extends Kernel
 
         // fast code prototyping
         Prototype\PrototypeBootloader::class,
+
+        Bootloader\AppBootloader::class,
     ];
 }

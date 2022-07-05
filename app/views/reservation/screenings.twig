@@ -8,7 +8,6 @@
             <div class="bg-light rounded">
                 <div class="col-sm-8 py-5 mx-auto">
                     <h3>[[Active screenings]]</h3>
-                    <p>
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -24,8 +23,16 @@
                         <tbody>
                         {% for screening in screenings %}
                             <tr>
-                                <th scope="row">{{ screening.id }}</th>
-                                <td>{{ screening.movie.title }}</td>
+                                <th scope="row">
+                                    <a href="{{ route('seats', {'id': screening.id}) }}">
+                                        {{ screening.id }}
+                                    </a>
+                                </th>
+                                <td>
+                                    <a href="{{ route('seats', {'id': screening.id}) }}">
+                                        {{ screening.movie.title }}
+                                    </a>
+                                </td>
                                 <td>{{ screening.startsAt.format('d.m.Y H:i') }}</td>
                                 <td>{{ screening.movie.duration }} [[min]]</td>
                                 <td>{{ screening.auditorium.totalSeats }}</td>
@@ -35,7 +42,6 @@
                         {% endfor %}
                         </tbody>
                     </table>
-                    </p>
                 </div>
             </div>
         </div>

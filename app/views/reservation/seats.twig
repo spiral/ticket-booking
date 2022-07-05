@@ -1,0 +1,48 @@
+{% extends "layout/base.twig" %}
+
+{% block title %}[[Active screenings]]{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="col-md-12">
+            <div class="bg-light rounded">
+                <div class="col-sm-8 py-5 mx-auto">
+                    <h3>[[Available seats]]</h3>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">[[Row]]</th>
+                            <th scope="col" colspan="{{ seats | first | length }}" class="text-center">[[Place]]</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for row, rowSeats in seats %}
+                            <tr>
+                                <th scope="row">
+                                    {{ row }}
+                                </th>
+                                {% for seat in rowSeats %}
+                                    <td>
+                                        <a href="{{ route('reserve', {'id': seat.id}) }}">
+                                            {{ seat.number }}
+                                        </a>
+                                    </td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <p>
+                        {% for row in seats %}
+
+                        {% endfor %}
+
+                        <svg class="bi" width="1em" height="1em" fill="currentColor">
+                            <use xlink:href="bootstrap-icons.svg#check2"></use>
+                        </svg>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

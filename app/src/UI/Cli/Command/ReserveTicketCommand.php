@@ -11,10 +11,12 @@ use App\Workflow\ReserveTicket\ReserveTicketActivity;
 use App\Workflow\ReserveTicket\SeatsReservationChecker;
 use Spiral\Console\Command;
 use Spiral\Cqrs\CommandBusInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 class ReserveTicketCommand extends Command
 {
     protected const SIGNATURE = 'reserve:ticket';
+    protected SymfonyStyle $io;
 
     public function __invoke(
         ScreeningRepositoryInterface $screenings,
@@ -22,6 +24,8 @@ class ReserveTicketCommand extends Command
         ReserveTicketActivity $activity,
         SeatsReservationChecker $reservationChecker
     ) {
+        $this->io = new SymfonyStyle($this->input, $this->output);
+
         $activeScreenings = [];
 
         foreach ($screenings->findAllActive() as $screening) {
@@ -36,10 +40,10 @@ class ReserveTicketCommand extends Command
             ];
         }
 
-        $this->table(['ID', 'Movie', 'Starts at', 'Duration', 'Seats', 'Auditorium', 'Price'], $activeScreenings)->render();
+        $this->io->table(['ID', 'Movie', 'Starts at', 'Duration', 'Seats', 'Auditorium', 'Price'], $activeScreenings);
 
         do {
-            $screeningId = (int)$this->ask('Select movie ID');
+            $screeningId = (int)$this->io->ask('Select movie ID');
         } while (! isset($activeScreenings[$screeningId]));
 
         $screening = $screenings->getByPK($screeningId);
@@ -55,12 +59,12 @@ class ReserveTicketCommand extends Command
             $reservationChecker->checkAvailability($screeningId, $seats);
             $workflowId = $bus->dispatch($command);
 
-            $this->info(\sprintf(
+            $this->io->info(\sprintf(
                 'Reservation [%s] started. Use it  for purchasing the tickets...',
                 $workflowId
             ));
         } catch (\Throwable $e) {
-            $this->warning($e->getMessage());
+            $this->io->warning($e->getMessage());
         }
 
 //        $activity->reserve(
@@ -106,7 +110,7 @@ class ReserveTicketCommand extends Command
         $this->newLine(3);
 
         do {
-            $selectedSeats = \explode(',', $this->ask('Select seats'));
+            $selectedSeats = \explode(',', $this->io->ask('Select seats'));
         } while ($selectedSeats === []);
 
         return \array_map(fn(int $i) => $seats[$i], $selectedSeats);

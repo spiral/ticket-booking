@@ -11,15 +11,18 @@ declare(strict_types=1);
 
 namespace App\UI\Web\Controller;
 
-use App\Application\Query\ActiveScreeningsQuery;
+use App\Entity\Screening;
 use Psr\Http\Message\ResponseInterface;
 use Spiral\Router\Annotation\Route;
 
 class ReserveController extends AbstractController
 {
-    #[Route('/screenings', name: 'screenings', methods: 'GET')]
-    public function index(): ResponseInterface
+    #[Route('/reserve/<id:\d+>', name: 'reserve', methods: 'GET')]
+    public function reserve(Screening $screening): ResponseInterface
     {
-        return $this->render('reservation/screenings', ['screenings' => $this->ask(new ActiveScreeningsQuery())]);
+        return $this->render('reservation/seats', [
+            'seats' => $screening->getAuditorium()->getSeats(),
+            'reserved' => $screening->getReservedSeats()
+        ]);
     }
 }
