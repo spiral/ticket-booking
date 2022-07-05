@@ -17,7 +17,7 @@ class BuyTicketCommand extends Command
         CommandBusInterface $bus,
         BuyTicketActivity $activity
     ) {
-        $command = new \App\Command\BuyTicketCommand(
+        $command = new \App\Application\Command\BuyTicketCommand(
             Uuid::fromString($this->argument('reservation'))
         );
 

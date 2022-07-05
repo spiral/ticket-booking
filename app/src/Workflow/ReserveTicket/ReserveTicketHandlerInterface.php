@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Workflow\ReserveTicket;
 
-use App\Command\CancelTicketCommand;
-use App\Command\ReserveTicketCommand;
+use App\Application\Command\CancelTicketCommand;
+use App\Application\Command\ReserveTicketCommand;
 use Ramsey\Uuid\UuidInterface;
-use Spiral\Cqrs\Attribute\CommandHandler;
-use Spiral\TemporalBridge\Workflow\RunningWorkflow;
 
 interface ReserveTicketHandlerInterface
 {

@@ -45,7 +45,7 @@ class ReserveTicketCommand extends Command
         $screening = $screenings->getByPK($screeningId);
         $seats = \array_map(fn(Seat $seat) => $seat->getId(), $this->renderSeats($screening));
 
-        $command = new \App\Command\ReserveTicketCommand(
+        $command = new \App\Application\Command\ReserveTicketCommand(
             $screeningId,
             1,
             $seats

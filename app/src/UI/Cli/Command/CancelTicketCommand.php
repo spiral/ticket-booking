@@ -18,7 +18,7 @@ class CancelTicketCommand extends Command
         CommandBusInterface $bus,
         ReserveTicketActivity $activity
     ) {
-        $command = new \App\Command\CancelTicketCommand(
+        $command = new \App\Application\Command\CancelTicketCommand(
             Uuid::fromString($this->argument('reservation'))
         );
 

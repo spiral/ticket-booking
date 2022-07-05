@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Workflow\BuyTicket;
 
-use App\Command\BuyTicketCommand;
+use App\Application\Command\BuyTicketCommand;
 use Psr\Log\LoggerInterface;
 use Spiral\Cqrs\Attribute\CommandHandler;
 use Spiral\TemporalBridge\WorkflowManagerInterface;
