@@ -20,6 +20,9 @@
                         <tbody>
                         {% for row, rowSeats in seats %}
                             <tr>
+                                <th scope="row">
+                                    {{ row }}
+                                </th>
                                 {% for seat in rowSeats %}
                                     {% if seat.id in reservedIds %}
                                         <td style="width: 34px;">

@@ -8,7 +8,6 @@ use App\Entity\Auditorium\ReservedSeat;
 use App\Entity\Auditorium\Seat;
 use App\Repository\ScreeningRepositoryInterface;
 use App\Workflow\ReserveTicket\ReserveTicketActivity;
-use App\Workflow\ReserveTicket\SeatsReservationChecker;
 use Spiral\Console\Command;
 use Spiral\Cqrs\CommandBusInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -21,8 +20,7 @@ class ReserveTicketCommand extends Command
     public function __invoke(
         ScreeningRepositoryInterface $screenings,
         CommandBusInterface $bus,
-        ReserveTicketActivity $activity,
-        SeatsReservationChecker $reservationChecker
+        ReserveTicketActivity $activity
     ) {
         $this->io = new SymfonyStyle($this->input, $this->output);
 
@@ -56,12 +54,11 @@ class ReserveTicketCommand extends Command
         );
 
         try {
-            $reservationChecker->checkAvailability($screeningId, $seats);
-            $workflowId = $bus->dispatch($command);
+            $bus->dispatch($command);
 
             $this->io->info(\sprintf(
                 'Reservation [%s] started. Use it  for purchasing the tickets...',
-                $workflowId
+                $command->reservationId
             ));
         } catch (\Throwable $e) {
             $this->io->warning($e->getMessage());

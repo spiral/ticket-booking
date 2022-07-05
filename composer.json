@@ -21,6 +21,7 @@
         "moneyphp/money": "^3.3",
         "spiral-packages/cqrs": "^2.0",
         "spiral-packages/database-seeder": "^2.0",
+        "spiral-packages/symfony-validator": "dev-master",
         "spiral/cycle-bridge": "^2.0",
         "spiral/data-grid-bridge": "^3.0",
         "spiral/framework": "3.0.x-dev",

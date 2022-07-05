@@ -11,18 +11,31 @@ declare(strict_types=1);
 
 namespace App\UI\Web\Controller;
 
-use App\Entity\Screening;
+use App\Application\Command\ReserveTicketCommand;
+use App\UI\Web\Request\ReserveTicketRequest;
 use Psr\Http\Message\ResponseInterface;
 use Spiral\Router\Annotation\Route;
 
 class ReserveController extends AbstractController
 {
-    #[Route('/reserve/<id:\d+>', name: 'reserve', methods: 'GET')]
-    public function reserve(Screening $screening): ResponseInterface
+    #[Route('/reserve', name: 'reserve', methods: 'POST')]
+    public function reserve(ReserveTicketRequest $request): ResponseInterface
     {
-        return $this->render('reservation/seats', [
-            'seats' => $screening->getAuditorium()->getSeats(),
-            'reserved' => $screening->getReservedSeats()
+        $command = new ReserveTicketCommand(
+            $request->screeningId,
+            $request->reservationTypeId,
+            $request->seatIds
+        );
+
+        try {
+            $this->commandBus->dispatch($command);
+        } catch (\Throwable $e) {
+            return $this->json(['errors' => [$e->getMessage()]]);
+        }
+
+        return $this->json([
+            'reservationId' => $command->reservationId->toString(),
+            'message' => $this->translator->trans('Reservation started.')
         ]);
     }
 }

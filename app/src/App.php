@@ -19,7 +19,7 @@ use Spiral\Cycle\Bootloader as CycleBridge;
 use Spiral\RoadRunnerBridge\Bootloader as RoadRunnerBridge;
 use Spiral\Tokenizer\Bootloader\TokenizerBootloader;
 use Spiral\Twig\Bootloader\TwigBootloader;
-use Spiral\Validation\Bootloader\ValidationBootloader;
+use Spiral\Validation\Symfony\Bootloader\ValidatorBootloader;
 use Spiral\Views\Bootloader\ViewsBootloader;
 
 class App extends Kernel
@@ -53,9 +53,9 @@ class App extends Kernel
 
         // Security and validation
         Framework\Security\EncrypterBootloader::class,
-        ValidationBootloader::class,
         Framework\Security\FiltersBootloader::class,
         Framework\Security\GuardBootloader::class,
+        ValidatorBootloader::class,
 
         // HTTP extensions
         Nyholm\NyholmBootloader::class,

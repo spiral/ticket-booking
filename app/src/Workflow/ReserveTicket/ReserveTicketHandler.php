@@ -18,7 +18,6 @@ class ReserveTicketHandler implements ReserveTicketHandlerInterface
     ) {
     }
 
-    #[CommandHandler]
     public function reserve(ReserveTicketCommand $command): UuidInterface
     {
         $workflow = $this->manager
