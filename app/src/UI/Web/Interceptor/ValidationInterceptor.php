@@ -24,7 +24,7 @@ final class ValidationInterceptor implements CoreInterceptorInterface
             try {
                 return $core->callAction($controller, $action, $parameters);
             } catch (ValidationException $e) {
-                return $this->responseWrapper->json(['errors' => $e->errors, 400]);
+                return $this->responseWrapper->json(['errors' => $e->errors], 400);
             }
         }
 

@@ -36,7 +36,8 @@ class ScreeningController extends AbstractController
 
         return $this->render('reservation/seats', [
             'seats' => $seats,
-            'reserved' => $screening->getReservedSeats()
+            'reserved' => $screening->getReservedSeats(),
+            'screening_id' => $screening->getId()
         ]);
     }
 }

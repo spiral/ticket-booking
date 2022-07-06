@@ -8,7 +8,7 @@
     <div class="container">
         <div class="col-md-12">
             <div class="bg-light rounded">
-                <div class="col-sm-8 py-5 mx-auto">
+                <div class="col-sm-8 py-5 pb-3 mx-auto">
                     <h3>[[Available seats]]</h3>
                     <table class="table table-striped">
                         <thead>
@@ -20,19 +20,24 @@
                         <tbody>
                         {% for row, rowSeats in seats %}
                             <tr>
-                                <th scope="row">
+                                <th scope="row" style="width: 34px;">
                                     {{ row }}
                                 </th>
                                 {% for seat in rowSeats %}
                                     {% if seat.id in reservedIds %}
-                                        <td style="width: 34px;">
+                                        <td class="seats-item seats-item-disabled">
                                             <i class="bi-x-lg" style="font-size: 1rem; color: #ff0000;"></i>
                                         </td>
                                     {% else %}
-                                        <td>
-                                            <a href="{{ route('reserve', {'id': seat.id}) }}">
+                                        <td
+                                                class="seats-item"
+                                                x-data="{id: '{{ seat.id }}'}"
+                                                x-on:click="$store.seats.select(id)"
+                                                x-bind:class="{ 'seats-active': $store.seats.isSelected(id) }"
+                                        >
+                                            <div>
                                                 {{ seat.number }}
-                                            </a>
+                                            </div>
                                         </td>
                                     {% endif %}
                                 {% endfor %}
@@ -41,7 +46,94 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="col-sm-8 pb-5 mx-auto" x-data="{}">
+                    <button
+                            class="btn btn-primary"
+                            x-bind:disabled="$store.seats.isEmpty()"
+                            x-on:click="$store.seats.reserve()">
+                        [[Reserve tickets]]
+                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" x-show="$store.seats.loading"></span>
+                    </button>
+                </div>
+                <div class="col-sm-8 pb-5 mx-auto" x-data="{}">
+                    <div x-show="$store.seats.completed.success">
+                        <div class="alert alert-success d-flex align-items-center" role="alert">
+                            <i class="bi-check-circle-fill" style="width: 35px;height: 35px;margin-right: 10px;font-size: 20px;"></i>
+                            <div x-text="$store.seats.completed.text"></div>
+                        </div>
+                    </div>
+                    <div x-show="$store.seats.errors.length > 0">
+                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                            <i class="bi-exclamation-triangle-fill" style="width: 35px;height: 35px;margin-right: 10px;font-size: 20px;"></i>
+                            <div>
+                                <template x-for="error in $store.seats.errors">
+                                    <div x-text="error"></div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('seats', {
+                selected: [],
+                errors: [],
+                loading: false,
+                completed: {
+                    success: false,
+                    text: null
+                },
+
+                select(id) {
+                    if (this.isSelected(id)) {
+                        this.selected = this.selected.filter(item => item !== id)
+                    } else {
+                        this.selected.push(id)
+                    }
+                },
+
+                isSelected(id) {
+                    return this.selected.includes(id)
+                },
+
+                isEmpty() {
+                    return this.selected.length === 0
+                },
+
+                async reserve() {
+                    if (!this.isEmpty()) {
+                        this.loading = true;
+
+                        await fetch('/reserve', {
+                            method: 'POST',
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                screening_id: {{ screening_id }},
+                                reservation_type_id: 1,
+                                seat_ids: this.selected
+                            })
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                this.loading = false;
+
+                                if (data.hasOwnProperty('errors')) {
+                                    this.errors = Object.values(data.errors);
+                                    this.completed.success = false
+                                } else {
+                                    this.completed.success = true;
+                                    this.completed.text = data.message
+                                }
+                            });
+                    }
+                }
+            })
+        })
+    </script>
 {% endblock %}

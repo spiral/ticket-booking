@@ -1,0 +1,11 @@
+.seats-active {
+    background-color: #71ec39!important;
+}
+.seats-item {
+    cursor: pointer;
+    width: 34px!important;
+    text-align: center;
+}
+.seats-item-disabled {
+    cursor: not-allowed;
+}
