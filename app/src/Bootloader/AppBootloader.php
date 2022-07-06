@@ -8,6 +8,7 @@ use App\UI\Web\Interceptor\ValidationInterceptor;
 use Spiral\Bootloader\DomainBootloader;
 use Spiral\Core\CoreInterface;
 use Spiral\Cycle\Interceptor\CycleInterceptor;
+use Spiral\Domain\GuardInterceptor;
 
 class AppBootloader extends DomainBootloader
 {
@@ -18,5 +19,6 @@ class AppBootloader extends DomainBootloader
     protected const INTERCEPTORS = [
         CycleInterceptor::class,
         ValidationInterceptor::class,
+        GuardInterceptor::class,
     ];
 }

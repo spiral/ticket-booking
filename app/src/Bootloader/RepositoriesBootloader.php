@@ -15,9 +15,11 @@ use App\Repository\Postgres\MovieRepository;
 use App\Repository\Postgres\Reservation\TypeRepository;
 use App\Repository\Postgres\ReservationRepository;
 use App\Repository\Postgres\ScreeningRepository;
+use App\Repository\Postgres\UserRepository;
 use App\Repository\Reservation\TypeRepositoryInterface;
 use App\Repository\ReservationRepositoryInterface;
 use App\Repository\ScreeningRepositoryInterface;
+use App\Repository\UserRepositoryInterface;
 use Spiral\Boot\Bootloader\Bootloader;
 
 final class RepositoriesBootloader extends Bootloader
@@ -30,5 +32,6 @@ final class RepositoriesBootloader extends Bootloader
         TypeRepositoryInterface::class => TypeRepository::class,
         SeatRepositoryInterface::class => SeatRepository::class,
         ReservedSeatRepositoryInterface::class => ReservedSeatRepository::class,
+        UserRepositoryInterface::class => UserRepository::class,
     ];
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\ValueObject\Duration;
+use App\ValueObject\Email;
 use App\ValueObject\Money;
 use Cycle\ORM\Parser\CastableInterface;
 use Cycle\ORM\Parser\UncastableInterface;
@@ -12,7 +13,7 @@ use Cycle\ORM\Parser\UncastableInterface;
 final class ExtendedTypecast implements CastableInterface, UncastableInterface
 {
     private array $rules = [];
-    private array $availableRules = ['money', 'duration'];
+    private array $availableRules = ['money', 'duration', 'email', 'json'];
 
     public function setRules(array $rules): array
     {
@@ -32,10 +33,11 @@ final class ExtendedTypecast implements CastableInterface, UncastableInterface
             if (! isset($values[$column])) {
                 continue;
             }
-
             $values[$column] = match ($rule) {
+                'json' => \json_decode($values[$column], true, 512, \JSON_THROW_ON_ERROR),
                 'money' => new Money($values[$column]),
                 'duration' => new Duration($values[$column]),
+                'email' => new Email($values[$column]),
                 default => $values[$column]
             };
         }
@@ -51,6 +53,7 @@ final class ExtendedTypecast implements CastableInterface, UncastableInterface
             }
 
             $values[$column] = match ($rule) {
+                'json' => \json_encode($values[$column], \JSON_THROW_ON_ERROR),
                 default => (string)$values[$column]
             };
         }

@@ -12,11 +12,17 @@
                             [[Account]]
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="offcanvasNavbarLgDropdown">
-                            <li><a class="dropdown-item" href="{{ route('login') }}">[[Login]]</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            {% if auth.actor is not empty %}
+                                <li><a class="dropdown-item" href="{{ route('screenings') }}">[[Movies]]</a></li>
+                                <li><a class="dropdown-item" href="{{ route('personal.tickets') }}">[[My tickets]]</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="{{ route('logout', {'token': auth.token.id}) }}">Logout</a></li>
+                            {% else %}
+                                <li><a class="dropdown-item" href="{{ route('login') }}">[[Login]]</a></li>
+                                <li><a class="dropdown-item" href="{{ route('register') }}">[[Register]]</a></li>
+                            {% endif %}
                         </ul>
                     </li>
                 </ul>

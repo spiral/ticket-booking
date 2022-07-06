@@ -83,7 +83,9 @@ class App extends Kernel
         CycleBridge\DataGridBootloader::class,
 
         // Auth
-        CycleBridge\AuthTokensBootloader::class,
+        Framework\Auth\HttpAuthBootloader::class,
+        Framework\Auth\TokenStorage\SessionTokensBootloader::class,
+        Framework\Auth\SecurityActorBootloader::class,
 
         // Entity checker
         // CycleBridge\ValidationBootloader::class,
@@ -106,6 +108,8 @@ class App extends Kernel
         Framework\Debug\HttpCollectorBootloader::class,
 
         RoadRunnerBridge\CommandBootloader::class,
+
+        Bootloader\SecurityBootloader::class,
 
         \Spiral\DatabaseSeeder\Bootloader\DatabaseSeederBootloader::class,
         \Spiral\TemporalBridge\Bootloader\TemporalBridgeBootloader::class,

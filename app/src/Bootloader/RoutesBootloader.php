@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Bootloader;
 
 use App\Middleware\LocaleSelector;
+use App\UI\Web\Middleware\LoginMiddleware;
 use Spiral\Auth\Middleware\AuthTransportMiddleware;
 use Spiral\Bootloader\Http\RoutesBootloader as BaseRoutesBootloader;
 use Spiral\Cookies\Middleware\CookiesMiddleware;
@@ -34,7 +35,11 @@ final class RoutesBootloader extends BaseRoutesBootloader
                 CookiesMiddleware::class,
                 SessionMiddleware::class,
                 CsrfMiddleware::class,
-                // new Autowire(AuthTransportMiddleware::class, ['transportName' => 'cookie'])
+                new Autowire(AuthTransportMiddleware::class, ['transportName' => 'cookie']),
+            ],
+            'personal' => [
+                'middleware:web',
+                LoginMiddleware::class,
             ],
             'api' => [
                 // new Autowire(AuthTransportMiddleware::class, ['transportName' => 'header'])

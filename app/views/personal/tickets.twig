@@ -1,0 +1,98 @@
+{% extends "layout/page.twig" %}
+
+{% block title %}[[Tickets]]{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="col-md-12">
+            <div class="bg-light rounded">
+                <div class="col-sm-8 py-5 mx-auto">
+                    <h3>[[Tickets]]</h3>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">[[Movie]]</th>
+                            <th scope="col">[[Date]]</th>
+                            <th scope="col">[[Places]]</th>
+                            <th scope="col">[[Reserved At]]</th>
+                            <th scope="col">[[Status]]</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if tickets is not empty %}
+                            {% for ticket in tickets %}
+                                <tr>
+                                    <th scope="row">
+                                        {{ ticket.screening.movie.title }}
+                                    </th>
+                                    <td>
+                                        {{ ticket.screening.startsAt.format('d.m.Y H:i') }}
+                                    </td>
+                                    <td>
+                                        {% for seat in ticket.seats %}
+                                            <div>
+                                                [[Ticket]] #{{ loop.index }}
+                                                [[Row]]: {{ seat.seat.row }}
+                                                [[Place]]: {{ seat.seat.number }}
+                                            </div>
+                                        {% endfor %}
+                                    </td>
+                                    <td>{{ ticket.createdAt.format('d.m.Y H:i') }}</td>
+                                    <td>
+                                        {% if ticket.paidAt is not empty %}
+                                            <span class="text-success">[[Paid]]: {{ ticket.paidAt.format('d.m.Y H:i') }}</span>
+                                        {% elseif ticket.canceledAt is empty %}
+                                            <span class="text-info">
+                                            [[Reserved]]: <button class="btn btn-sm btn-primary" x-on:click="$store.buying.buy()">
+                                                [[Buy]]
+                                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" x-show="$store.buying.loading"></span>
+                                            </button>
+                                        </span>
+                                        {% else %}
+                                            <span class="text-danger">[[Canceled]]: {{ ticket.canceledAt.format('d.m.Y H:i') }}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <td colspan="5" class="text-center">
+                                [[Any tickets not found.]] <a href="{{ route('screenings') }}" class="btn btn-sm btn-primary">[[Show movies]]</a>
+                            </td>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('buying', {
+                errors: [],
+                loading: false,
+
+                async buy(id) {
+                    this.loading = true;
+
+                    await fetch('/tickets/buy', {
+                        method: 'POST',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            reservation_id: id
+                        })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            this.loading = false;
+                            if (data.hasOwnProperty('errors')) {
+                                this.errors = Object.values(data.errors);
+                            }
+                        });
+                }
+            })
+        })
+    </script>
+{% endblock %}
