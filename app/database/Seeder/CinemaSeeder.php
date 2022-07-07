@@ -22,7 +22,7 @@ class CinemaSeeder extends AbstractSeeder
         /** @var Movie $movie1 */
         yield $movie1 = MovieFactory::new([
             'title' => 'Elvis',
-            'duration' => 159,
+            'duration' => new Duration(159),
             'description' => <<<TEXT
 ELVIS is Oscar-nominated filmmaker Baz Luhrmann's musical drama about the life and music of Elvis Presley, seen through
 the prism of his complicated relationship with his enigmatic manager, Colonel Tom Parker. The story delves into the 
@@ -36,7 +36,7 @@ TEXT
         /** @var Movie $movie2 */
         yield $movie2 = MovieFactory::new([
             'title' => 'Lightyear',
-            'duration' => 105,
+            'duration' => new Duration(105),
             'description' => <<<TEXT
 A sci-fi action adventure and the definitive origin story of Buzz Lightyear (voice of Chris Evans), the hero who
 inspired the toy, “Lightyear” follows the legendary Space Ranger on an intergalactic adventure alongside a group of 
@@ -49,7 +49,7 @@ TEXT
         /** @var Movie $movie3 */
         yield $movie3 = MovieFactory::new([
             'title' => 'Top Gun: Maverick',
-            'duration' => 131,
+            'duration' => new Duration(131),
             'description' => <<<TEXT
 After more than thirty years of service as one of the Navy's top aviators, Pete 'Maverick' Mitchell (Tom Cruise) is
  where he belongs, pushing the envelope as a courageous test pilot and dodging the advancement in rank that would ground 
@@ -65,7 +65,7 @@ TEXT
         /** @var Movie $movie4 */
         yield $movie4 = MovieFactory::new([
             'title' => 'Jurassic World Dominion',
-            'duration' => 147,
+            'duration' => new Duration(147),
             'description' => <<<TEXT
 This summer, experience the epic conclusion to the Jurassic era as two generations unite for the first time. Chris 
 Pratt and Bryce Dallas Howard are joined by Oscar®-winner Laura Dern, Jeff Goldblum and Sam Neill in Jurassic World
@@ -108,28 +108,28 @@ TEXT
         yield from $this->createSchedule(
             movie: $movie1,
             auditorium: $auditorium1,
-            startAt: Carbon::now()->setHour(9)->setMinutes(0)->setSeconds(0),
+            startAt: Carbon::now()->setMinutes(0)->setSeconds(0),
             repeats: 5
         );
 
         yield from $this->createSchedule(
             movie: $movie2,
             auditorium: $auditorium2,
-            startAt: Carbon::now()->setHour(9)->setMinutes(0)->setSeconds(0),
+            startAt: Carbon::now()->setMinutes(0)->setSeconds(0),
             repeats: 6
         );
 
         yield from $this->createSchedule(
             movie: $movie3,
             auditorium: $auditorium3,
-            startAt: Carbon::now()->setHour(9)->setMinutes(0)->setSeconds(0),
+            startAt: Carbon::now()->setMinutes(0)->setSeconds(0),
             repeats: 6
         );
 
         yield from $this->createSchedule(
             movie: $movie4,
             auditorium: $auditorium4,
-            startAt: Carbon::now()->setHour(9)->setMinutes(0)->setSeconds(0),
+            startAt: Carbon::now()->setMinutes(0)->setSeconds(0),
             repeats: 6
         );
 

@@ -20,7 +20,7 @@ final class ActorProvider implements ActorProviderInterface
     {
         $data = $token->getPayload();
 
-        if (!isset($data['userID'])) {
+        if (! isset($data['userID'])) {
             return null;
         }
 

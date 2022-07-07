@@ -10,7 +10,7 @@ use Temporal\Activity\ActivityOptions;
 use Temporal\Internal\Workflow\ActivityProxy;
 use Temporal\Workflow;
 
-class CancelTicketWorkflow implements CancelTicketWorkflowInterface
+class BuyTicketWorkflow implements BuyTicketWorkflowInterface
 {
     /** @var ActivityProxy|BuyTicketActivityInterface */
     private ActivityProxy $activity;
@@ -26,7 +26,7 @@ class CancelTicketWorkflow implements CancelTicketWorkflowInterface
         );
     }
 
-    public function cancel(string $reservationId)
+    public function buy(string $reservationId)
     {
         $this->seats = yield $this->activity->buy($reservationId);
 

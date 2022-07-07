@@ -26,8 +26,8 @@ class Movie
         private string $title,
         #[Column(type: 'text', name: 'description')]
         private string $description,
-        #[Column(type: 'integer', name: 'duration')]
-        private int $duration
+        #[Column(type: 'integer', name: 'duration', typecast: 'duration')]
+        private Duration $duration
     ) {
     }
 
@@ -46,7 +46,7 @@ class Movie
         return $this->description;
     }
 
-    public function getDuration(): int
+    public function getDuration(): Duration
     {
         return $this->duration;
     }

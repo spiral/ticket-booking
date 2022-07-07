@@ -34,8 +34,18 @@ final class CreateUserHandler
         $this->uniqueEmailSpecification->isUnique($command->email);
 
         $this->entityManager->persist(
-            new User($command->email, $this->passwordHasher->hash($command->password), $command->roles)
+            $user = $this->makeUser($command)
         );
+
         $this->entityManager->run();
+    }
+
+    private function makeUser(CreateUserCommand $command): User
+    {
+        return new User(
+            $command->email,
+            $this->passwordHasher->hash($command->password),
+            $command->roles
+        );
     }
 }

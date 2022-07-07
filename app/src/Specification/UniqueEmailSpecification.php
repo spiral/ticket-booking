@@ -12,8 +12,8 @@ use Spiral\Translator\TranslatorInterface;
 final class UniqueEmailSpecification extends AbstractSpecification
 {
     public function __construct(
-        private UserRepositoryInterface $userRepository,
-        private TranslatorInterface $translator
+        private readonly UserRepositoryInterface $userRepository,
+        private readonly TranslatorInterface $translator
     ) {
     }
 
@@ -33,7 +33,7 @@ final class UniqueEmailSpecification extends AbstractSpecification
     {
         if ($this->userRepository->existEmail($value)) {
             throw new UserAlreadyExistsException(
-                $this->translator->trans(\sprintf('User with Email `%s` already exists.', $value))
+                $this->translator->trans('User with email {email} already exists.', ['email' => $value])
             );
         }
 

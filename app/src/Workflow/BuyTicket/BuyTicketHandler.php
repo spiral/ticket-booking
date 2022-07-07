@@ -12,7 +12,7 @@ use Spiral\TemporalBridge\Workflow\RunningWorkflow;
 use Temporal\Api\Enums\V1\WorkflowIdReusePolicy;
 use Temporal\Exception\Client\WorkflowExecutionAlreadyStartedException;
 
-class CancelTicketHandler implements CancelTicketHandlerInterface
+class BuyTicketHandler implements BuyTicketHandlerInterface
 {
     public function __construct(
         private WorkflowManagerInterface $manager,

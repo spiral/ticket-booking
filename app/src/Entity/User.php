@@ -9,16 +9,10 @@ use App\ValueObject\Email;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Table\Index;
-use Cycle\ORM\Parser\Typecast;
 use Spiral\Security\ActorInterface;
 
 #[Entity(
-    table: 'users',
-    repository: UserRepository::class,
-    typecast: [
-        Typecast::class,
-        ExtendedTypecast::class // TODO fix typecast config in cycle/schema-builder
-    ]
+    repository: UserRepository::class
 )]
 #[Index(columns: ['email'], unique: true)]
 class User implements ActorInterface

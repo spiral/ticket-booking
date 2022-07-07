@@ -26,7 +26,7 @@ class MovieFactory extends AbstractFactory
         return [
             'title' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
-            'duration' => $this->faker->numberBetween(60, 240),
+            'duration' => new Duration($this->faker->numberBetween(60, 240)),
         ];
     }
 }

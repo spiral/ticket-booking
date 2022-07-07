@@ -18,7 +18,8 @@ final class Authenticator
         private readonly TokenStorageInterface $tokenStorage,
         private readonly AuthScope $authScope,
         private readonly UserRepositoryInterface $userRepository,
-        private readonly TranslatorInterface $translator
+        private readonly TranslatorInterface $translator,
+        private readonly PasswordHasher $hasher
     ) {
     }
 
@@ -32,9 +33,7 @@ final class Authenticator
             );
         }
 
-        $hasher = new PasswordHasher();
-
-        if (!$hasher->isPasswordValid($credentials->plainPassword, $user->getPassword())) {
+        if (! $this->hasher->isPasswordValid($credentials->plainPassword, $user->getPassword())) {
             throw new PasswordIncorrectException(
                 $this->translator->trans('The password is not valid. Check the password and try again.')
             );

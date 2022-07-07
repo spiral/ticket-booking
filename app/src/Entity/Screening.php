@@ -34,8 +34,8 @@ class Screening
         private Auditorium $auditorium,
         #[Column(type: 'datetime', name: 'starts_at')]
         private \DateTimeInterface $startsAt,
-        #[Column(type: 'integer', name: 'price')]
-        private int $price
+        #[Column(type: 'integer', name: 'price', typecast: 'money')]
+        private Money $price
     ) {
     }
 
@@ -72,7 +72,7 @@ class Screening
         return $this->startsAt < new \DateTimeImmutable();
     }
 
-    public function getPrice(): int
+    public function getPrice(): Money
     {
         return $this->price;
     }

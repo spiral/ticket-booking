@@ -27,7 +27,7 @@ class ScreeningFactory extends AbstractFactory
             'movie' => fn() => MovieFactory::new()->createOne(),
             'auditorium' => fn() => AuditoriumFactory::new()->createOne(),
             'startsAt' => $this->faker->dateTime,
-            'price' => $this->faker->numberBetween(3, 10),
+            'price' => new Money($this->faker->numberBetween(3, 10)),
         ];
     }
 }
