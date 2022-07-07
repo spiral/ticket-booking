@@ -34,6 +34,7 @@ class ReserveTicketHandler implements ReserveTicketHandlerInterface
             $command->reservationId->toString(),
             $command->screeningId,
             $command->reservationTypeId,
+            $command->userId,
             $command->seatIds
         );
 

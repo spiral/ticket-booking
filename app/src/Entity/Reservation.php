@@ -37,7 +37,9 @@ class Reservation
         #[BelongsTo(target: Screening::class)]
         private Screening $screening,
         #[BelongsTo(target: Type::class)]
-        private Type $type
+        private Type $type,
+        #[BelongsTo(target: User::class)]
+        private User $user
     ) {
         $this->createdAt = new \DateTimeImmutable();
     }
@@ -85,6 +87,11 @@ class Reservation
     public function getType(): Type
     {
         return $this->type;
+    }
+
+    public function getUser(): User
+    {
+        return $this->user;
     }
 
     /**

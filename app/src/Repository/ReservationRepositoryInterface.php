@@ -10,4 +10,6 @@ use Cycle\ORM\RepositoryInterface;
 interface ReservationRepositoryInterface extends RepositoryInterface
 {
     public function getByPK(string $id): Reservation;
+
+    public function findByUserId(int $userId): iterable;
 }

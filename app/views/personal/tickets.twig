@@ -6,7 +6,7 @@
     <div class="container">
         <div class="col-md-12">
             <div class="bg-light rounded">
-                <div class="col-sm-8 py-5 mx-auto">
+                <div class="col-sm-8 py-5 pb-3 mx-auto">
                     <h3>[[Tickets]]</h3>
                     <table class="table table-striped">
                         <thead>
@@ -16,6 +16,7 @@
                             <th scope="col">[[Places]]</th>
                             <th scope="col">[[Reserved At]]</th>
                             <th scope="col">[[Status]]</th>
+                            <th scope="col">[[Action]]</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -31,36 +32,44 @@
                                     <td>
                                         {% for seat in ticket.seats %}
                                             <div>
-                                                [[Ticket]] #{{ loop.index }}
+                                                [[Seat]] #{{ loop.index }}
                                                 [[Row]]: {{ seat.seat.row }}
                                                 [[Place]]: {{ seat.seat.number }}
                                             </div>
                                         {% endfor %}
                                     </td>
                                     <td>{{ ticket.createdAt.format('d.m.Y H:i') }}</td>
-                                    <td>
-                                        {% if ticket.paidAt is not empty %}
+                                    {% if ticket.paidAt is not empty %}
+                                        <td>
                                             <span class="text-success">[[Paid]]: {{ ticket.paidAt.format('d.m.Y H:i') }}</span>
-                                        {% elseif ticket.canceledAt is empty %}
-                                            <span class="text-info">
-                                            [[Reserved]]: <button class="btn btn-sm btn-primary" x-on:click="$store.buying.buy()">
+                                        </td>
+                                        <td></td>
+                                    {% elseif ticket.canceledAt is empty %}
+                                        <td>
+                                            <span class="text-info">[[Reserved]]</span>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" x-on:click="$store.buying.buy()" style="min-width: 90px;">
                                                 [[Buy]]
-                                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" x-show="$store.buying.loading"></span>
                                             </button>
-                                        </span>
-                                        {% else %}
+                                        </td>
+                                    {% else %}
+                                        <td>
                                             <span class="text-danger">[[Canceled]]: {{ ticket.canceledAt.format('d.m.Y H:i') }}</span>
-                                        {% endif %}
-                                    </td>
+                                        </td>
+                                    {% endif %}
                                 </tr>
                             {% endfor %}
                         {% else %}
-                            <td colspan="5" class="text-center">
-                                [[Any tickets not found.]] <a href="{{ route('screenings') }}" class="btn btn-sm btn-primary">[[Show movies]]</a>
+                            <td colspan="6" class="text-center">
+                                [[Tickets not found.]]
                             </td>
                         {% endif %}
                         </tbody>
                     </table>
+                </div>
+                <div class="col-sm-8 pb-5 mx-auto">
+                    <a href="{{ route('screenings') }}" class="btn btn-primary">[[Reserve tickets]]</a>
                 </div>
             </div>
         </div>
@@ -74,7 +83,7 @@
                 async buy(id) {
                     this.loading = true;
 
-                    await fetch('/tickets/buy', {
+                    await fetch('/personal/tickets/buy', {
                         method: 'POST',
                         headers: {
                             'X-Requested-With': 'XMLHttpRequest',

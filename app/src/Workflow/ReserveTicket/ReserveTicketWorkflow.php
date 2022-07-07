@@ -40,6 +40,7 @@ class ReserveTicketWorkflow implements ReserveTicketWorkflowInterface
         string $reservationId,
         int $screeningId,
         int $reservationTypeId,
+        int $userId,
         array $seatIds
     ) {
         $this->settings = new ReservationSettings(
@@ -51,6 +52,7 @@ class ReserveTicketWorkflow implements ReserveTicketWorkflowInterface
             $this->settings->reservationId,
             $screeningId,
             $reservationTypeId,
+            $userId,
             $seatIds
         );
 

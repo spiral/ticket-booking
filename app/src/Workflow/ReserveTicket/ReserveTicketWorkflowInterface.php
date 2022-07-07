@@ -17,6 +17,7 @@ interface ReserveTicketWorkflowInterface
         string $reservationId,
         int $screeningId,
         int $reservationTypeId,
+        int $userId,
         array $seatIds,
     );
 

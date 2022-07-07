@@ -21,4 +21,9 @@ final class ReservationRepository extends Repository implements ReservationRepos
 
         return $reservation;
     }
+
+    public function findByUserId(int $userId): iterable
+    {
+        return $this->findAll(['user_id' => $userId]);
+    }
 }

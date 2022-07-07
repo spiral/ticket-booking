@@ -16,6 +16,7 @@ final class ReserveTicketCommand implements CommandInterface
     public function __construct(
         public readonly int $screeningId,
         public readonly int $reservationTypeId,
+        public readonly int $userId,
         public readonly array $seatIds
     ) {
         Assert::minCount($this->seatIds, 1, 'At leas one seat should be chosen.');

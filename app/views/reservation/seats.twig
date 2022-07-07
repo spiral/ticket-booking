@@ -107,7 +107,7 @@
                     if (!this.isEmpty()) {
                         this.loading = true;
 
-                        await fetch('/reserve', {
+                        await fetch('/personal/tickets/reserve', {
                             method: 'POST',
                             headers: {
                                 'X-Requested-With': 'XMLHttpRequest',

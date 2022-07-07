@@ -13,7 +13,11 @@ interface UserRepositoryInterface extends RepositoryInterface
     /** @return ?User */
     public function findByPK(mixed $id): ?object;
 
+    public function getByPK(int $id): User;
+
     public function findOneByEmail(Email $email): ?User;
+
+    public function getOneByEmail(Email $email): User;
 
     public function existEmail(Email $email): bool;
 }

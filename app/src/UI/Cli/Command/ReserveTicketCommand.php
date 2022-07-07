@@ -6,7 +6,10 @@ namespace App\UI\Cli\Command;
 
 use App\Entity\Auditorium\ReservedSeat;
 use App\Entity\Auditorium\Seat;
+use App\Entity\User;
 use App\Repository\ScreeningRepositoryInterface;
+use App\Repository\UserRepositoryInterface;
+use App\ValueObject\Email;
 use App\Workflow\ReserveTicket\ReserveTicketActivity;
 use Spiral\Console\Command;
 use Spiral\Cqrs\CommandBusInterface;
@@ -19,10 +22,29 @@ class ReserveTicketCommand extends Command
 
     public function __invoke(
         ScreeningRepositoryInterface $screenings,
+        UserRepositoryInterface $userRepository,
         CommandBusInterface $bus,
         ReserveTicketActivity $activity
     ) {
         $this->io = new SymfonyStyle($this->input, $this->output);
+
+        $users = $userRepository->findAll();
+        if ([] === $users) {
+            $this->io->info('Please, create at least one user.');
+
+            return self::INVALID;
+        }
+        $user = $this->io->choice(
+            'Select user ID',
+            \array_column(
+                \array_map(
+                    static fn (User $user) => ['id' => $user->getId(), 'email' => $user->getEmail()->getValue()],
+                    $users
+                ),
+                'email',
+                'id'
+            )
+        );
 
         $activeScreenings = [];
 
@@ -50,6 +72,7 @@ class ReserveTicketCommand extends Command
         $command = new \App\Application\Command\ReserveTicketCommand(
             $screeningId,
             1,
+            $userRepository->getOneByEmail(new Email($user))->getId(),
             $seats
         );
 

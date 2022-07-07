@@ -10,6 +10,7 @@ use App\Repository\Auditorium\SeatRepositoryInterface;
 use App\Repository\Reservation\TypeRepositoryInterface;
 use App\Repository\ReservationRepositoryInterface;
 use App\Repository\ScreeningRepositoryInterface;
+use App\Repository\UserRepositoryInterface;
 use Cycle\Database\Injection\Parameter;
 use Cycle\ORM\EntityManagerInterface;
 
@@ -20,6 +21,7 @@ class ReserveTicketActivity implements ReserveTicketActivityInterface
         private readonly TypeRepositoryInterface $reservationType,
         private readonly ReservationRepositoryInterface $reservations,
         private readonly SeatRepositoryInterface $seats,
+        private readonly UserRepositoryInterface $userRepository,
         private readonly EntityManagerInterface $entityManager,
         private readonly SeatsReservationChecker $reservationChecker
     ) {
@@ -29,12 +31,14 @@ class ReserveTicketActivity implements ReserveTicketActivityInterface
         string $reservationId,
         int $screeningId,
         int $reservationTypeId,
+        int $userId,
         array $seatIds
     ): int {
         //$this->reservationChecker->checkAvailability($screeningId, $seatIds);
 
         $screening = $this->screenings->getByPK($screeningId);
         $reservationType = $this->reservationType->getByPK($reservationTypeId);
+        $user = $this->userRepository->getByPK($userId);
 
         $seats = $this->seats->findAll([
             'id' => ['in' => new Parameter($seatIds)],
@@ -43,7 +47,8 @@ class ReserveTicketActivity implements ReserveTicketActivityInterface
         $reservation = new Reservation(
             $reservationId,
             $screening,
-            $reservationType
+            $reservationType,
+            $user
         );
 
         $this->entityManager->persist($reservation);
