@@ -59,7 +59,7 @@ class AuthController extends AbstractController
     public function register(CredentialsRequest $request, Authenticator $authenticator): ResponseInterface
     {
         try {
-            $this->commandBus->dispatch(new CreateUserCommand($request->getEmail(), $request->getPassword()));
+            $this->exec(new CreateUserCommand($request->getEmail(), $request->getPassword()));
             $authenticator->authenticate($request->getCredentials());
         } catch (\Throwable $e) {
             return $this->render('auth/register', ['errors' => [$e->getMessage()]]);

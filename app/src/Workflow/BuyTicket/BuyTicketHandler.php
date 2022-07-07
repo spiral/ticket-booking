@@ -6,10 +6,7 @@ namespace App\Workflow\BuyTicket;
 
 use App\Application\Command\BuyTicketCommand;
 use Psr\Log\LoggerInterface;
-use Spiral\Cqrs\Attribute\CommandHandler;
 use Spiral\TemporalBridge\WorkflowManagerInterface;
-use Spiral\TemporalBridge\Workflow\RunningWorkflow;
-use Temporal\Api\Enums\V1\WorkflowIdReusePolicy;
 use Temporal\Exception\Client\WorkflowExecutionAlreadyStartedException;
 
 class BuyTicketHandler implements BuyTicketHandlerInterface
@@ -20,7 +17,6 @@ class BuyTicketHandler implements BuyTicketHandlerInterface
     ) {
     }
 
-    #[CommandHandler]
     public function buy(BuyTicketCommand $command)
     {
         $workflow = $this->manager->getById('checkout-'.$command->reservationId);

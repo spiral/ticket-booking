@@ -24,7 +24,7 @@ class ScreeningController extends AbstractController
     #[Route('/personal/screenings', name: 'screenings', methods: 'GET', group: 'personal')]
     public function screenings(): ResponseInterface
     {
-        return $this->render('reservation/screenings', ['screenings' => $this->ask(new ActiveScreeningsQuery())]);
+        return $this->render('personal/screenings', ['screenings' => $this->ask(new ActiveScreeningsQuery())]);
     }
 
     #[Route('/personal/seats/<id:\d+>', name: 'seats', methods: 'GET', group: 'personal')]
@@ -37,7 +37,7 @@ class ScreeningController extends AbstractController
         }
         \asort($seats);
 
-        return $this->render('reservation/seats', [
+        return $this->render('personal/seats', [
             'seats' => $seats,
             'reserved' => $screening->getReservedSeats(),
             'screening_id' => $screening->getId()

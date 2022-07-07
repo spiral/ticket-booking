@@ -49,8 +49,9 @@
                                             <span class="text-info">[[Reserved]]</span>
                                         </td>
                                         <td>
-                                            <button class="btn btn-sm btn-primary" x-on:click="$store.buying.buy()" style="min-width: 90px;">
+                                            <button class="btn btn-sm btn-primary" x-on:click="$store.buying.buy('{{ ticket.uuid }}')" style="min-width: 90px;" x-data="{}">
                                                 [[Buy]]
+                                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" x-show="$store.buying.loading"></span>
                                             </button>
                                         </td>
                                     {% else %}

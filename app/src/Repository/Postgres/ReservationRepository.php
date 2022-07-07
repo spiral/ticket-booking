@@ -26,4 +26,9 @@ final class ReservationRepository extends Repository implements ReservationRepos
     {
         return $this->findAll(['user_id' => $userId]);
     }
+
+    public function hasByPK(string $id): bool
+    {
+        return $this->select()->where(['uuid' => $id])->count() === 1;
+    }
 }

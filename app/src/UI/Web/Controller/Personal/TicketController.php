@@ -11,12 +11,13 @@ declare(strict_types=1);
 
 namespace App\UI\Web\Controller\Personal;
 
-use App\Application\Command\BuyCommand;
+use App\Application\Command\BuyTicketCommand;
 use App\Application\Command\ReserveTicketCommand;
 use App\UI\Web\Controller\AbstractController;
 use App\UI\Web\Request\BuyRequest;
 use App\UI\Web\Request\ReserveTicketRequest;
 use Psr\Http\Message\ResponseInterface;
+use Ramsey\Uuid\Uuid;
 use Spiral\Domain\Annotation\Guarded;
 use Spiral\Router\Annotation\Route;
 
@@ -26,10 +27,10 @@ class TicketController extends AbstractController
     #[Route('/personal/tickets/buy', name: 'ticket.buy', methods: 'POST', group: 'personal')]
     public function buy(BuyRequest $request): ResponseInterface
     {
-        $command = new BuyCommand($request->reservationId);
+        $command = new BuyTicketCommand(Uuid::fromString($request->reservationId));
 
         try {
-            $this->commandBus->dispatch($command);
+            $this->exec($command);
         } catch (\Throwable $e) {
             return $this->json(['errors' => [$e->getMessage()]]);
         }
@@ -50,7 +51,7 @@ class TicketController extends AbstractController
         );
 
         try {
-            $this->commandBus->dispatch($command);
+            $this->exec($command);
         } catch (\Throwable $e) {
             return $this->json(['errors' => [$e->getMessage()]]);
         }
