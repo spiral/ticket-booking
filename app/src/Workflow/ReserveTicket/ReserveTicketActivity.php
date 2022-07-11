@@ -6,6 +6,7 @@ namespace App\Workflow\ReserveTicket;
 
 use App\Entity\Auditorium\ReservedSeat;
 use App\Entity\Reservation;
+use App\Event\TicketReserved;
 use App\Repository\Auditorium\SeatRepositoryInterface;
 use App\Repository\Reservation\TypeRepositoryInterface;
 use App\Repository\ReservationRepositoryInterface;
@@ -13,6 +14,7 @@ use App\Repository\ScreeningRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
 use Cycle\Database\Injection\Parameter;
 use Cycle\ORM\EntityManagerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 class ReserveTicketActivity implements ReserveTicketActivityInterface
 {
@@ -23,7 +25,8 @@ class ReserveTicketActivity implements ReserveTicketActivityInterface
         private readonly SeatRepositoryInterface $seats,
         private readonly UserRepositoryInterface $userRepository,
         private readonly EntityManagerInterface $entityManager,
-        private readonly SeatsReservationChecker $reservationChecker
+        private readonly SeatsReservationChecker $reservationChecker,
+        private readonly EventDispatcherInterface $eventDispatcher
     ) {
     }
 
@@ -40,6 +43,8 @@ class ReserveTicketActivity implements ReserveTicketActivityInterface
         $reservationType = $this->reservationType->getByPK($reservationTypeId);
         $user = $this->userRepository->getByPK($userId);
 
+        // TODO query from screening auditorium
+        // TODO check total found seats equal to reqested seats
         $seats = $this->seats->findAll([
             'id' => ['in' => new Parameter($seatIds)],
         ]);
@@ -61,6 +66,8 @@ class ReserveTicketActivity implements ReserveTicketActivityInterface
 
         $this->entityManager->run();
         $this->entityManager->clean();
+
+        $this->eventDispatcher->dispatch(new TicketReserved($reservation));
 
         return 600;
     }

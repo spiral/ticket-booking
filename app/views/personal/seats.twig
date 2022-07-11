@@ -2,6 +2,11 @@
 
 {% block title %}[[Active screenings]]{% endblock %}
 
+{% block footer_scripts %}
+    {{ parent() }}
+    <script defer src="/js/app.js"></script>
+{% endblock %}
+
 {% set reservedIds = reserved | map(res => res.seat.id) %}
 
 {% block body %}
@@ -24,22 +29,20 @@
                                     {{ row }}
                                 </th>
                                 {% for seat in rowSeats %}
-                                    {% if seat.id in reservedIds %}
-                                        <td class="seats-item seats-item-disabled">
-                                            <i class="bi-x-lg" style="font-size: 1rem; color: #ff0000;"></i>
-                                        </td>
-                                    {% else %}
-                                        <td
-                                                class="seats-item"
-                                                x-data="{id: '{{ seat.id }}'}"
-                                                x-on:click="$store.seats.select(id)"
-                                                x-bind:class="{ 'seats-active': $store.seats.isSelected(id) }"
-                                        >
-                                            <div>
-                                                {{ seat.number }}
-                                            </div>
-                                        </td>
-                                    {% endif %}
+                                    <td
+                                            x-data="{id: {{ seat.id }}}"
+                                            class="seats-item"
+                                            x-on:click="$store.seats.select(id)"
+                                            x-bind:class="{ 'seats-active': $store.seats.isSelected(id) }"
+                                            x-show="!$store.seats.isDisabled(id)"
+                                    >
+                                        <div>
+                                            {{ seat.number }}
+                                        </div>
+                                    </td>
+                                    <td x-data="{id: {{ seat.id }}}" class="seats-item seats-item-disabled" x-show="$store.seats.isDisabled(id)" style="display: none;">
+                                        <i class="bi-x-lg" style="font-size: 1rem; color: #ff0000;"></i>
+                                    </td>
                                 {% endfor %}
                             </tr>
                         {% endfor %}
@@ -59,7 +62,7 @@
                     <div x-show="$store.seats.completed.success">
                         <div class="alert alert-success d-flex align-items-center" role="alert">
                             <i class="bi-check-circle-fill" style="width: 35px;height: 35px;margin-right: 10px;font-size: 20px;"></i>
-                            <div x-text="$store.seats.completed.text"></div>
+                            <div x-html="$store.seats.completed.text"></div>
                         </div>
                     </div>
                     <div x-show="$store.seats.errors.length > 0">
@@ -80,11 +83,12 @@
         document.addEventListener('alpine:init', () => {
             Alpine.store('seats', {
                 selected: [],
+                disabled: {{ reservedIds|json_encode() }},
                 errors: [],
                 loading: false,
                 completed: {
                     success: false,
-                    text: null
+                    text: 'Reservation started.'
                 },
 
                 select(id) {
@@ -95,12 +99,20 @@
                     }
                 },
 
+                disable(id) {
+                    this.disabled.push(id)
+                },
+
                 isSelected(id) {
                     return this.selected.includes(id)
                 },
 
                 isEmpty() {
                     return this.selected.length === 0
+                },
+
+                isDisabled(id) {
+                    return this.disabled.includes(id)
                 },
 
                 async reserve() {
@@ -128,12 +140,19 @@
                                     this.completed.success = false
                                 } else {
                                     this.completed.success = true;
-                                    this.completed.text = data.message
                                 }
                             });
                     }
                 }
             })
-        })
+        });
+
+        document.addEventListener('DOMContentLoaded', function(){
+            window.ws.listen('user.{{ auth.actor.id }}.reservation', (e) => {
+                Alpine.store('seats').disable(parseInt(e));
+                Alpine.store('seats').selected = [];
+                Alpine.store('seats').completed.text = 'Reservation completed successfully. <a href="{{ route('personal.tickets') }}" class="btn btn-sm btn-success">Pay for tickets.</a>';
+            });
+        });
     </script>
 {% endblock %}

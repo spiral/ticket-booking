@@ -8,6 +8,7 @@ use App\Bootloader;
 use Spiral\Boot\Bootloader\CoreBootloader;
 use Spiral\Bootloader as Framework;
 use Spiral\DotEnv\Bootloader as DotEnv;
+use Spiral\EventBus\Bootloader\EventBusBootloader;
 use Spiral\Framework\Kernel;
 use Spiral\Monolog\Bootloader as Monolog;
 use Spiral\Nyholm\Bootloader as Nyholm;
@@ -46,6 +47,7 @@ class App extends Kernel
         RoadRunnerBridge\HttpBootloader::class,
         RoadRunnerBridge\QueueBootloader::class,
         RoadRunnerBridge\RoadRunnerBootloader::class,
+        RoadRunnerBridge\BroadcastingBootloader::class,
 
         // Core Services
         Framework\SnapshotsBootloader::class,
@@ -97,6 +99,7 @@ class App extends Kernel
         // Extensions and bridges
         TwigBootloader::class,
         Bootloader\TwigExtensionBootloader::class,
+        EventBusBootloader::class,
 
         // Framework commands
         Framework\CommandBootloader::class,

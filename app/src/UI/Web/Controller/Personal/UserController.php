@@ -16,7 +16,13 @@ class UserController extends AbstractController
     #[Route('/personal/tickets', name: 'personal.tickets', methods: 'GET', group: 'personal')]
     public function tickets(): ResponseInterface
     {
-        return $this->render('personal/tickets', [
+        return $this->render('personal/tickets');
+    }
+
+    #[Route('/personal/tickets-grid', name: 'personal.tickets-grid', methods: 'GET', group: 'personal')]
+    public function ticketsGrid(): ResponseInterface
+    {
+        return $this->render('personal/reservation-tickets', [
             'tickets' => $this->ask(new UserTicketsQuery($this->authScope->getActor()->getId()))
         ]);
     }
