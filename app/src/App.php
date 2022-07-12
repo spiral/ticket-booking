@@ -18,6 +18,7 @@ use Spiral\Sapi\Bootloader\SapiBootloader;
 use Spiral\Scaffolder\Bootloader as Scaffolder;
 use Spiral\Cycle\Bootloader as CycleBridge;
 use Spiral\RoadRunnerBridge\Bootloader as RoadRunnerBridge;
+use Spiral\Serializer\Bootloader\SerializerBootloader;
 use Spiral\Tokenizer\Bootloader\TokenizerBootloader;
 use Spiral\Twig\Bootloader\TwigBootloader;
 use Spiral\Validation\Symfony\Bootloader\ValidatorBootloader;
@@ -99,6 +100,7 @@ class App extends Kernel
         // Extensions and bridges
         TwigBootloader::class,
         Bootloader\TwigExtensionBootloader::class,
+        SerializerBootloader::class,
         EventBusBootloader::class,
 
         // Framework commands

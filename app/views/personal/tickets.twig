@@ -72,8 +72,8 @@
             });
         });
 
-        document.addEventListener('DOMContentLoaded', function(){
-            window.ws.listen('user.{{ auth.actor.id }}.buying', (e) => {
+        document.addEventListener('DOMContentLoaded', function() {
+            window.ws.listen('user.{{ auth.actor.id }}', 'TicketBought', (e) => {
                 Alpine.store('reservationTickets').load();
             });
         });

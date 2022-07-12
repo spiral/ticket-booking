@@ -1,3 +1,5 @@
+import {EventFormatter} from './EventFormatter'
+
 export default class Channel {
     ws;
 
@@ -10,6 +12,11 @@ export default class Channel {
      * Channel options.
      */
     options;
+
+    /**
+     * The event formatter.
+     */
+    eventFormatter;
 
     /**
      * The event callbacks applied to the socket.
@@ -28,6 +35,7 @@ export default class Channel {
         this.name = name;
         this.ws = ws;
         this.options = options;
+        this.eventFormatter = new EventFormatter(this.options.namespace);
 
         this.subscribe();
     }
@@ -42,8 +50,8 @@ export default class Channel {
     /**
      * Listen for an event on the channel instance.
      */
-    listen(callback, event = 'event') {
-        this.on(callback, event);
+    listen(event, callback) {
+        this.on(this.eventFormatter.format(event), callback);
 
         return this;
     }
@@ -58,14 +66,18 @@ export default class Channel {
     /**
      * Bind the channel's socket to an event and store the callback.
      */
-    on(callback, event) {
+    on(event, callback) {
         this.listeners[event] = this.listeners[event] || [];
 
         if (!this.events[event]) {
             this.events[event] = (e) => {
                 const data = JSON.parse(e.data)
                 if (data.topic === this.name) {
-                    this.listeners[event].forEach((cb) => cb(data.payload));
+                    const payload = JSON.parse(data.payload) || {event: 'null'};
+
+                    if (payload.event === event && this.listeners[event]) {
+                        this.listeners[event].forEach((cb) => cb(payload));
+                    }
                 }
             };
 

@@ -115,6 +115,13 @@
                     return this.disabled.includes(id)
                 },
 
+                applyReservedEvent(data) {
+                    data.seats.forEach((seat) => this.disable(seat));
+
+                    this.selected = [];
+                    this.completed.text = 'Reservation completed successfully. <a href="{{ route('personal.tickets') }}" class="btn btn-sm btn-success">Pay for tickets.</a>'
+                },
+
                 async reserve() {
                     if (!this.isEmpty()) {
                         this.loading = true;
@@ -147,11 +154,9 @@
             })
         });
 
-        document.addEventListener('DOMContentLoaded', function(){
-            window.ws.listen('user.{{ auth.actor.id }}.reservation', (e) => {
-                Alpine.store('seats').disable(parseInt(e));
-                Alpine.store('seats').selected = [];
-                Alpine.store('seats').completed.text = 'Reservation completed successfully. <a href="{{ route('personal.tickets') }}" class="btn btn-sm btn-success">Pay for tickets.</a>';
+        document.addEventListener('DOMContentLoaded', function() {
+            window.ws.listen('user.{{ auth.actor.id }}', 'TicketReserved', (e) => {
+                Alpine.store('seats').applyReservedEvent(e.data);
             });
         });
     </script>

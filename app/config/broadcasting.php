@@ -15,8 +15,7 @@ return [
     'authorize' => [
         'path' => env('BROADCAST_AUTHORIZE_PATH'),
         'topics' => [
-            'user.{id}.reservation' => static fn ($id, Actor $actor): bool => $actor->getId() === $id,
-            'user.{id}.buying' => static fn ($id, Actor $actor): bool => $actor->getId() === $id
+            'user.{id}' => static fn ($id, Actor $actor): bool => $actor->getId() === $id,
         ],
     ],
 

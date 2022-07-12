@@ -56,14 +56,11 @@ class ReserveTicketActivity implements ReserveTicketActivityInterface
             $user
         );
 
-        $this->entityManager->persist($reservation);
-        $this->entityManager->run();
-
         foreach ($seats as $seat) {
-            $reservedSeat = new ReservedSeat($seat, $reservation);
-            $this->entityManager->persist($reservedSeat);
+            $reservation->reserveSeat(new ReservedSeat($seat, $reservation));
         }
 
+        $this->entityManager->persist($reservation);
         $this->entityManager->run();
         $this->entityManager->clean();
 

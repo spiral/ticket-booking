@@ -13,7 +13,7 @@ static:
 
 http:
   address: 0.0.0.0:8080
-  middleware: [ "gzip", "static" ]
+  middleware: [ "gzip", "websockets", "static" ]
   static:
     dir: "public"
     forbid: [ ".php", ".htaccess" ]
@@ -44,3 +44,12 @@ temporal:
   address: temporal:7233
   activities:
     num_workers: 5
+
+websockets:
+    broker: default
+    path: "/ws"
+
+broadcast:
+    default:
+        driver: memory
+        config: { }

@@ -9,7 +9,7 @@ class Connector {
         authEndpoint: '/ws',
         csrfToken: null,
         host: null,
-        namespace: 'App.Events',
+        namespace: 'App.Event',
     };
 
     options;
@@ -86,8 +86,8 @@ export default class WebsocketConnector extends Connector {
         return this.ws;
     }
 
-    listen(name, callback) {
-        return this.channel(name).listen(callback);
+    listen(name, event, callback) {
+        return this.channel(name).listen(event, callback);
     }
 
     channel(name) {

@@ -111,4 +111,9 @@ class Reservation
     {
         return $this->paidAt;
     }
+
+    public function reserveSeat(ReservedSeat $seat): void
+    {
+        $this->seats[] = $seat;
+    }
 }

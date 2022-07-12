@@ -69,7 +69,7 @@ export default class Broadcast {
     /**
      * Listen for an event on a channel instance.
      */
-    listen(channel, callback) {
-        return this.connector.listen(channel, callback);
+    listen(channel, event, callback) {
+        return this.connector.listen(channel, event, callback);
     }
 }
