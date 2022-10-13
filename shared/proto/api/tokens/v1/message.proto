@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package api.tokens.v1.dto;
+
+option php_namespace = "Spiral\\Shared\\Services\\Tokens\\v1\\DTO";
+option php_metadata_namespace = "Spiral\\Shared\\Services\\Tokens\\v1\\GPBMetadata";
+
+import "google/protobuf/timestamp.proto";
+
+message Token {
+    string id = 1;
+    string payload = 2;
+    google.protobuf.Timestamp expires_at = 3;
+}
+
+message CreateRequest {
+    string payload = 1;
+    google.protobuf.Timestamp expires_at = 2;
+}
+
+message CreateResponse {
+    Token token = 1;
+}
+
+message LoadRequest {
+    string id = 1;
+}
+
+message LoadResponse {
+    Token token = 1;
+}
+
+message DeleteRequest {
+    string id = 1;
+}
+
+message DeleteResponse {
+}

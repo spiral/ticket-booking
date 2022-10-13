@@ -1,0 +1,39 @@
+version: '2.7'
+
+rpc:
+  listen: tcp://127.0.0.1:6001
+
+logs:
+    mode: production
+    encoding: console
+    level: error
+
+server:
+  command: "php app.php"
+  relay: pipes
+
+temporal:
+    address: temporal:7233
+    activities:
+        num_workers: 5
+
+jobs:
+    consume: [ ]
+    pool:
+        num_workers: 2
+        supervisor:
+            max_worker_memory: 100
+
+grpc:
+    listen: "tcp://0.0.0.0:9000"
+    pool:
+        num_workers: 5
+    proto:
+        - "./vendor/spiral/shared/proto/api/cinema/v1/service.proto"
+
+broadcast:
+    default:
+        driver: redis
+        config:
+            addrs:
+                - redis:6379

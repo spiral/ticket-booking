@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package api.users.v1;
+
+option php_namespace = "Spiral\\Shared\\Services\\Users\\v1";
+option php_metadata_namespace = "Spiral\\Shared\\Services\\Users\\v1\\GPBMetadata";
+
+import "api/users/v1/message.proto";
+
+service UsersService {
+    rpc Auth (api.users.v1.dto.AuthRequest) returns (api.users.v1.dto.AuthResponse) {
+    }
+
+    rpc Register (api.users.v1.dto.RegisterRequest) returns (api.users.v1.dto.RegisterResponse) {
+    }
+
+    rpc Get (api.users.v1.dto.GetRequest) returns (api.users.v1.dto.GetResponse) {
+    }
+}

@@ -1,23 +1,95 @@
 version: "3.7"
+
 services:
-  php:
+  web:
     build:
-      dockerfile: docker/php/Dockerfile
-      context: ./
+      dockerfile: ./docker/php/Dockerfile
+    env_file:
+      - .env
     environment:
-      DB_HOST: db
       DB_DATABASE: homestead
-      DB_USER: homestead
-      DB_PASSWORD: secret
-      ENCRYPTER_KEY: def0000000101d3863b719a539d102fdaf769f11ce514d47c30961727fe1615b7dcca4b9be220c2f1db888eb19937067f5f1d76f3a26b742b7f76d0adeda30e457ca6598
+      OTEL_SERVICE_NAME: php-web
     ports:
-        - "8080:8080"
+      - "8080:8080"
     volumes:
-      - ./:/var/www/
+      - ./web:/var/www/
+    depends_on:
+      - collector
+      - redis
+      - cinema
+      - payment
+    command: >
+      bash -c "chmod +x ./rr
+      && php app.php migrate
+      && php app.php db:seed
+      && ./rr serve"
+    restart: on-failure
+
+  users:
+    build:
+      dockerfile: ./docker/php/Dockerfile
+    env_file:
+      - .env
+    environment:
+      DB_DATABASE: homestead
+      OTEL_SERVICE_NAME: php-users
+    volumes:
+      - ./users:/var/www/
     depends_on:
       - temporal
+      - collector
+      - redis
+    command: >
+      bash -c "chmod +x ./rr
+      && php app.php migrate
+      && php app.php db:seed
+      && ./rr serve"
+    restart: on-failure
+
+  payment:
+    build:
+      dockerfile: ./docker/php/Dockerfile
+    env_file:
+      - .env
+    environment:
+      DB_DATABASE: homestead
+      OTEL_SERVICE_NAME: php-payment
+    volumes:
+      - ./payment:/var/www/
+    depends_on:
+      - temporal
+      - collector
+      - redis
+    command: >
+      bash -c "chmod +x ./rr
+      && php app.php migrate
+      && php app.php db:seed
+      && ./rr serve"
+    restart: on-failure
+
+  cinema:
+    build:
+      dockerfile: ./docker/php/Dockerfile
+    env_file:
+      - .env
+    environment:
+      DB_DATABASE: homestead
+      OTEL_SERVICE_NAME: php-cinema
+    volumes:
+      - ./cinema:/var/www/
+    depends_on:
+      - temporal
+      - collector
+      - redis
+    command: >
+      bash -c "chmod +x ./rr
+      && php app.php migrate
+      && php app.php db:seed
+      && ./rr serve"
+    restart: on-failure
 
   db:
+    container_name: db
     image: postgres
     environment:
       POSTGRES_USER: homestead
@@ -25,6 +97,8 @@ services:
       POSTGRES_PASSWORD: secret
     ports:
       - "5432:5432"
+    logging:
+      driver: none
 
   postgresql:
     container_name: temporal-postgresql
@@ -32,23 +106,28 @@ services:
       POSTGRES_PASSWORD: temporal
       POSTGRES_USER: temporal
     image: postgres
+    logging:
+      driver: none
 
   temporal:
     container_name: temporal
     depends_on:
       - postgresql
     environment:
-      - DB=postgresql
-      - DB_PORT=5432
-      - POSTGRES_USER=temporal
-      - POSTGRES_PWD=temporal
-      - POSTGRES_SEEDS=postgresql
-      - DYNAMIC_CONFIG_FILE_PATH=config/dynamicconfig/development-sql.yaml
+      DB: postgresql
+      DB_PORT: 5432
+      POSTGRES_USER: temporal
+      POSTGRES_PWD: temporal
+      POSTGRES_SEEDS: postgresql
+      DYNAMIC_CONFIG_FILE_PATH: config/dynamicconfig/development-sql.yaml
     image: temporalio/auto-setup
     ports:
       - "7233:7233"
     volumes:
       - ./docker/temporal:/etc/temporal/config/dynamicconfig
+    restart: on-failure
+    logging:
+      driver: none
 
   temporal-web:
     container_name: temporal-web
@@ -60,3 +139,33 @@ services:
     image: temporalio/web
     ports:
       - "8088:8088"
+    logging:
+      driver: none
+
+  collector:
+    image: otel/opentelemetry-collector-contrib
+    command: [ "--config=/etc/otel-collector-config.yml" ]
+    volumes:
+      - ./docker/otel/otel-collector-config.yml:/etc/otel-collector-config.yml
+    logging:
+      driver: none
+
+  zipkin:
+    image: openzipkin/zipkin-slim
+    ports:
+      - "9411:9411"
+    logging:
+      driver: none
+
+  redis:
+    image: redis
+    logging:
+      driver: none
+
+  buggregator:
+    image: butschster/buggregator:beta
+    ports:
+      - 23517:8000
+      - 1025:1025
+      - 9912:9912
+      - 9913:9913

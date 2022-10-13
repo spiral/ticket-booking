@@ -1,0 +1,55 @@
+{% extends "layout/page.twig" %}
+
+{% block title %}[[Active screenings]]{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="col-md-12">
+            <div class="bg-light rounded">
+                <div class="col-sm-8 py-5 mx-auto">
+                    <h3>[[Active screenings]]</h3>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">[[ID]]</th>
+                            <th scope="col">[[Movie]]</th>
+                            <th scope="col">[[Starts at]]</th>
+                            <th scope="col">[[Duration]]</th>
+                            <th scope="col">[[Seats]]</th>
+                            <th scope="col">[[Auditorium]]</th>
+                            <th scope="col">[[Price]]</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if screenings is not empty %}
+                            {% for screening in screenings %}
+                                <tr>
+                                    <th scope="row">
+                                        <a href="{{ route('seats', {'id': screening.id}) }}">
+                                            {{ screening.id }}
+                                        </a>
+                                    </th>
+                                    <td>
+                                        <a href="{{ route('seats', {'id': screening.id}) }}">
+                                            {{ screening.movie }}
+                                        </a>
+                                    </td>
+                                    <td>{{ screening.startsAt.format('d.m.Y H:i') }}</td>
+                                    <td>{{ screening.movie.duration }} [[min]]</td>
+                                    <td>{{ screening.total_seats }}</td>
+                                    <td>{{ screening.auditorium }}</td>
+                                    <td>{{ screening.price }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <td colspan="7" class="text-center">
+                                [[Active screenings not found.]]
+                            </td>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

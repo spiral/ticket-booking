@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package api.payment.v1;
+
+option php_namespace = "Spiral\\Shared\\Services\\Payment\\v1";
+option php_metadata_namespace = "Spiral\\Shared\\Services\\Payment\\v1\\GPBMetadata";
+
+import "api/payment/v1/message.proto";
+
+service PaymentService {
+    rpc Charge (api.payment.v1.dto.ChargeRequest) returns (api.payment.v1.dto.ChargeResponse) {
+    }
+}

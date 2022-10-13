@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package api.users.v1.dto;
+
+option php_namespace = "Spiral\\Shared\\Services\\Users\\v1\\DTO";
+option php_metadata_namespace = "Spiral\\Shared\\Services\\Users\\v1\\GPBMetadata";
+
+import "api/tokens/v1/message.proto";
+
+message User {
+    int32 id = 1;
+    string email = 2;
+    repeated string roles = 3;
+}
+
+message AuthRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message AuthResponse {
+    User user = 1;
+    api.tokens.v1.dto.Token token = 2;
+}
+
+message RegisterRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message RegisterResponse {
+    User user = 1;
+}
+
+message GetRequest {
+    int32 id = 1;
+}
+
+message GetResponse {
+    User user = 1;
+}

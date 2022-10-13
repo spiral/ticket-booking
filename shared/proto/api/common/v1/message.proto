@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package api.common.v1.dto;
+
+option php_namespace = "Spiral\\Shared\\Services\\Common\\v1\\DTO";
+option php_metadata_namespace = "Spiral\\Shared\\Services\\Common\\v1\\GPBMetadata";
+
+import "google/protobuf/timestamp.proto";
+
+message Token {
+    string token = 1;
+    google.protobuf.Timestamp expires_at = 2;
+}
+
+message Pagination {
+    int32 total = 2;
+    int32 current_page = 3;
+    int32 per_page = 4;
+    int32 last_page = 5;
+}
+
+message Money {
+    int32 amount = 1;
+    string currency = 2;
+}

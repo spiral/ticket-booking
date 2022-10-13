@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package api.cinema.v1;
+
+option php_namespace = "Spiral\\Shared\\Services\\Cinema\\v1";
+option php_metadata_namespace = "Spiral\\Shared\\Services\\Cinema\\v1\\GPBMetadata";
+
+import "api/cinema/v1/message.proto";
+
+service CinemaService {
+    rpc Schedule (api.cinema.v1.dto.ScheduleRequest) returns (api.cinema.v1.dto.ScheduleResponse) {
+    }
+
+    rpc Screening (api.cinema.v1.dto.ScreeningRequest) returns (api.cinema.v1.dto.ScreeningResponse) {
+    }
+
+    rpc CheckSeats (api.cinema.v1.dto.CheckSeatsRequest) returns (api.cinema.v1.dto.CheckSeatsResponse) {
+    }
+
+    rpc Reserve (api.cinema.v1.dto.ReserveRequest) returns (api.cinema.v1.dto.ReserveResponse) {
+    }
+
+    rpc Reservations (api.cinema.v1.dto.ReservationsRequest) returns (api.cinema.v1.dto.ReservationsResponse) {
+    }
+
+    rpc Cancel (api.cinema.v1.dto.CancelRequest) returns (api.cinema.v1.dto.CancelResponse) {
+    }
+
+    rpc Purchase (api.cinema.v1.dto.PurchaseRequest) returns (api.cinema.v1.dto.PurchaseResponse) {
+    }
+}

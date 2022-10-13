@@ -1,0 +1,56 @@
+{
+    "name": "spiral/shared",
+    "description": "This is shared package",
+    "keywords": [
+        "spiral",
+        "spiral",
+        "open-telemetry-shared"
+    ],
+    "homepage": "https://github.com/spiral/framework",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "butschster",
+            "email": "butschster@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "ext-grpc": "*",
+        "grpc/grpc": "^1.42",
+        "spiral/boot": "^3.1",
+        "spiral/hmvc": "^3.1",
+        "spiral/files": "^3.1",
+        "spiral/console": "^3.1",
+        "spiral/auth": "^3.1",
+        "spiral/telemetry": "^3.1",
+        "spiral/roadrunner-grpc": "^2.0",
+        "spiral/roadrunner-cli": "^2.0"
+    },
+    "require-dev": {
+        "spiral/framework": "dev-feature/telemetry as 3.1",
+        "nette/php-generator": "^4.0",
+        "mockery/mockery": "^1.5",
+        "phpunit/phpunit": "^9.5.20",
+        "spiral/testing": "^2.0",
+        "vimeo/psalm": "^4.27"
+    },
+    "autoload": {
+        "psr-4": {
+            "Spiral\\Shared\\": "src"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "psalm": "vendor/bin/psalm --config=psalm.xml ./src"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "spiral/composer-publish-plugin": false
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

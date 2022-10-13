@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package api.tokens.v1;
+
+option php_namespace = "Spiral\\Shared\\Services\\Tokens\\v1";
+option php_metadata_namespace = "Spiral\\Shared\\Services\\Tokens\\v1\\GPBMetadata";
+
+import "api/tokens/v1/message.proto";
+
+service TokensService {
+    rpc Create (api.tokens.v1.dto.CreateRequest) returns (api.tokens.v1.dto.CreateResponse) {
+    }
+
+    rpc Load (api.tokens.v1.dto.LoadRequest) returns (api.tokens.v1.dto.LoadResponse) {
+    }
+
+    rpc Delete (api.tokens.v1.dto.DeleteRequest) returns (api.tokens.v1.dto.DeleteResponse) {
+    }
+}

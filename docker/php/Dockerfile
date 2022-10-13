@@ -14,5 +14,3 @@ RUN docker-php-ext-install \
 
 
 WORKDIR /var/www
-
-CMD ./rr serve

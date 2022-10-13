@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package api.payment.v1.dto;
+
+option php_namespace = "Spiral\\Shared\\Services\\Payment\\v1\\DTO";
+option php_metadata_namespace = "Spiral\\Shared\\Services\\Payment\\v1\\GPBMetadata";
+
+import "google/protobuf/timestamp.proto";
+import "api/common/v1/message.proto";
+
+message Payment {
+    string description = 1;
+    string source = 2;
+    api.common.v1.dto.Money money = 3;
+    string payment_method = 4;
+}
+
+message Receipt {
+    string id = 1;
+    string transaction_id = 2;
+    api.common.v1.dto.Money money = 4;
+    api.common.v1.dto.Money fee = 5;
+    google.protobuf.Timestamp created_at = 7;
+}
+
+message ChargeRequest {
+    Payment payment = 1;
+}
+
+message ChargeResponse {
+    Receipt receipt = 1;
+    bool status = 2;
+}

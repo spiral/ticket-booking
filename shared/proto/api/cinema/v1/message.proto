@@ -1,0 +1,117 @@
+syntax = "proto3";
+
+package api.cinema.v1.dto;
+
+option php_namespace = "Spiral\\Shared\\Services\\Cinema\\v1\\DTO";
+option php_metadata_namespace = "Spiral\\Shared\\Services\\Cinema\\v1\\GPBMetadata";
+
+import "google/protobuf/timestamp.proto";
+import "api/payment/v1/message.proto";
+import "api/common/v1/message.proto";
+
+message Reservation {
+    string uuid = 1;
+    repeated Seat seats = 2;
+    Screening screening = 3;
+    api.common.v1.dto.Money total_cost = 4;
+    google.protobuf.Timestamp created_at = 5;
+    google.protobuf.Timestamp canceled_at = 6;
+    google.protobuf.Timestamp expires_at = 7;
+    google.protobuf.Timestamp paid_at = 8;
+}
+
+message ScreeningFull {
+    int32 id = 1;
+    Movie movie = 2;
+    Auditorium auditorium = 3;
+    google.protobuf.Timestamp starts_at = 4;
+    api.common.v1.dto.Money price = 5;
+    repeated Seat reserved_seats = 7;
+}
+
+message Screening {
+    int32 id = 1;
+    Movie movie = 2;
+    string auditorium = 3;
+    int32 total_seats = 4;
+    google.protobuf.Timestamp starts_at = 5;
+    api.common.v1.dto.Money price = 6;
+}
+
+message Movie {
+    int32 id = 1;
+    string title = 2;
+    string description = 3;
+    int32 duration = 4;
+}
+
+message Auditorium {
+    int32 id = 1;
+    string name = 2;
+    repeated Seat seats = 3;
+}
+
+message Seat {
+    int32 id = 1;
+    int32 row = 2;
+    int32 number = 3;
+}
+
+message ScreeningRequest {
+    int32 id = 1;
+}
+
+message ScreeningResponse {
+    ScreeningFull screening = 1;
+}
+
+message ScheduleRequest {
+}
+
+message ScheduleResponse {
+    repeated Screening screenings = 1;
+}
+
+message ReserveRequest {
+    int32 screening_id = 1;
+    int32 reservation_type_id = 2;
+    int32 user_id = 3;
+    repeated Seat seats = 4;
+}
+
+message ReserveResponse {
+    Reservation reservation = 1;
+}
+
+message ReservationsRequest {
+    int32 user_id = 1;
+}
+
+message ReservationsResponse {
+    repeated Reservation reservations = 1;
+}
+
+message CancelRequest {
+    string reservation_id = 1;
+}
+
+message CancelResponse {
+    bool status = 1;
+}
+
+message PurchaseRequest {
+    string reservation_id = 1;
+}
+
+message PurchaseResponse {
+    api.payment.v1.dto.Receipt receipt = 1;
+}
+
+message CheckSeatsRequest {
+    int32 screening_id = 1;
+}
+
+message CheckSeatsResponse {
+    repeated Seat reserved_seats = 1;
+    string error_message = 2;
+}
