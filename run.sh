@@ -11,6 +11,7 @@ do
   cd $dir
   rm -rf ./vendor/spiral/shared
   composer update
+  ./vendor/bin/rr get-binary
   echo "Clear cache"
   rm -rf ./runtime/*
   cd ../
