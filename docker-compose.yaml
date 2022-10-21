@@ -13,6 +13,7 @@ services:
       - "8080:8080"
     volumes:
       - ./web:/var/www/
+      - ./shared:/var/shared/
     depends_on:
       - collector
       - redis
@@ -35,6 +36,7 @@ services:
       OTEL_SERVICE_NAME: php-users
     volumes:
       - ./users:/var/www/
+      - ./shared:/var/shared/
     depends_on:
       - temporal
       - collector
@@ -56,6 +58,7 @@ services:
       OTEL_SERVICE_NAME: php-payment
     volumes:
       - ./payment:/var/www/
+      - ./shared:/var/shared/
     depends_on:
       - temporal
       - collector
@@ -77,6 +80,7 @@ services:
       OTEL_SERVICE_NAME: php-cinema
     volumes:
       - ./cinema:/var/www/
+      - ./shared:/var/shared/
     depends_on:
       - temporal
       - collector

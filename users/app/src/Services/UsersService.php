@@ -10,6 +10,7 @@ use App\Exception\PasswordIncorrectException;
 use App\Exception\UserNotFoundException;
 use App\Repository\UserRepositoryInterface;
 use App\Security\PasswordHasher;
+use App\Services\Mappers\UserFactory;
 use App\Specification\PasswordIsSecureSpecification;
 use App\Specification\UniqueEmailSpecification;
 use App\ValueObject\Email;
@@ -17,6 +18,7 @@ use Carbon\Carbon;
 use Cycle\ORM\EntityManagerInterface;
 use Google\Protobuf\Timestamp;
 use Spiral\RoadRunner\GRPC;
+use Spiral\Shared\Mappers\TimestampFactory;
 use Spiral\Shared\Services\Tokens\v1\DTO\CreateRequest;
 use Spiral\Shared\Services\Tokens\v1\TokensServiceInterface;
 use Spiral\Shared\Services\Users\v1\UsersServiceInterface;
@@ -48,23 +50,16 @@ class UsersService implements UsersServiceInterface
             throw new PasswordIncorrectException('The password is not valid. Check the password and try again.');
         }
 
-        $expiresAt = new Timestamp();
-        $expiresAt->fromDateTime(Carbon::now()->addWeek()->toDateTime());
-
         $response = $this->tokensService->Create(
             $ctx,
             new CreateRequest([
                 'payload' => \json_encode(['userID' => $user->getId()]),
-                'expires_at' => $expiresAt,
+                'expires_at' => TimestampFactory::fromDateTimeInterface(Carbon::now()->addWeek()),
             ])
         );
 
         return new DTO\AuthResponse([
-            'user' => new DTO\User([
-                'id' => $user->getId(),
-                'email' => $user->getEmail()->getValue(),
-                'roles' => $user->getRoles(),
-            ]),
+            'user' => UserFactory::fromUserEntity($user),
             'token' => $response->getToken(),
         ]);
     }
@@ -87,11 +82,7 @@ class UsersService implements UsersServiceInterface
         $this->entityManager->run();
 
         return new DTO\RegisterResponse([
-            'user' => new DTO\User([
-                'id' => $user->getId(),
-                'email' => $user->getEmail()->getValue(),
-                'roles' => $user->getRoles(),
-            ]),
+            'user' => UserFactory::fromUserEntity($user),
         ]);
     }
 
@@ -102,11 +93,7 @@ class UsersService implements UsersServiceInterface
         $user = $this->userRepository->getByPK($in->getId());
 
         return new DTO\GetResponse([
-            'user' => new DTO\User([
-                'id' => $user->getId(),
-                'email' => $user->getEmail()->getValue(),
-                'roles' => $user->getRoles(),
-            ]),
+            'user' => UserFactory::fromUserEntity($user),
         ]);
     }
 }

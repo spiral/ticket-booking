@@ -17,10 +17,6 @@ class ChargeResponse extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>.api.payment.v1.dto.Receipt receipt = 1;</code>
      */
     protected $receipt = null;
-    /**
-     * Generated from protobuf field <code>bool status = 2;</code>
-     */
-    protected $status = false;
 
     /**
      * Constructor.
@@ -29,7 +25,6 @@ class ChargeResponse extends \Google\Protobuf\Internal\Message
      *     Optional. Data for populating the Message object.
      *
      *     @type \Spiral\Shared\Services\Payment\v1\DTO\Receipt $receipt
-     *     @type bool $status
      * }
      */
     public function __construct($data = NULL) {
@@ -55,28 +50,6 @@ class ChargeResponse extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkMessage($var, \Spiral\Shared\Services\Payment\v1\DTO\Receipt::class);
         $this->receipt = $var;
-
-        return $this;
-    }
-
-    /**
-     * Generated from protobuf field <code>bool status = 2;</code>
-     * @return bool
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
-     * Generated from protobuf field <code>bool status = 2;</code>
-     * @param bool $var
-     * @return $this
-     */
-    public function setStatus($var)
-    {
-        GPBUtil::checkBool($var);
-        $this->status = $var;
 
         return $this;
     }

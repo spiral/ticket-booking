@@ -56,6 +56,9 @@ return [
         'default' => [
             // ...
         ],
+        'socket' => [
+            \Spiral\Telemetry\Monolog\TelemetryProcessor::class,
+        ],
         'stdout' => [
             [
                 'class' => PsrLogMessageProcessor::class,

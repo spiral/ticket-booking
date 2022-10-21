@@ -30,7 +30,7 @@ class InjectTelemetryIntoContextInterceptor implements CoreInterceptorInterface
         }
 
         return $tracer->trace(
-            name: __CLASS__,
+            name: \sprintf('GRPC request %s', $action),
             callback: fn() => $core->callAction($controller, $action, $parameters),
             attributes: compact('controller', 'action'),
             traceKind: TraceKind::PRODUCER

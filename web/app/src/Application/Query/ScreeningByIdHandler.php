@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Application\Query;
 
-use App\ValueObject\Money;
 use Spiral\Cqrs\Attribute\QueryHandler;
 use Spiral\Shared\GRPC\RequestContext;
 use Spiral\Shared\Services\Cinema\v1\CinemaServiceInterface;

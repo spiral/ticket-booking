@@ -7,11 +7,14 @@ namespace App;
 use App\Bootloader;
 use Spiral\Boot\Bootloader\CoreBootloader;
 use Spiral\Bootloader as Framework;
+use Spiral\Cqrs\Bootloader\CqrsBootloader;
 use Spiral\DotEnv\Bootloader as DotEnv;
 use Spiral\EventBus\Bootloader\EventBusBootloader;
 use Spiral\Events\Bootloader\EventsBootloader;
 use Spiral\Framework\Kernel;
 use Spiral\Monolog\Bootloader as Monolog;
+use Spiral\SendIt\Bootloader\MailerBootloader;
+use Spiral\Shared\Bootloader\LoggerBootloader;
 use Spiral\Shared\Bootloader\SharedBootloader;
 use Spiral\Prototype\Bootloader as Prototype;
 use Spiral\Cycle\Bootloader as CycleBridge;
@@ -39,6 +42,7 @@ class App extends Kernel
 
         // Logging and exceptions handling
         Monolog\MonologBootloader::class,
+        LoggerBootloader::class,
         Bootloader\ExceptionHandlerBootloader::class,
 
         // RoadRunner
@@ -90,9 +94,11 @@ class App extends Kernel
         Framework\DebugBootloader::class,
         Framework\Debug\LogCollectorBootloader::class,
         Framework\Debug\HttpCollectorBootloader::class,
+        MailerBootloader::class,
 
         RoadRunnerBridge\CommandBootloader::class,
         \Spiral\DatabaseSeeder\Bootloader\DatabaseSeederBootloader::class,
+        CqrsBootloader::class,
     ];
 
     /*

@@ -17,10 +17,7 @@
     "repositories": [
         {
             "type": "path",
-            "url": "../shared",
-            "options": {
-                "symlink": false
-            }
+            "url": "../shared"
         }
     ],
     "require": {
@@ -32,7 +29,7 @@
         "spiral-packages/event-bus": "dev-master",
         "spiral-packages/database-seeder": "^2.0",
         "spiral-packages/symfony-validator": "^1.0",
-        "spiral/cycle-bridge": "dev-feature/database-logger as 2.0",
+        "spiral/cycle-bridge": "2.0.x-dev as 2.0",
         "spiral/otel-bridge": "dev-master",
         "spiral/data-grid-bridge": "^3.0",
         "spiral/framework": "dev-feature/telemetry as 3.2",

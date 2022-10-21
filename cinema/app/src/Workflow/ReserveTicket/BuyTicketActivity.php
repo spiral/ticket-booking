@@ -7,16 +7,12 @@ namespace App\Workflow\ReserveTicket;
 use App\Entity\Auditorium\ReservedSeat;
 use App\Event\TicketBought;
 use App\Repository\ReservationRepositoryInterface;
-use App\Services\Payment\PaymentService;
 use Cycle\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Spiral\Mailer\MailerInterface;
-use Spiral\Mailer\Message;
-use Spiral\Shared\GRPC\RequestContext;
-use Spiral\Shared\Services\Payment\v1\DTO\ChargeRequest;
-use Spiral\Shared\Services\Users\v1\DTO\GetRequest;
-use Spiral\Shared\Services\Users\v1\UsersServiceInterface;
-use Temporal\Activity\ActivityMethod;
+use Spiral\Cqrs\CommandBusInterface;
+use Spiral\Cqrs\QueryBusInterface;
+use Spiral\Shared\CQRS\Command\SendEmailCommand;
+use Spiral\Shared\CQRS\Query\GetUserQuery;
 
 class BuyTicketActivity implements BuyTicketActivityInterface
 {
@@ -24,8 +20,8 @@ class BuyTicketActivity implements BuyTicketActivityInterface
         private readonly ReservationRepositoryInterface $reservations,
         private readonly EntityManagerInterface $entityManager,
         private readonly EventDispatcherInterface $eventDispatcher,
-        private readonly UsersServiceInterface $usersService,
-        private readonly MailerInterface $mailer
+        private readonly QueryBusInterface $queryBus,
+        private readonly CommandBusInterface $commandBus
     ) {
     }
 
@@ -53,31 +49,28 @@ class BuyTicketActivity implements BuyTicketActivityInterface
     public function sendTicketsByMail(string $reservationId)
     {
         $reservation = $this->reservations->getByPK($reservationId);
-        $response = $this->usersService->Get(
-            new RequestContext(),
-            new GetRequest([
-                'id' => $reservation->getUserId(),
-            ])
-        );
 
-        $this->mailer->send(
-            new Message(
-                subject: 'mail.dark.php',
-                to: $response->getUser()->getEmail(),
-                data: [
-                    'email' => $response->getUser()->getEmail(),
-                    'seats' => \implode(', ', \array_map(
-                        fn(ReservedSeat $seat) => \sprintf(
+        $user = $this->queryBus->ask(new GetUserQuery($reservation->getUserId()));
+
+        $this->commandBus->dispatch(new SendEmailCommand(
+            template: 'mail.dark.php',
+            email: $user->getEmail(),
+            data: [
+                'email' => $user->getEmail(),
+                'seats' => \implode(
+                    ', ',
+                    \array_map(
+                        fn(ReservedSeat $seat): string => \sprintf(
                             'Seat row %d, num %d',
                             $seat->getSeat()->getRow(),
                             $seat->getSeat()->getNumber()
                         ),
                         $reservation->getSeats()
-                    )),
-                    'auditorium' => $reservation->getScreening()->getAuditorium()->getName(),
-                    'startsAt' => $reservation->getScreening()->getStartsAt()->format('d f Y H:i'),
-                ]
-            )
-        );
+                    )
+                ),
+                'auditorium' => $reservation->getScreening()->getAuditorium()->getName(),
+                'startsAt' => $reservation->getScreening()->getStartsAt()->format('d f Y H:i'),
+            ]
+        ));
     }
 }

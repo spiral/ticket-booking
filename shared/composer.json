@@ -25,6 +25,7 @@
         "spiral/console": "^3.1",
         "spiral/auth": "^3.1",
         "spiral/telemetry": "^3.1",
+        "spiral-packages/cqrs": "^2.0",
         "spiral/roadrunner-grpc": "^2.0",
         "spiral/roadrunner-cli": "^2.0"
     },

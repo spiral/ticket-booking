@@ -40,7 +40,6 @@ final class ExceptionHandlerInterceptor implements CoreInterceptorInterface
                 ]);
             }
 
-
             throw new GRPCException(
                 message: $e->getMessage(),
                 details: $details,

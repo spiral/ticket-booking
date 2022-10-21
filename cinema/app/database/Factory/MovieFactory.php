@@ -24,8 +24,8 @@ class MovieFactory extends AbstractFactory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->sentence,
-            'description' => $this->faker->paragraph,
+            'title' => $this->faker->sentence(),
+            'description' => $this->faker->paragraph(),
             'duration' => new Duration($this->faker->numberBetween(60, 240)),
         ];
     }

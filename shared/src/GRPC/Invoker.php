@@ -7,7 +7,6 @@ namespace Spiral\Shared\GRPC;
 use Spiral\Core\Container;
 use Spiral\Core\InterceptableCore;
 use Spiral\Shared\GRPC\Interceptors\InjectTelemetryFromContextInterceptor;
-use Spiral\Shared\GRPC\Interceptors\ValidateRequestResponseInterceptor;
 use Spiral\RoadRunner\GRPC\ContextInterface;
 use Spiral\RoadRunner\GRPC\InvokerInterface;
 use Spiral\RoadRunner\GRPC\Method;

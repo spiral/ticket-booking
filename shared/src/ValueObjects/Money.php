@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\ValueObject;
+namespace Spiral\Shared\ValueObjects;
 
 final class Money implements \Stringable, \JsonSerializable
 {

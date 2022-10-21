@@ -27,12 +27,12 @@ final class RequestContext implements ContextInterface
         return $this->withMetadata($metadata);
     }
 
-    public function getTelemetry(): ?array
+    public function getTelemetry(): array
     {
         $value = $this->getValue('metadata', [])['telemetry'][0] ?? null;
 
         if ($value !== null) {
-            return \json_decode($value, true);
+            return (array) \json_decode($value, true);
         }
 
         return [];

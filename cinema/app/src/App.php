@@ -13,6 +13,7 @@ use Spiral\EventBus\Bootloader\EventBusBootloader;
 use Spiral\Events\Bootloader\EventsBootloader;
 use Spiral\Framework\Kernel;
 use Spiral\Monolog\Bootloader as Monolog;
+use Spiral\Shared\Bootloader\LoggerBootloader;
 use Spiral\Shared\Bootloader\SharedBootloader;
 use Spiral\SendIt\Bootloader\BuilderBootloader;
 use Spiral\SendIt\Bootloader\MailerBootloader;
@@ -41,6 +42,7 @@ class App extends Kernel
 
         // Logging and exceptions handling
         Monolog\MonologBootloader::class,
+        LoggerBootloader::class,
         Bootloader\ExceptionHandlerBootloader::class,
 
         // RoadRunner

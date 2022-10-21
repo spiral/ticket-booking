@@ -109,6 +109,7 @@ message PurchaseResponse {
 
 message CheckSeatsRequest {
     int32 screening_id = 1;
+    repeated Seat seats = 2;
 }
 
 message CheckSeatsResponse {

@@ -17,17 +17,15 @@
     "repositories": [
         {
             "type": "path",
-            "url": "../shared",
-            "options": {
-                "symlink": false
-            }
+            "url": "../shared"
         }
     ],
     "require": {
         "php": ">=8.1",
         "ext-mbstring": "*",
         "doctrine/collections": "^1.6",
-        "spiral/cycle-bridge": "dev-feature/database-logger as 2.0",
+        "spiral/cycle-bridge": "2.0.x-dev as 2.0",
+        "spiral-packages/cqrs": "^2.0",
         "spiral-packages/event-bus": "dev-master",
         "spiral/framework": "dev-feature/telemetry as 3.2",
         "spiral/nyholm-bridge": "^1.2",

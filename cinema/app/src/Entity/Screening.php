@@ -6,8 +6,7 @@ namespace App\Entity;
 
 use App\Entity\Auditorium\ReservedSeat;
 use App\Repository\Postgres\ScreeningRepository;
-use App\Repository\ScreeningRepositoryInterface;
-use App\ValueObject\Money;
+use Spiral\Shared\ValueObjects\Money;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\BelongsTo;

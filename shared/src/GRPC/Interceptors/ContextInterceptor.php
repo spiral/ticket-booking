@@ -20,7 +20,6 @@ final class ContextInterceptor implements CoreInterceptorInterface
     public function process(string $controller, string $action, array $parameters, CoreInterface $core): mixed
     {
         $parameters['ctx'] = new RequestContext($parameters['ctx']->getValues());
-
         return $core->callAction($controller, $action, $parameters);
     }
 }

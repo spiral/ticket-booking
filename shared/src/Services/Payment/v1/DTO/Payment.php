@@ -18,9 +18,9 @@ class Payment extends \Google\Protobuf\Internal\Message
      */
     protected $description = '';
     /**
-     * Generated from protobuf field <code>string source = 2;</code>
+     * Generated from protobuf field <code>string email = 2;</code>
      */
-    protected $source = '';
+    protected $email = '';
     /**
      * Generated from protobuf field <code>.api.common.v1.dto.Money money = 3;</code>
      */
@@ -37,7 +37,7 @@ class Payment extends \Google\Protobuf\Internal\Message
      *     Optional. Data for populating the Message object.
      *
      *     @type string $description
-     *     @type string $source
+     *     @type string $email
      *     @type \Spiral\Shared\Services\Common\v1\DTO\Money $money
      *     @type string $payment_method
      * }
@@ -70,23 +70,23 @@ class Payment extends \Google\Protobuf\Internal\Message
     }
 
     /**
-     * Generated from protobuf field <code>string source = 2;</code>
+     * Generated from protobuf field <code>string email = 2;</code>
      * @return string
      */
-    public function getSource()
+    public function getEmail()
     {
-        return $this->source;
+        return $this->email;
     }
 
     /**
-     * Generated from protobuf field <code>string source = 2;</code>
+     * Generated from protobuf field <code>string email = 2;</code>
      * @param string $var
      * @return $this
      */
-    public function setSource($var)
+    public function setEmail($var)
     {
         GPBUtil::checkString($var, True);
-        $this->source = $var;
+        $this->email = $var;
 
         return $this;
     }

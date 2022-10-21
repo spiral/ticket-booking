@@ -17,6 +17,10 @@ class CheckSeatsRequest extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>int32 screening_id = 1;</code>
      */
     protected $screening_id = 0;
+    /**
+     * Generated from protobuf field <code>repeated .api.cinema.v1.dto.Seat seats = 2;</code>
+     */
+    private $seats;
 
     /**
      * Constructor.
@@ -25,6 +29,7 @@ class CheckSeatsRequest extends \Google\Protobuf\Internal\Message
      *     Optional. Data for populating the Message object.
      *
      *     @type int $screening_id
+     *     @type \Spiral\Shared\Services\Cinema\v1\DTO\Seat[]|\Google\Protobuf\Internal\RepeatedField $seats
      * }
      */
     public function __construct($data = NULL) {
@@ -50,6 +55,28 @@ class CheckSeatsRequest extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkInt32($var);
         $this->screening_id = $var;
+
+        return $this;
+    }
+
+    /**
+     * Generated from protobuf field <code>repeated .api.cinema.v1.dto.Seat seats = 2;</code>
+     * @return \Google\Protobuf\Internal\RepeatedField
+     */
+    public function getSeats()
+    {
+        return $this->seats;
+    }
+
+    /**
+     * Generated from protobuf field <code>repeated .api.cinema.v1.dto.Seat seats = 2;</code>
+     * @param \Spiral\Shared\Services\Cinema\v1\DTO\Seat[]|\Google\Protobuf\Internal\RepeatedField $var
+     * @return $this
+     */
+    public function setSeats($var)
+    {
+        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Spiral\Shared\Services\Cinema\v1\DTO\Seat::class);
+        $this->seats = $arr;
 
         return $this;
     }

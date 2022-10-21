@@ -26,6 +26,7 @@ use Spiral\Shared\Services\Tokens\v1\TokensServiceInterface;
 use Spiral\Shared\Services\Users\v1\UsersServiceClient;
 use Spiral\Shared\Services\Users\v1\UsersServiceInterface;
 use Spiral\Telemetry\TracerInterface;
+use Spiral\Tokenizer\Bootloader\TokenizerBootloader;
 
 class SharedBootloader extends Bootloader
 {
@@ -34,8 +35,10 @@ class SharedBootloader extends Bootloader
 	}
 
 
-	public function init(EnvironmentInterface $env): void
+	public function init(EnvironmentInterface $env, TokenizerBootloader $bootloader): void
 	{
+		$bootloader->addDirectory(__DIR__ . '/../CQRS');
+
 		$this->initConfig($env);
 	}
 
@@ -45,9 +48,11 @@ class SharedBootloader extends Bootloader
 		$container->bindSingleton(
 		    InvokerInterface::class,
 		    static function (TracerInterface $tracer) use ($container): InvokerInterface {
-		        return new Invoker($container, new InterceptableCore(
-		            new InvokerCore(new \Spiral\RoadRunner\GRPC\Invoker(), $tracer),
-		        ));
+		        return new Invoker(
+		            $container, new InterceptableCore(
+		                new InvokerCore(new \Spiral\RoadRunner\GRPC\Invoker(), $tracer),
+		            )
+		        );
 		    }
 		);
 

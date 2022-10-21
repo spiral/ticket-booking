@@ -5,41 +5,35 @@ declare(strict_types=1);
 namespace Spiral\Shared\GRPC\Interceptors;
 
 use Spiral\Core\CoreInterceptorInterface;
-use Spiral\Core\ScopeInterface;
 use Spiral\Shared\GRPC\RequestContext;
 use Spiral\Telemetry\TraceKind;
 use Spiral\Telemetry\TracerFactoryInterface;
 use Spiral\Core\CoreInterface;
-use Spiral\Telemetry\TracerInterface;
 
 class InjectTelemetryFromContextInterceptor implements CoreInterceptorInterface
 {
     public function __construct(
-        private readonly TracerFactoryInterface $tracerFactory,
-        private readonly ScopeInterface $scope
+        private readonly TracerFactoryInterface $tracerFactory
     ) {
     }
 
     public function process(string $controller, string $action, array $parameters, CoreInterface $core): mixed
     {
         $ctx = [];
+
         if (isset($parameters['ctx']) and $parameters['ctx'] instanceof RequestContext) {
             $ctx = $parameters['ctx']->getTelemetry();
         }
 
-        $tracer = $this->tracerFactory->fromContext($ctx);
-
-        return $this->scope->runScope([
-            TracerInterface::class => $tracer,
-        ], fn(): mixed => $tracer->trace(
+        return $this->tracerFactory->make($ctx)->trace(
             name: \sprintf('Interceptor [%s]', __CLASS__),
-            callback: fn(): mixed => $core->callAction($controller, $action, $parameters),
-            scoped: true,
+            callback: static fn(): mixed => $core->callAction($controller, $action, $parameters),
             attributes: [
                 'controller' => $controller,
                 'action' => $action,
             ],
+            scoped: true,
             traceKind: TraceKind::SERVER
-        ));
+        );
     }
 }

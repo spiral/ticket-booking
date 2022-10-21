@@ -55,7 +55,6 @@ final class ProtoCompiler
 
             if (\str_ends_with($file, 'Interface.php')) {
                 $service = $services[] = (new ServiceClientGenerator($this->files))->generate($file);
-
                 // (new ServiceActionGenerator($this->files, dirname($file)))->generate($service[0], $service[1]);
             }
         }

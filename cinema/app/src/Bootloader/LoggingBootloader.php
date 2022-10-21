@@ -22,7 +22,7 @@ use Spiral\Monolog\Config\MonologConfig;
 class LoggingBootloader extends Bootloader
 {
     protected const SINGLETONS = [
-        LoggerFactoryInterface::class => TelemetryLoggerFactory::class
+        //LoggerFactoryInterface::class => TelemetryLoggerFactory::class
     ];
 
     public function init(MonologBootloader $monolog): void

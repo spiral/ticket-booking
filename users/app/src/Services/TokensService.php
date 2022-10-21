@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use Carbon\Carbon;
-use Google\Protobuf\Timestamp;
 use Spiral\Auth\TokenInterface;
 use Spiral\Auth\TokenStorageInterface;
 use Spiral\RoadRunner\GRPC;
+use Spiral\Shared\Mappers\TimestampFactory;
 use Spiral\Shared\Services\Tokens\v1\TokensServiceInterface;
 use Spiral\Shared\Services\Tokens\v1\DTO;
 
@@ -71,9 +70,7 @@ class TokensService implements TokensServiceInterface
         ]);
 
         if ($token->getExpiresAt()) {
-            $expiresAt = new Timestamp();
-            $expiresAt->fromDateTime(Carbon::instance($token->getExpiresAt())->toDateTime());
-            $dto->setExpiresAt($expiresAt);
+            $dto->setExpiresAt(TimestampFactory::fromDateTimeInterface($token->getExpiresAt()));
         }
 
         return $dto;

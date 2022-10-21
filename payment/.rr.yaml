@@ -10,12 +10,19 @@ server:
 logs:
     mode: production
     encoding: console
-    level: error
+    level: debug
 
 temporal:
     address: temporal:7233
     activities:
         num_workers: 5
+
+jobs:
+    consume: [ ]
+    pool:
+        num_workers: 2
+        supervisor:
+            max_worker_memory: 100
 
 grpc:
     listen: "tcp://0.0.0.0:9000"

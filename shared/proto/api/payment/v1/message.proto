@@ -10,7 +10,7 @@ import "api/common/v1/message.proto";
 
 message Payment {
     string description = 1;
-    string source = 2;
+    string email = 2;
     api.common.v1.dto.Money money = 3;
     string payment_method = 4;
 }
@@ -29,5 +29,4 @@ message ChargeRequest {
 
 message ChargeResponse {
     Receipt receipt = 1;
-    bool status = 2;
 }

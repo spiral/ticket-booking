@@ -20,6 +20,7 @@ use Spiral\Scaffolder\Bootloader as Scaffolder;
 use Spiral\Cycle\Bootloader as CycleBridge;
 use Spiral\RoadRunnerBridge\Bootloader as RoadRunnerBridge;
 use Spiral\Serializer\Bootloader\SerializerBootloader;
+use Spiral\Shared\Bootloader\LoggerBootloader;
 use Spiral\Shared\Bootloader\SharedBootloader;
 use Spiral\Stempler\Bootloader\StemplerBootloader;
 use Spiral\Tokenizer\Bootloader\TokenizerBootloader;
@@ -44,6 +45,7 @@ class App extends Kernel
 
         // Logging and exceptions handling
         Monolog\MonologBootloader::class,
+        LoggerBootloader::class,
         Bootloader\ExceptionHandlerBootloader::class,
 
         // RoadRunner
