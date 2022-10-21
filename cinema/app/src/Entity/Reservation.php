@@ -49,7 +49,7 @@ class Reservation
         private int $userId
     ) {
         $this->createdAt = new \DateTimeImmutable();
-        $this->expiresAt = Carbon::now()->addSeconds(600)->toDateTimeImmutable();
+        $this->expiresAt = Carbon::now()->addMinutes(3)->toDateTimeImmutable();
     }
 
     public function getTotalCost(): Money

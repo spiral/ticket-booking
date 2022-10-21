@@ -1,6 +1,19 @@
 version: "3.7"
 
 services:
+  frontend:
+    build:
+      dockerfile: ./docker/npm/Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      - web
+    command: >
+      bash -c "yarn install
+      && yarn dev" 
+
   web:
     build:
       dockerfile: ./docker/php/Dockerfile
@@ -125,8 +138,6 @@ services:
       POSTGRES_SEEDS: postgresql
       DYNAMIC_CONFIG_FILE_PATH: config/dynamicconfig/development-sql.yaml
     image: temporalio/auto-setup
-    ports:
-      - "7233:7233"
     volumes:
       - ./docker/temporal:/etc/temporal/config/dynamicconfig
     restart: on-failure
@@ -165,6 +176,19 @@ services:
     image: redis
     logging:
       driver: none
+
+  centrifugo:
+    container_name: centrifugo
+    image: centrifugo/centrifugo:latest
+    volumes:
+      - ./docker/centrifugo/config.json:/centrifugo/config.json
+    command: centrifugo -c config.json
+    ports:
+      - 8089:8000
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
 
   buggregator:
     image: butschster/buggregator:beta

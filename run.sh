@@ -1,4 +1,3 @@
-#!/bin/bash
 
 echo "Compile proto"
 cd shared/

@@ -65,9 +65,6 @@ message ScreeningResponse {
     ScreeningFull screening = 1;
 }
 
-message ScheduleRequest {
-}
-
 message ScheduleResponse {
     repeated Screening screenings = 1;
 }

@@ -101,13 +101,13 @@ class App extends Kernel
         RoadRunnerBridge\CommandBootloader::class,
         \Spiral\DatabaseSeeder\Bootloader\DatabaseSeederBootloader::class,
         CqrsBootloader::class,
+        SharedBootloader::class,
     ];
 
     /*
      * Application specific services and extensions.
      */
     protected const APP = [
-        SharedBootloader::class,
         Bootloader\RepositoriesBootloader::class,
         Bootloader\WorkflowBootloader::class,
 

@@ -6,9 +6,10 @@ option php_namespace = "Spiral\\Shared\\Services\\Cinema\\v1";
 option php_metadata_namespace = "Spiral\\Shared\\Services\\Cinema\\v1\\GPBMetadata";
 
 import "api/cinema/v1/message.proto";
+import "google/protobuf/empty.proto";
 
 service CinemaService {
-    rpc Schedule (api.cinema.v1.dto.ScheduleRequest) returns (api.cinema.v1.dto.ScheduleResponse) {
+    rpc Schedule (google.protobuf.Empty) returns (api.cinema.v1.dto.ScheduleResponse) {
     }
 
     rpc Screening (api.cinema.v1.dto.ScreeningRequest) returns (api.cinema.v1.dto.ScreeningResponse) {

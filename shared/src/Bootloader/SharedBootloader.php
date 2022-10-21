@@ -17,6 +17,8 @@ use Spiral\Shared\GRPC\Interceptors\ValidateRequestResponseInterceptor;
 use Spiral\Shared\GRPC\Invoker;
 use Spiral\Shared\GRPC\InvokerCore;
 use Spiral\Shared\GRPC\ServiceClientCore;
+use Spiral\Shared\Services\Centrifugo\v1\CentrifugoServiceClient;
+use Spiral\Shared\Services\Centrifugo\v1\CentrifugoServiceInterface;
 use Spiral\Shared\Services\Cinema\v1\CinemaServiceClient;
 use Spiral\Shared\Services\Cinema\v1\CinemaServiceInterface;
 use Spiral\Shared\Services\Payment\v1\PaymentServiceClient;
@@ -73,6 +75,7 @@ class SharedBootloader extends Bootloader
 					CinemaServiceClient::class => ['host' => $env->get('CINEMASERVICE_HOST', '127.0.0.1:9001')],
 					UsersServiceClient::class => ['host' => $env->get('USERSSERVICE_HOST', '127.0.0.1:9002')],
 					TokensServiceClient::class => ['host' => $env->get('TOKENSSERVICE_HOST', '127.0.0.1:9003')],
+					CentrifugoServiceClient::class => ['host' => $env->get('CENTRIFUGOSERVICE_HOST', '127.0.0.1:9004')],
 		        ],
 		    ]
 		);
@@ -163,6 +166,26 @@ class SharedBootloader extends Bootloader
 		        $core->addInterceptor($container->get(ValidateRequestResponseInterceptor::class));
 
 		        return new TokensServiceClient($core);
+		    }
+		);
+
+		$container->bindSingleton(
+		    CentrifugoServiceInterface::class,
+		    static function (
+		        GRPCServicesConfig $config,
+		        ContainerInterface $container,
+		    ) use ($credentials): CentrifugoServiceInterface {
+		        $core = new InterceptableCore(
+		            new ServiceClientCore(
+		                $config->getService(CentrifugoServiceClient::class)['host'],
+		                ['credentials' => $credentials]
+		            )
+		        );
+
+		        $core->addInterceptor($container->get(InjectTelemetryIntoContextInterceptor::class));
+		        $core->addInterceptor($container->get(ValidateRequestResponseInterceptor::class));
+
+		        return new CentrifugoServiceClient($core);
 		    }
 		);
 	}

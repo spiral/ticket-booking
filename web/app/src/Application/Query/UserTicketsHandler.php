@@ -32,16 +32,19 @@ final class UserTicketsHandler
             'uuid' => $reservation->getUuid(),
             'screening' => [
                 'movie' => $reservation->getScreening()->getMovie()->getTitle(),
-                'starts_at' => $reservation->getScreening()->getStartsAt()->toDateTime(),
+                'starts_at' => $reservation->getScreening()->getStartsAt()->toDateTime()->getTimestamp(),
             ],
             'seats' => \array_map(fn(Seat $seat) => [
                 'row' => $seat->getRow(),
                 'number' => $seat->getNumber()
             ], \iterator_to_array($reservation->getSeats()->getIterator())),
-            'total_cost' => $reservation->getTotalCost()->getAmount() . $reservation->getTotalCost()->getCurrency(),
-            'created_at' => $reservation->getCreatedAt()->toDateTime(),
-            'paid_at' => $reservation->getPaidAt() ? $reservation->getPaidAt()->toDateTime() : null,
-            'expires_at' => $reservation->getExpiresAt()->toDateTime(),
+            'total_cost' => [
+                'amount' => $reservation->getTotalCost()->getAmount(),
+                'currency' => $reservation->getTotalCost()->getCurrency()
+            ],
+            'created_at' => $reservation->getCreatedAt()->toDateTime()->getTimestamp(),
+            'paid_at' => $reservation->getPaidAt() ? $reservation->getPaidAt()->toDateTime()->getTimestamp() : null,
+            'expires_at' => $reservation->getExpiresAt()->toDateTime()->getTimestamp(),
         ], \iterator_to_array($response->getReservations()));
     }
 }

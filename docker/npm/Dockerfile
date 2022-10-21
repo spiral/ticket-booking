@@ -1,0 +1,6 @@
+FROM node:lts
+
+WORKDIR /app
+
+ENV HOST 0.0.0.0
+EXPOSE 3000

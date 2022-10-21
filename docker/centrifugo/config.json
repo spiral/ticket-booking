@@ -1,0 +1,32 @@
+{
+  "grpc_api": true,
+  "admin": true,
+  "admin_password": "password",
+  "admin_secret": "admin-secret",
+  "token_hmac_secret_key": "secret",
+  "anonymous": false,
+  "publish": false,
+  "subscribe_to_publish": false,
+  "presence": false,
+  "debug": false,
+  "health": false,
+  "client_anonymous": false,
+  "join_leave": false,
+  "history_recover": false,
+  "prometheus": false,
+  "engine": "memory",
+  "proxy_publish_endpoint": "http://web:8080/centrifugo/publish",
+  "proxy_publish_timeout": "1s",
+  "proxy_refresh_endpoint": "http://web:8080/centrifugo/refresh",
+  "proxy_refresh_timeout": "1s",
+  "namespaces": [
+    {
+      "name": "chat",
+      "presence": true,
+      "subscribe_to_publish": true,
+      "publish": true,
+      "proxy_publish": true,
+      "anonymous": false
+    }
+  ]
+}

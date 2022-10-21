@@ -41,7 +41,11 @@ final class RoutesBootloader extends BaseRoutesBootloader
                 LoginMiddleware::class,
             ],
             'api' => [
-                // new Autowire(AuthTransportMiddleware::class, ['transportName' => 'header'])
+                new Autowire(AuthTransportMiddleware::class, ['transportName' => 'header'])
+            ],
+            'api_personal' => [
+                'middleware:api',
+                LoginMiddleware::class,
             ],
         ];
     }

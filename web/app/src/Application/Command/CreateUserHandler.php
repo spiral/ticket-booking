@@ -17,11 +17,17 @@ final class CreateUserHandler
     }
 
     #[CommandHandler]
-    public function __invoke(CreateUserCommand $command): void
+    public function __invoke(CreateUserCommand $command): array
     {
-        $this->usersService->Register(new RequestContext(), new RegisterRequest([
+        $response = $this->usersService->Register(new RequestContext(), new RegisterRequest([
             'email' => $command->email->getValue(),
             'password' => $command->password
         ]));
+
+        return [
+            'id' => $response->getUser()->getId(),
+            'email' => $response->getUser()->getEmail(),
+            'roles' => $response->getUser()->getRoles(),
+        ];
     }
 }

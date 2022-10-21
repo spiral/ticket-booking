@@ -37,7 +37,7 @@ final class BuyTicketHandler
                 'amount' => $response->getReceipt()->getFee()->getAmount(),
                 'currency' => $response->getReceipt()->getFee()->getCurrency(),
             ],
-            'created_at' => $response->getReceipt()->getCreatedAt()->toDateTime(),
+            'created_at' => $response->getReceipt()->getCreatedAt()->toDateTime()->getTimestamp(),
         ];
     }
 }

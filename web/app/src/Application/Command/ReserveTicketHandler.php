@@ -32,7 +32,7 @@ final class ReserveTicketHandler
 
         return [
             'id' => $response->getReservation()->getUuid(),
-            'expires_at' => $response->getReservation()->getExpiresAt()->toDateTime()->format('Y-m-d H:i:s')
+            'expires_at' => $response->getReservation()->getExpiresAt()->toDateTime()->getTimestamp()
         ];
     }
 }

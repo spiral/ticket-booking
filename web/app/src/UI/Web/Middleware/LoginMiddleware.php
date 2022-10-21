@@ -22,7 +22,7 @@ final class LoginMiddleware extends AbstractFirewall
     public function denyAccess(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $response = $this->responseFactory->createResponse(401);
-        $response->getBody()->write($this->views->render('auth/login'));
+        //$response->getBody()->write($this->views->render('auth/login'));
 
         return $response;
     }

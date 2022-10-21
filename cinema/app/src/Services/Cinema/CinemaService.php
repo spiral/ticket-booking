@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Cinema;
 
 use App\Application\Command\BuyTicketCommand;
+use App\Application\Command\CancelTicketCommand;
 use App\Application\Command\ReserveTicketCommand;
 use Spiral\Cqrs\CommandBusInterface;
 use Spiral\Shared\CQRS\Command\ChargeMoneyCommand;
@@ -28,7 +29,6 @@ use Spiral\RoadRunner\GRPC;
 use Spiral\Shared\Mappers\TimestampFactory;
 use Spiral\Shared\Services\Cinema\v1\CinemaServiceInterface;
 use Spiral\Shared\Services\Cinema\v1\DTO;
-use Spiral\Shared\Services\Payment\v1\PaymentServiceInterface;
 
 final class CinemaService implements CinemaServiceInterface
 {
@@ -94,6 +94,13 @@ final class CinemaService implements CinemaServiceInterface
         GRPC\ContextInterface $ctx,
         DTO\CancelRequest $in
     ): DTO\CancelResponse {
+
+        $this->workflow->cancel(
+            new CancelTicketCommand(
+                Uuid::fromString($in->getReservationId())
+            )
+        );
+
         return new DTO\CancelResponse([
             'status' => true,
         ]);
@@ -127,7 +134,7 @@ final class CinemaService implements CinemaServiceInterface
         ]);
     }
 
-    public function Schedule(GRPC\ContextInterface $ctx, DTO\ScheduleRequest $in): DTO\ScheduleResponse
+    public function Schedule(GRPC\ContextInterface $ctx, \Google\Protobuf\GPBEmpty $in): DTO\ScheduleResponse
     {
         return new DTO\ScheduleResponse([
             'screenings' => \array_map(function (Screening $screening) {

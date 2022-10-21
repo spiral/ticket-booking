@@ -32,7 +32,7 @@
         "spiral/temporal-bridge": "^2.0",
         "spiral-packages/cqrs": "^2.0",
         "spiral/shared": "*",
-        "spiral/roadrunner-bridge": "dev-feature/headers as 2.0"
+        "spiral/roadrunner-bridge": "^2.0"
     },
     "require-dev": {
         "nunomaduro/collision": "^6.2",

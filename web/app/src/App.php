@@ -104,9 +104,6 @@ class App extends Kernel
         Framework\Views\TranslatedCacheBootloader::class,
 
         // Extensions and bridges
-        TwigBootloader::class,
-        Bootloader\TwigExtensionBootloader::class,
-        StemplerBootloader::class,
         SerializerBootloader::class,
 
         EventsBootloader::class,
@@ -128,13 +125,13 @@ class App extends Kernel
         \Spiral\DatabaseSeeder\Bootloader\DatabaseSeederBootloader::class,
         \Spiral\TemporalBridge\Bootloader\TemporalBridgeBootloader::class,
         \Spiral\Cqrs\Bootloader\CqrsBootloader::class,
+        SharedBootloader::class,
     ];
 
     /*
      * Application specific services and extensions.
      */
     protected const APP = [
-        SharedBootloader::class,
         Bootloader\RoutesBootloader::class,
 
         // fast code prototyping

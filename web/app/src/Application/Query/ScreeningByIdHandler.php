@@ -37,6 +37,7 @@ final class ScreeningByIdHandler
         foreach ($screening->getAuditorium()->getSeats() as $seat) {
             $seats[$seat->getRow()][] = [
                 'id' => $seat->getId(),
+                'row' => $seat->getRow(),
                 'number' => $seat->getNumber(),
                 'reserved' => \in_array($seat->getId(), $reservedSeats),
             ];
@@ -56,8 +57,11 @@ final class ScreeningByIdHandler
                 'id' => $screening->getAuditorium()->getId(),
                 'name' => $screening->getAuditorium()->getName(),
             ],
-            'starts_at' => $screening->getStartsAt()->toDateTime(),
-            'price' => $screening->getPrice()->getAmount() . $screening->getPrice()->getCurrency(),
+            'starts_at' => $screening->getStartsAt()->toDateTime()->getTimestamp(),
+            'price' => [
+                'amount' => $screening->getPrice()->getAmount(),
+                'currency' => $screening->getPrice()->getCurrency()
+            ],
             'seats' => $seats,
             'reserved_seats' => $reservedSeats
         ];

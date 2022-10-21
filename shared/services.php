@@ -8,4 +8,5 @@ return [
     __DIR__ . '/proto/api/cinema/v1',
     __DIR__ . '/proto/api/users/v1',
     __DIR__ . '/proto/api/tokens/v1',
+    __DIR__ . '/proto/api/centrifugo/v1',
 ];

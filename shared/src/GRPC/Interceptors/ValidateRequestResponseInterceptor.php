@@ -6,8 +6,8 @@ namespace Spiral\Shared\GRPC\Interceptors;
 
 use Spiral\Core\CoreInterceptorInterface;
 use Spiral\Core\CoreInterface;
-use Spiral\RoadRunner\GRPC\Exception\GRPCException;
 use Spiral\RoadRunner\GRPC\StatusCode;
+use Spiral\Shared\Exception\ResponseException;
 
 class ValidateRequestResponseInterceptor implements CoreInterceptorInterface
 {
@@ -20,11 +20,8 @@ class ValidateRequestResponseInterceptor implements CoreInterceptorInterface
 
         $code = $status->code ?? StatusCode::UNKNOWN;
 
-        if (!$status || $code !== StatusCode::OK) {
-            throw new GRPCException(
-                message: $status->details ?? '',
-                code: $code
-            );
+        if ($code !== StatusCode::OK) {
+            throw ResponseException::createFromStatus($status);
         }
 
         return [$response, $status];

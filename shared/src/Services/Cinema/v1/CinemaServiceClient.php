@@ -14,7 +14,7 @@ class CinemaServiceClient implements CinemaServiceInterface
 	}
 
 
-	public function Schedule(ContextInterface $ctx, DTO\ScheduleRequest $in): DTO\ScheduleResponse
+	public function Schedule(ContextInterface $ctx, \Google\Protobuf\GPBEmpty $in): DTO\ScheduleResponse
 	{
 		[$response, $status] = $this->core->callAction(CinemaServiceInterface::class, '/'.self::NAME.'/Schedule', [
 		    'in' => $in,

@@ -19,7 +19,7 @@ final class Authenticator
     ) {
     }
 
-    public function authenticate(Credentials $credentials): void
+    public function authenticate(Credentials $credentials, string $transport = 'cookie'): ?Token
     {
         $response = $this->usersService->Auth(
             new RequestContext(),
@@ -31,16 +31,22 @@ final class Authenticator
 
         $t = $response->getToken();
         if (!$t) {
-            return;
+            // todo throw an Exception
+            return null;
         }
 
         $token = new Token(
-            $response->getToken()->getId(),
-            \json_decode($response->getToken()->getPayload(), true),
-            $response->getToken()->getExpiresAt()->toDateTime()
+            $t->getId(),
+            \json_decode($t->getPayload(), true),
+            $t->getExpiresAt()->toDateTime()
         );
 
-        $this->authScope->start($token, 'cookie');
+        $this->authScope->start(
+            token: $token,
+            transport: $transport
+        );
+
+        return $token;
     }
 
     public function close(string $token): void

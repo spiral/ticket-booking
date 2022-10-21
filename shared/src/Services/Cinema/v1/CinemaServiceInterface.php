@@ -13,12 +13,12 @@ interface CinemaServiceInterface extends GRPC\ServiceInterface
 
     /**
     * @param GRPC\ContextInterface $ctx
-    * @param \Spiral\Shared\Services\Cinema\v1\DTO\ScheduleRequest $in
+    * @param \Google\Protobuf\GPBEmpty $in
     * @return \Spiral\Shared\Services\Cinema\v1\DTO\ScheduleResponse
     *
     * @throws GRPC\Exception\InvokeException
     */
-    public function Schedule(GRPC\ContextInterface $ctx, \Spiral\Shared\Services\Cinema\v1\DTO\ScheduleRequest $in): \Spiral\Shared\Services\Cinema\v1\DTO\ScheduleResponse;
+    public function Schedule(GRPC\ContextInterface $ctx, \Google\Protobuf\GPBEmpty $in): \Spiral\Shared\Services\Cinema\v1\DTO\ScheduleResponse;
 
     /**
     * @param GRPC\ContextInterface $ctx
