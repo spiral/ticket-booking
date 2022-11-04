@@ -37,7 +37,6 @@ class App extends Kernel
      */
     protected const LOAD = [
         \Spiral\OpenTelemetry\Bootloader\OpenTelemetryBootloader::class,
-
         EventsBootloader::class,
 
         // Logging and exceptions handling
@@ -49,7 +48,8 @@ class App extends Kernel
         RoadRunnerBridge\GRPCBootloader::class,
         RoadRunnerBridge\QueueBootloader::class,
         RoadRunnerBridge\RoadRunnerBootloader::class,
-        RoadRunnerBridge\BroadcastingBootloader::class,
+        RoadRunnerBridge\CentrifugoBootloader::class,
+        //RoadRunnerBridge\BroadcastingBootloader::class,
         TemporalBridgeBootloader::class,
 
         EventsBootloader::class,

@@ -16,7 +16,8 @@ final class ProtoCompiler
         private readonly string $basePath,
         private readonly string $baseNamespace,
         private readonly FilesInterface $files,
-        private readonly ?string $protocBinaryPath = null
+        private readonly string $protoDir,
+        private readonly ?string $protocBinaryPath = null,
     ) {
     }
 
@@ -33,7 +34,7 @@ final class ProtoCompiler
                 $this->protocBinaryPath ? '--plugin=' . $this->protocBinaryPath : '',
                 \escapeshellarg($tmpDir),
                 \escapeshellarg($tmpDir),
-                \escapeshellarg(realpath($this->basePath.'../proto')),
+                \escapeshellarg(realpath($this->protoDir)),
                 \escapeshellarg(dirname($protoFile)),
                 \implode(' ', array_map('escapeshellarg', $this->getProtoFiles($protoFile)))
             ),

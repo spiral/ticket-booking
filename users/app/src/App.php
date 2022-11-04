@@ -15,7 +15,6 @@ use Spiral\Framework\Kernel;
 use Spiral\Monolog\Bootloader as Monolog;
 use Spiral\Shared\Bootloader\LoggerBootloader;
 use Spiral\Shared\Bootloader\SharedBootloader;
-use Spiral\Prototype\Bootloader as Prototype;
 use Spiral\Cycle\Bootloader as CycleBridge;
 use Spiral\RoadRunnerBridge\Bootloader as RoadRunnerBridge;
 use Spiral\TemporalBridge\Bootloader\TemporalBridgeBootloader;
@@ -76,7 +75,7 @@ class App extends Kernel
         CycleBridge\CycleOrmBootloader::class,
         CycleBridge\AnnotatedBootloader::class,
         CycleBridge\CommandBootloader::class,
-        CycleBridge\AuthTokensBootloader::class,
+        // CycleBridge\AuthTokensBootloader::class,
 
         // DataGrid
         // CycleBridge\DataGridBootloader::class,

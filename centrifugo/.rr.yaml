@@ -1,0 +1,17 @@
+version: '2.7'
+
+rpc:
+    listen: tcp://0.0.0.0:6001
+
+server:
+    command: "php app.php"
+    relay: pipes
+
+logs:
+    level: info
+
+centrifuge:
+    proxy_address: "tcp://0.0.0.0:10001"
+    grpc_api_address: "tcp://centrifugo:10000"
+    poll:
+        num_workers: 2

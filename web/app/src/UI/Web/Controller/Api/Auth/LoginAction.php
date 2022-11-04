@@ -35,9 +35,7 @@ final class LoginAction
                 'token' => $token->getID()
             ]]);
         } catch (\Throwable $e) {
-            return $this->responseWrapper->json(['errors' => [
-                'email' => $e->getMessage()
-            ]], 422);
+            return $this->responseWrapper->json(['errors' => [$e->getMessage()]], 422);
         }
     }
 }

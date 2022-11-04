@@ -30,10 +30,11 @@ chmod +x run.sh
 
 `docker-compose.yaml` contains all necessary containers to run project.
  - http://127.0.0.1:3000/ - Ticket booking system
- - http://127.0.0.1:9411/ - Zipkin 
+ - http://127.0.0.1:9411/ - Zipkin
+ - http://127.0.0.1:3002/ - Birddog
  - http://127.0.0.1:8088/ - Temporal
- - http://127.0.0.1:23517/ - Buggregator
-- http://127.0.0.1:8089/ - Centrifugo
+ - http://127.0.0.1:8089/ - Centrifugo
+- http://127.0.0.1:23517/ - Buggregator
 
 ### Database
 
@@ -41,3 +42,10 @@ chmod +x run.sh
  - Username: `homestead`
  - Password: `secret`
  - Database: `homestead`
+
+
+### TODO
+
+- Register stripe in sandbox mode
+- Book and charge before 15 min screening. User will have the ability to cancel ticket.
+- Schema of services

@@ -1,21 +1,14 @@
 version: '2.7'
 
 rpc:
-    listen: tcp://127.0.0.1:6001
+    listen: tcp://0.0.0.0:6001
 
 server:
     command: "php app.php"
     relay: pipes
 
 logs:
-    mode: production
-    encoding: console
-    level: debug
-
-temporal:
-    address: temporal:7233
-    activities:
-        num_workers: 5
+    level: info
 
 jobs:
     consume: [ ]
@@ -29,11 +22,4 @@ grpc:
     pool:
         num_workers: 5
     proto:
-        - "./vendor/spiral/shared/proto/api/payment/v1/service.proto"
-
-broadcast:
-    default:
-        driver: redis
-        config:
-            addrs:
-                - redis:6379
+        - "./proto/api/payment/v1/service.proto"

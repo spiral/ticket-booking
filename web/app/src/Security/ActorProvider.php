@@ -21,13 +21,20 @@ final class ActorProvider implements ActorProviderInterface
     {
         $data = $token->getPayload();
 
-        if (! isset($data['userID'])) {
+        if (!isset($data['userID'])) {
             return null;
         }
 
-        $response = $this->usersService->Get(new RequestContext(), new GetRequest([
-            'id' => $data['userID']
-        ]));
+        $response = $this->usersService->Get(
+            new RequestContext(),
+            new GetRequest([
+                'id' => $data['userID'],
+            ])
+        );
+
+        if ($response->getUser() === null) {
+            return null;
+        }
 
         $user = new \stdClass();
         $user->id = $response->getUser()->getId();

@@ -90,10 +90,13 @@ class UsersService implements UsersServiceInterface
         GRPC\ContextInterface $ctx,
         DTO\GetRequest $in
     ): DTO\GetResponse {
-        $user = $this->userRepository->getByPK($in->getId());
+        $data = [];
 
-        return new DTO\GetResponse([
-            'user' => UserFactory::fromUserEntity($user),
-        ]);
+        $user = $this->userRepository->findByPK($in->getId());
+        if ($user) {
+            $data['user'] = UserFactory::fromUserEntity($user);
+        }
+
+        return new DTO\GetResponse($data);
     }
 }

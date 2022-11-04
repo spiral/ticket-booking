@@ -1,5 +1,5 @@
 <template>
-  <main class="form-signin w-100 h-100 m-auto d-flex align-items-center">
+  <main class="form-signin w-100 h-100 m-auto d-flex justify-content-center align-items-center">
     <div>
       <div class="text-center">
         <svg xmlns="http://www.w3.org/2000/svg" height="70" class="mr-2" viewBox="0 0 512 512"
@@ -12,7 +12,7 @@
         <h1 class="h3 mb-3 fw-normal">Please sign up</h1>
       </div>
 
-      <AuthRegister />
+      <AuthRegister class="shadow-lg" style="width: 500px" />
 
       <LayoutFooter />
     </div>
@@ -33,7 +33,6 @@ body {
 }
 
 .form-signin {
-  max-width: 330px;
 }
 
 .form-signin .form-floating:focus-within {

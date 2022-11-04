@@ -1,37 +1,41 @@
 <template>
-  <div v-if="screening" class="bg-light rounded p-4">
-    <h3 class="mb-5"><small>Movie</small> {{ screening.movie.title }}</h3>
-
-
-    <div class="border pb-4 bg-white rounded">
-      <h5 class="text-center my-3">Available seats</h5>
-
-      <div class="alert alert-warning border rounded mt-4" role="alert" v-if="isMaxSeatsSelected">
-        <small>You can select max 6 seats!</small>
-      </div>
-
-      <div v-for="(rowSeats, row) in screening.seats" class="d-flex">
-        <div class="text-center my-1" style="width: 50px">{{ row }}</div>
-        <div class="d-flex flex-fill mx-5">
-          <div v-for="seat in rowSeats" class="flex-fill border m-1 text-white text-center bg-primary"
-               :class="{ 'bg-success': isSelected(seat), 'bg-light': seat.reserved }"
-               @click="select(seat)">
-            <small>{{ seat.number }}</small>
-          </div>
-        </div>
-        <div class="text-center my-1" style="width: 50px">{{ row }}</div>
-      </div>
-    </div>
-
-    <CinemaReservation v-if="total_price > 0"
-                       :screening_id="screening.id"
-                       :seats="selected"
-                       :total_price="total_price"
-                       :currency="screening.price.currency"
-                       @reserved="disableSeatingSelection"
-                       @paid="refresh"
-                       @canceled="refresh"
+  <div v-if="screening" class="shadow-lg">
+    <CinemaMovie
+      :movie="screening.movie"
+      :price="screening.price"
     />
+    <div>
+      <div class="border bg-white py-5 px-3">
+        <h5 class="text-center mb-3">Available seats</h5>
+        <div class="alert alert-warning border rounded mt-4" role="alert" v-if="isMaxSeatsSelected">
+          <small>You can select max 6 seats!</small>
+        </div>
+        <div v-for="(rowSeats, row) in screening.seats" class="seats-container d-flex"
+             :class="{'disabled': disabled}"
+        >
+          <div class="text-center my-1 text-muted" style="width: 50px">{{ row }}</div>
+          <div class="d-flex flex-fill mx-3 seats-row">
+            <div v-for="seat in rowSeats"
+                 class="d-flex align-items-center justify-content-center seat-item flex-fill border text-white bg-primary"
+                 :class="{ 'bg-success': isSelected(seat), 'bg-light': isReserved(seat) }"
+                 @click="select(seat)">
+              <small>{{ seat.number }}</small>
+            </div>
+          </div>
+          <div class="text-center my-1 text-muted" style="width: 50px">{{ row }}</div>
+        </div>
+      </div>
+
+      <CinemaReservation v-if="total_price > 0"
+                         :screening_id="screening.id"
+                         :seats="selected"
+                         :total_price="total_price"
+                         :currency="screening.price.currency"
+                         @reserved="disableSeatingSelection"
+                         @paid="refresh"
+                         @canceled="refresh"
+      />
+    </div>
   </div>
 </template>
 
@@ -44,16 +48,42 @@ export default {
     return {
       disabled: false,
       screening: false,
-      selected: []
+      selected: [],
+      reserved: []
     }
   },
   async fetch() {
     try {
-      const response = await this.$axios.$get(`/api/cinema/screening/${this.id}`)
-      this.screening = response.data
+      this.screening = await this.$api.cinema.getScreeningById(this.id)
     } catch (e) {
       throw new Error('Page not found')
     }
+
+    Object.entries(this.screening.seats).forEach(([row, rowSeats]) => {
+      rowSeats.forEach(seat => {
+        if (seat.reserved) {
+          this.reserved.push(seat.id)
+        }
+      })
+    })
+
+    this.$ws.channel('screening.' + this.screening.id)
+      .listen('cinema.tickets.reserved', (data) => {
+        // A customer has reserved seats
+        if (this.disabled) return
+
+        data.seats.forEach(id => {
+          this.reserved.push(id)
+        })
+
+        this.selected = this.selected.filter(seat => data.seats.indexOf(seat.id) !== -1)
+      })
+      .listen('cinema.reservation.canceled', (data) => {
+        this.reserved = this.reserved.filter(id => data.seats.indexOf(id) === -1)
+      })
+  },
+  beforeDestroy() {
+    this.$ws.channel('screening.' + this.screening.id).unsubscribe()
   },
   methods: {
     refresh() {
@@ -62,12 +92,13 @@ export default {
       this.$nuxt.refresh()
     },
     isSelected(seat) {
-      const index = this.selected.indexOf(seat);
-
-      return index >= 0
+      return this.selected.indexOf(seat) >= 0
+    },
+    isReserved(seat) {
+      return this.reserved.indexOf(seat.id) >= 0
     },
     select(seat) {
-      if (seat.reserved) {
+      if (this.isReserved(seat)) {
         return
       }
 
@@ -101,3 +132,27 @@ export default {
   }
 }
 </script>
+
+<style type="text/css">
+.seats-container {
+
+}
+
+.seats-row {
+
+}
+
+.seat-item {
+  font-size: 70%;
+  min-width: 30px;
+}
+
+.seat-item:hover {
+  cursor: pointer;
+}
+
+.seats-container.disabled .seat-item,
+.seat-item.bg-light {
+  cursor: not-allowed;
+}
+</style>

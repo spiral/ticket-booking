@@ -1,9 +1,7 @@
 <template>
-  <div class="border rounded p-4 bg-white">
+  <div class="border p-5 bg-white">
     <b-form @submit="onSubmit">
-      <b-form-group
-        label="Email address:"
-      >
+      <b-form-group label="Email address:">
         <b-form-input
           v-model="form.email"
           type="email"
@@ -11,9 +9,7 @@
           required
         ></b-form-input>
       </b-form-group>
-      <b-form-group
-        label="Password:"
-      >
+      <b-form-group label="Password:">
         <b-form-input
           v-model="form.password"
           type="password"
@@ -45,8 +41,8 @@ export default {
       event.preventDefault()
 
       try {
-        const response = await this.$axios.$post('/api/auth/register', {email: this.form.email, password: this.form.password})
-        this.$auth.setUserToken(response.data.token)
+        const token = await this.$api.auth.register(this.form.email, this.form.password)
+        this.$auth.setUserToken(token)
       } catch (err) {
         this.$toast.error(err.response.data.errors[0])
       }

@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="border p-4">
     <div v-if="$auth.loggedIn">
-      <h4 class="card-title my-4 flex-full">Payment Details</h4>
+      <h4 class="card-title mb-4 flex-full">Payment Details</h4>
       <div v-if="!this.reservation_id">
         <button @click="reserve" type="button" class="btn btn-primary">Reserve</button>
       </div>
@@ -15,8 +15,8 @@
         />
       </div>
     </div>
-    <div v-else class="bg-light p-4">
-      <h4 class="card-title my-4">Total price: {{ currency }}{{ total_price }}</h4>
+    <div v-else>
+      <h4 class="card-title mb-4">Total price: {{ currency }}{{ total_price }}</h4>
       <h4>Authorize to purchase tickets</h4>
       <AuthLogin />
     </div>
@@ -44,19 +44,14 @@ export default {
         return
       }
 
-      const response = await this.$axios.$post(`/api/tickets/reserve`, {
-        screening_id: this.screening_id,
-        reservation_type_id: 1,
-        seat_ids: this.seats.map(seat => seat.id)
-      })
-
+      const response = await this.$api.tickets.reserve(this.screening_id, this.seats.map(seat => seat.id))
       this.$toast.success('Seats reserved.')
 
       this.reservation_id = response.id
       const now = new Date();
 
       this.$emit('reserved', this.reservation_id)
-      this.expires_at = this.$moment(response.expires_at.date).diff(now)
+      this.expires_at = this.$moment(response.expires_at).diff(now)
     }
   }
 }

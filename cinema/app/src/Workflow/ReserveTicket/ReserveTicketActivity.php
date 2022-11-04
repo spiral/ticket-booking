@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Workflow\ReserveTicket;
 
 use App\Entity\Auditorium\ReservedSeat;
-use App\Entity\Auditorium\Seat;
 use App\Entity\Reservation;
+use App\Event\ReservationCanceled;
 use App\Event\TicketReserved;
 use App\Repository\Auditorium\SeatRepositoryInterface;
 use App\Repository\Reservation\TypeRepositoryInterface;
@@ -15,10 +15,6 @@ use App\Repository\ScreeningRepositoryInterface;
 use Cycle\Database\Injection\Parameter;
 use Cycle\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Ramsey\Uuid\Uuid;
-use Spiral\Shared\GRPC\RequestContext;
-use Spiral\Shared\Services\Cinema\v1\CinemaServiceInterface;
-use Spiral\Shared\Services\Cinema\v1\DTO\CancelRequest;
 
 class ReserveTicketActivity implements ReserveTicketActivityInterface
 {
@@ -85,6 +81,10 @@ class ReserveTicketActivity implements ReserveTicketActivityInterface
         }
 
         $this->entityManager->run();
+
+        $this->eventDispatcher->dispatch(
+            new ReservationCanceled($reservation)
+        );
 
         return \sprintf(
             'Reservation [%s] canceled at: %s',

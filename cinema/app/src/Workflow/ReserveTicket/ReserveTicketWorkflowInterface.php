@@ -22,10 +22,10 @@ interface ReserveTicketWorkflowInterface
     );
 
     #[SignalMethod]
-    public function cancel(): \Generator;
+    public function cancel();
 
     #[SignalMethod]
-    public function pay(string $transactionId): \Generator;
+    public function pay(string $transactionId);
 
     #[QueryMethod]
     public function getExpiresAt(): int;

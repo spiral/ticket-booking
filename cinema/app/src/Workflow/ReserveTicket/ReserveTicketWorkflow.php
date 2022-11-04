@@ -83,7 +83,7 @@ class ReserveTicketWorkflow implements ReserveTicketWorkflowInterface
         return true;
     }
 
-    public function pay(string $transactionId): \Generator
+    public function pay(string $transactionId)
     {
         if ($this->expired) {
             // handle an exception
@@ -99,7 +99,7 @@ class ReserveTicketWorkflow implements ReserveTicketWorkflowInterface
         $this->paid = true;
     }
 
-    public function cancel(): \Generator
+    public function cancel()
     {
         $this->expired = true;
     }

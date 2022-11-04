@@ -1,19 +1,21 @@
 <template>
-  <div class="bg-light rounded pt-4">
-    <h3 class="px-4 pb-4">Schedule</h3>
-
-    <table class="table table-hover">
-      <thead class="bg-white">
+  <div class="border pt-4 shadow-lg">
+    <div class="p-5">
+      <h3>Movies</h3>
+      <p class="lead">Browse the latest movies out now, advanced ticket bookings and movies coming soon.</p>
+    </div>
+    <table class="table table-hover mb-0">
+      <thead class="bg-white text-muted text-uppercase fs-6 fw-light">
       <tr>
-        <th scope="col">Movie</th>
-        <th scope="col">Starts at</th>
-        <th scope="col">Duration</th>
-        <th scope="col">Auditorium</th>
-        <th scope="col">Ticket<br>price</th>
+        <th scope="col"><small>Movie</small></th>
+        <th scope="col"><small>Starts at</small></th>
+        <th scope="col"><small>Duration</small></th>
+        <th scope="col"><small>Auditorium</small></th>
+        <th scope="col"><small>Ticket<br>price</small></th>
       </tr>
       </thead>
       <tbody>
-      <tr v-for="screening in schedule" @click="openScreening(screening.id)">
+      <tr v-for="screening in schedule" @click="openScreening(screening.id)" class="movie-row">
         <th scope="row">
           {{ screening.movie.title }}
         </th>
@@ -37,14 +39,19 @@ export default {
     }
   },
   async fetch() {
-    const response = await this.$axios.$get('/api/cinema/schedule')
-    this.schedule = response.data
+    this.schedule = await this.$api.cinema.getSchedule()
   },
   methods: {
     openScreening(screening_id) {
-      console.log(screening_id)
       this.$router.push(`/screening/${screening_id}`)
     }
   }
 }
 </script>
+
+
+<style type="text/css">
+.movie-row:hover {
+  cursor: pointer;
+}
+</style>

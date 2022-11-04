@@ -1,12 +1,13 @@
 version: '2.7'
 
 rpc:
-    listen: tcp://127.0.0.1:6001
+    listen: tcp://0.0.0.0:6001
+
+metrics:
+    address: 0.0.0.0:2112
 
 logs:
-    mode: production
-    encoding: console
-    level: debug
+    level: info
 
 server:
     command: "php app.php"
@@ -45,11 +46,6 @@ jobs:
         num_workers: 2
         supervisor:
             max_worker_memory: 100
-
-temporal:
-    address: temporal:7233
-    activities:
-        num_workers: 5
 
 websockets:
     broker: default

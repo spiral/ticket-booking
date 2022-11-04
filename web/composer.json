@@ -24,21 +24,22 @@
         "php": ">=8.1",
         "ext-mbstring": "*",
         "doctrine/collections": "^1.6",
+        "firebase/php-jwt": "^6.3",
         "moneyphp/money": "^3.3",
         "spiral-packages/cqrs": "^2.0",
-        "spiral-packages/event-bus": "dev-master",
         "spiral-packages/database-seeder": "^2.0",
+        "spiral-packages/event-bus": "dev-master",
         "spiral-packages/symfony-validator": "^1.0",
         "spiral/cycle-bridge": "2.0.x-dev as 2.0",
-        "spiral/otel-bridge": "dev-master",
         "spiral/data-grid-bridge": "^3.0",
-        "spiral/framework": "dev-feature/telemetry as 3.2",
+        "spiral/framework": "dev-master as 3.2",
         "spiral/nyholm-bridge": "^1.2",
+        "spiral/otel-bridge": "dev-master",
         "spiral/roadrunner-bridge": "^2.0",
+        "spiral/shared": "*",
         "spiral/temporal-bridge": "^2.0",
         "spiral/twig-bridge": "^2.0",
-        "symfony/var-dumper": "^6.0",
-        "spiral/shared": "*"
+        "symfony/var-dumper": "^6.0"
     },
     "require-dev": {
         "nunomaduro/collision": "^6.2",
@@ -76,9 +77,7 @@
     },
     "config": {
         "sort-packages": true,
-        "allow-plugins": {
-            "spiral/composer-publish-plugin": true
-        }
+        "allow-plugins": false
     },
     "minimum-stability": "dev",
     "prefer-stable": true

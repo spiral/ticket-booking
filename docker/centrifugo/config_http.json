@@ -1,0 +1,31 @@
+{
+  "admin": true,
+  "api_key": 'secret',
+  "admin_password": "password",
+  "admin_secret": "admin_secret",
+  "token_hmac_secret_key": "secret",
+  "anonymous": true,
+  "publish": false,
+  "subscribe_to_publish": false,
+  "presence": false,
+  "debug": false,
+  "health": false,
+  "client_anonymous": false,
+  "join_leave": false,
+  "history_recover": false,
+  "prometheus": false,
+  "engine": "memory",
+  "proxy_connect_endpoint": "http://web:8080/centrifugo/connect",
+  "proxy_connect_timeout":  "1s",
+  "proxy_subscribe_endpoint": "http://web:8080/centrifugo/subscribe",
+  "proxy_subscribe_timeout":  "1s",
+  "proxy_subscribe": true,
+  "proxy_publish_endpoint": "http://web:8080/centrifugo/publish",
+  "proxy_publish": false,
+  "proxy_publish_timeout": "1s",
+  "proxy_refresh_endpoint": "http://web:8080/centrifugo/refresh",
+  "proxy_refresh_timeout": "1s",
+  "allowed_origins": [
+    "*"
+  ]
+}

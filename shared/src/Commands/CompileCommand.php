@@ -24,7 +24,8 @@ final class CompileCommand extends Command
         private readonly FilesInterface $files,
         private readonly array $services,
         private readonly string $binaryPath,
-        private string $root
+        private readonly string $root,
+        private readonly string $protoDir,
     ) {
         parent::__construct('compile-proto-files');
     }
@@ -50,12 +51,15 @@ final class CompileCommand extends Command
             $this->getRootPath(),
             $this->getNamespace(),
             $this->files,
+            $this->protoDir,
             $binaryPath
         );
 
         $services = [];
 
         foreach ($this->services as $protoFile) {
+            $protoFile = realpath($protoFile);
+
             if (! $this->files->exists($protoFile)) {
                 $io->error(\sprintf('Proto file `%s` not found.', $protoFile));
                 continue;

@@ -13,6 +13,7 @@ use Spiral\Exceptions\ExceptionHandlerInterface;
 use Spiral\Exceptions\Renderer\JsonRenderer;
 use Spiral\Exceptions\Reporter\FileReporter;
 use Spiral\Exceptions\Reporter\LoggerReporter;
+use Spiral\Http\ErrorHandler\PlainRenderer;
 use Spiral\Http\ErrorHandler\RendererInterface;
 use Spiral\Http\Middleware\ErrorHandlerMiddleware\EnvSuppressErrors;
 use Spiral\Http\Middleware\ErrorHandlerMiddleware\SuppressErrorsInterface;
@@ -22,7 +23,7 @@ final class ExceptionHandlerBootloader extends Bootloader
 {
     protected const BINDINGS = [
         SuppressErrorsInterface::class => EnvSuppressErrors::class,
-        RendererInterface::class => ViewRenderer::class,
+        RendererInterface::class => PlainRenderer::class,
     ];
 
     public function init(AbstractKernel $kernel): void

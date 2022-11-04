@@ -1,9 +1,7 @@
 <template>
-  <div class="border rounded p-4 bg-white">
+  <div class="border p-5 bg-white">
     <b-form @submit="onSubmit">
-      <b-form-group
-        label="Email address:"
-      >
+      <b-form-group label="Email address:">
         <b-form-input
           v-model="form.email"
           type="email"
@@ -11,9 +9,7 @@
           required
         ></b-form-input>
       </b-form-group>
-      <b-form-group
-        label="Password:"
-      >
+      <b-form-group label="Password:">
         <b-form-input
           v-model="form.password"
           type="password"

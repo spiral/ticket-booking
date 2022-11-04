@@ -22,9 +22,7 @@ use Spiral\RoadRunnerBridge\Bootloader as RoadRunnerBridge;
 use Spiral\Serializer\Bootloader\SerializerBootloader;
 use Spiral\Shared\Bootloader\LoggerBootloader;
 use Spiral\Shared\Bootloader\SharedBootloader;
-use Spiral\Stempler\Bootloader\StemplerBootloader;
 use Spiral\Tokenizer\Bootloader\TokenizerBootloader;
-use Spiral\Twig\Bootloader\TwigBootloader;
 use Spiral\Validation\Symfony\Bootloader\ValidatorBootloader;
 use Spiral\Views\Bootloader\ViewsBootloader;
 
@@ -54,7 +52,7 @@ class App extends Kernel
         RoadRunnerBridge\HttpBootloader::class,
         RoadRunnerBridge\QueueBootloader::class,
         RoadRunnerBridge\RoadRunnerBootloader::class,
-        RoadRunnerBridge\BroadcastingBootloader::class,
+        // RoadRunnerBridge\CentrifugoBootloader::class,
 
         // Core Services
         Framework\SnapshotsBootloader::class,
@@ -86,7 +84,7 @@ class App extends Kernel
         CycleBridge\CycleOrmBootloader::class,
         CycleBridge\AnnotatedBootloader::class,
         CycleBridge\CommandBootloader::class,
-        //CycleBridge\AuthTokensBootloader::class,
+        CycleBridge\AuthTokensBootloader::class,
 
         // DataGrid
         CycleBridge\DataGridBootloader::class,
@@ -126,6 +124,7 @@ class App extends Kernel
         \Spiral\TemporalBridge\Bootloader\TemporalBridgeBootloader::class,
         \Spiral\Cqrs\Bootloader\CqrsBootloader::class,
         SharedBootloader::class,
+        Bootloader\WebsocketBootloader::class,
     ];
 
     /*

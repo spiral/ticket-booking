@@ -1,20 +1,25 @@
 <template>
-  <div class="bg-light rounded pt-4">
-    <h3 class="px-4 pb-4">Tickets</h3>
-    <table class="table">
-      <thead class="bg-white">
+  <div class="border shadow-lg pt-5">
+    <h3 class="px-5 pb-2">My tickets</h3>
+    <p class="px-5 pb-4 lead text-danger" v-if="notExpiredTickets.length === 0">
+      There are no purchased or reserved tickets.
+    </p>
+    <table class="table mb-0 mt-4" v-else>
+      <thead class="bg-white text-muted text-uppercase fs-6 fw-light">
       <tr>
-        <th scope="col">Movie</th>
-        <th scope="col">Total cost</th>
-        <th scope="col">Places</th>
-        <th scope="col">Reserved At</th>
-        <th scope="col">Status</th>
+        <th scope="col"><small>Movie</small></th>
+        <th scope="col"><small>Total cost</small></th>
+        <th scope="col"><small>Places</small></th>
+        <th scope="col"><small>Reserved At</small></th>
+        <th scope="col"><small>Status</small></th>
       </tr>
       </thead>
       <tbody>
       <tr v-for="ticket in notExpiredTickets">
         <th scope="row">
-          {{ ticket.screening.movie }}
+          <NuxtLink :to="`/screening/${ticket.screening.id}`">
+            {{ ticket.screening.movie }}
+          </NuxtLink>
         </th>
         <td>
           {{ ticket.total_cost.currency }}{{ ticket.total_cost.amount }}
@@ -72,8 +77,7 @@ export default {
     }
   },
   async fetch() {
-    const response = await this.$axios.$get('/api/profile/tickets')
-    this.tickets = response.data
+    this.tickets = await this.$api.auth.getReservations()
   },
   methods: {
     refresh() {

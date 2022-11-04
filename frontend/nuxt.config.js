@@ -1,5 +1,9 @@
 export default {
   ssr: false,
+  env: {
+    BASE_URL: process.env.BASE_URL || 'http://127.0.0.1:8080',
+    WS_URL: process.env.WS_URL || 'ws://127.0.0.1:8089/connection/websocket',
+  },
   head: {
     title: 'Ticket booking system',
     htmlAttrs: {
@@ -15,10 +19,12 @@ export default {
       {rel: 'icon', type: 'image/x-icon', href: '/favicon.svg'}
     ]
   },
-
   css: [],
-  plugins: [],
-  // Auto import components: https://go.nuxtjs.dev/config-components
+  plugins: [
+    { src: '~/plugins/logger.js' },
+    { src: '~/plugins/axios.js' },
+    { src: '~/plugins/api.js' },
+  ],
   components: true,
   buildModules: [
     '@nuxtjs/moment'
@@ -31,7 +37,7 @@ export default {
     '@nuxtjs/toast',
   ],
   axios: {
-    baseURL: 'http://127.0.0.1:8080'
+    baseURL: process.env.BASE_URL
     // proxy: true
   },
   toast: {
@@ -41,6 +47,7 @@ export default {
     theme: "bubble"
   },
   auth: {
+    plugins: [ '~/plugins/cenrifugo.js' ],
     strategies: {
       local: {
         token: {

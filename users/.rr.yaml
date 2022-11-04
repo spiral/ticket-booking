@@ -1,16 +1,14 @@
 version: '2.7'
 
 rpc:
-    listen: tcp://127.0.0.1:6001
+    listen: tcp://0.0.0.0:6001
 
 server:
     command: "php app.php"
     relay: pipes
 
 logs:
-    mode: production
-    encoding: console
-    level: error
+    level: info
 
 temporal:
     address: temporal:7233
@@ -22,8 +20,8 @@ grpc:
     pool:
         num_workers: 5
     proto:
-        - "./vendor/spiral/shared/proto/api/users/v1/service.proto"
-        - "./vendor/spiral/shared/proto/api/tokens/v1/service.proto"
+        - "./proto/api/users/v1/service.proto"
+        - "./proto/api/tokens/v1/service.proto"
 
 broadcast:
     default:

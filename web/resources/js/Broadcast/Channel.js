@@ -90,8 +90,6 @@ export default class Channel {
     }
 
     unsubscribe() {
-        this.events.forEach(
-            callback => this.ws.removeEventListener('message', callback)
-        )
+        this.sub
     }
 }

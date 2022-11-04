@@ -1,10 +1,9 @@
-
 echo "Compile proto"
 cd shared/
 ./rr compile
 cd ../
 
-for dir in web payment cinema users
+for dir in web payment cinema users centrifugo
 do
   echo "Update project $dir"
   cd $dir

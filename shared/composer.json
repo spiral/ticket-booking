@@ -47,10 +47,7 @@
         "psalm": "vendor/bin/psalm --config=psalm.xml ./src"
     },
     "config": {
-        "sort-packages": true,
-        "allow-plugins": {
-            "spiral/composer-publish-plugin": false
-        }
+        "sort-packages": true
     },
     "minimum-stability": "dev",
     "prefer-stable": true

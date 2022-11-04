@@ -10,16 +10,14 @@
       <h4 class="mb-0">Cinema tickets booking</h4>
     </NuxtLink>
 
-    <b-dropdown id="dropdown-1" text="Account" class="m-md-2" variant="outline-primary">
-      <b-dropdown-item v-if="$auth.loggedIn">
-        <NuxtLink to="/reservations">
+    <b-dropdown text="Account" class="m-md-2" variant="outline-primary">
+      <b-dropdown-item v-if="$auth.loggedIn" @click="$router.push('/reservations')">
           Reservations
-        </NuxtLink>
       </b-dropdown-item>
       <b-dropdown-divider></b-dropdown-divider>
       <b-dropdown-item v-if="$auth.loggedIn" @click="logout">Logout</b-dropdown-item>
-      <b-dropdown-item v-if="!$auth.loggedIn">
-        <NuxtLink to="/login">Sign in</NuxtLink>
+      <b-dropdown-item v-if="!$auth.loggedIn" @click="$router.push('/login')">
+        Sign in
       </b-dropdown-item>
     </b-dropdown>
   </header>

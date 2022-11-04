@@ -26,7 +26,7 @@
         "doctrine/collections": "^1.6",
         "spiral/cycle-bridge": "2.0.x-dev as 2.0",
         "spiral-packages/event-bus": "dev-master",
-        "spiral/framework": "dev-feature/telemetry as 3.2",
+        "spiral/framework": "dev-master as 3.2",
         "spiral/nyholm-bridge": "^1.2",
         "spiral/otel-bridge": "dev-master",
         "spiral/temporal-bridge": "^2.0",
@@ -70,9 +70,7 @@
     },
     "config": {
         "sort-packages": true,
-        "allow-plugins": {
-            "spiral/composer-publish-plugin": true
-        }
+        "allow-plugins": false
     },
     "minimum-stability": "dev",
     "prefer-stable": true

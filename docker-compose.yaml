@@ -1,9 +1,24 @@
 version: "3.7"
 
 services:
+  birddog:
+    image: ghcr.io/roadrunner-server/birddog:0.0.9
+    ports:
+      - "3001:8080"
+      - "3002:3000"
+    environment:
+      DEFAULT_RPC_SERVER: cinema
+      RPC_SERVER_CINEMA: tcp://cinema:6001
+      RPC_SERVER_WEB: tcp://web:6001
+      RPC_SERVER_USERS: tcp://users:6001
+      RPC_SERVER_PAYMENT: tcp://payment:6001
+      API_URL: http://127.0.0.1:3001
+
   frontend:
     build:
       dockerfile: ./docker/npm/Dockerfile
+    environment:
+      NODE_OPTIONS: --openssl-legacy-provider
     ports:
       - "3000:3000"
     volumes:
@@ -12,7 +27,25 @@ services:
       - web
     command: >
       bash -c "yarn install
-      && yarn dev" 
+      && yarn dev"
+
+  centrifugo-rpc:
+    build:
+      dockerfile: ./docker/php/Dockerfile
+    env_file:
+      - .env
+    environment:
+      OTEL_SERVICE_NAME: php-centrifugo-rpc
+    volumes:
+      - ./centrifugo:/var/www/
+      - ./shared:/var/shared/
+    depends_on:
+      - collector
+      - redis
+    command: >
+      bash -c "chmod +x ./rr
+      && ./rr serve"
+    restart: on-failure
 
   web:
     build:
@@ -26,6 +59,7 @@ services:
       - "8080:8080"
     volumes:
       - ./web:/var/www/
+      - ./proto:/var/www/proto/
       - ./shared:/var/shared/
     depends_on:
       - collector
@@ -35,7 +69,6 @@ services:
     command: >
       bash -c "chmod +x ./rr
       && php app.php migrate
-      && php app.php db:seed
       && ./rr serve"
     restart: on-failure
 
@@ -49,6 +82,7 @@ services:
       OTEL_SERVICE_NAME: php-users
     volumes:
       - ./users:/var/www/
+      - ./proto:/var/www/proto/
       - ./shared:/var/shared/
     depends_on:
       - temporal
@@ -71,6 +105,7 @@ services:
       OTEL_SERVICE_NAME: php-payment
     volumes:
       - ./payment:/var/www/
+      - ./proto:/var/www/proto/
       - ./shared:/var/shared/
     depends_on:
       - temporal
@@ -91,8 +126,10 @@ services:
     environment:
       DB_DATABASE: homestead
       OTEL_SERVICE_NAME: php-cinema
+      BROADCAST_CONNECTION: centrifugo
     volumes:
       - ./cinema:/var/www/
+      - ./proto:/var/www/proto/
       - ./shared:/var/shared/
     depends_on:
       - temporal
@@ -185,6 +222,8 @@ services:
     command: centrifugo -c config.json
     ports:
       - 8089:8000
+    depends_on:
+      - centrifugo-rpc
     ulimits:
       nofile:
         soft: 65535

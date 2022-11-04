@@ -7,11 +7,13 @@ namespace App\Bootloader;
 use App\UI\Web\Middleware\LocaleSelector;
 use App\UI\Web\Middleware\LoginMiddleware;
 use Spiral\Auth\Middleware\AuthTransportMiddleware;
+use Spiral\Auth\Middleware\Firewall\ExceptionFirewall;
 use Spiral\Bootloader\Http\RoutesBootloader as BaseRoutesBootloader;
 use Spiral\Cookies\Middleware\CookiesMiddleware;
 use Spiral\Core\Container\Autowire;
 use Spiral\Csrf\Middleware\CsrfMiddleware;
 use Spiral\Debug\StateCollector\HttpCollector;
+use Spiral\Http\Exception\ClientException\UnauthorizedException;
 use Spiral\Http\Middleware\ErrorHandlerMiddleware;
 use Spiral\Http\Middleware\JsonPayloadMiddleware;
 use Spiral\Session\Middleware\SessionMiddleware;
@@ -43,9 +45,12 @@ final class RoutesBootloader extends BaseRoutesBootloader
             'api' => [
                 new Autowire(AuthTransportMiddleware::class, ['transportName' => 'header'])
             ],
+            'centrifugo' => [
+                new Autowire(AuthTransportMiddleware::class, ['transportName' => 'centrifugo'])
+            ],
             'api_personal' => [
                 'middleware:api',
-                LoginMiddleware::class,
+                new Autowire(ExceptionFirewall::class, ['e' => new UnauthorizedException()]),
             ],
         ];
     }

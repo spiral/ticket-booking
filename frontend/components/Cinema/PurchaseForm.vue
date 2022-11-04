@@ -45,12 +45,13 @@ export default {
         return
       }
 
-      const response = await this.$axios.$post(`/api/tickets/cancel`, {
-        reservation_id: this.reservation_id
-      })
+      try {
+        await this.$api.tickets.cancel(this.reservation_id)
+        this.$toast.success('Reservation was canceled.')
+        this.$emit('canceled')
+      } catch (e) {
 
-      this.$toast.success('Reservation was canceled.')
-      this.$emit('canceled')
+      }
     },
     async purchase() {
       if (!this.reservation_id) {
@@ -58,12 +59,13 @@ export default {
         return
       }
 
-      const response = await this.$axios.$post(`/api/tickets/purchase`, {
-        reservation_id: this.reservation_id
-      })
+      try {
+        await this.$api.tickets.purchase(this.reservation_id)
+        this.$toast.success('Tickets successful purchased. Tickets were sent on your email address.')
+        this.$emit('paid')
+      } catch (e) {
 
-      this.$toast.success('Tickets successful purchased. Tickets were sent on your email address.')
-      this.$emit('paid')
+      }
     },
   }
 }
