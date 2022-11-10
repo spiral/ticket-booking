@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Centrifuge\Interceptor;
 
-use RoadRunner\Centrifugo\RequestInterface;
-use RoadRunner\Centrifugo\RPCRequest;
+use RoadRunner\Centrifugo\Request\RequestInterface;
 use Spiral\Core\CoreInterceptorInterface;
 use Spiral\Core\CoreInterface;
 use Spiral\Telemetry\TracerInterface;

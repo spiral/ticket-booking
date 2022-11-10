@@ -33,9 +33,8 @@ final class ExceptionHandlerInterceptor implements CoreInterceptorInterface
             }
 
             $details = [];
-            while ($previous = $e->getPrevious()) {
+            while ($e->getPrevious()) {
                 $details[] = new ErrorInfo([
-                    'type' => $previous::class,
                     'domain' => $controller,
                 ]);
             }

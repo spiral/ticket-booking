@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Centrifuge;
 
-use RoadRunner\Centrifugo\ConnectRequest;
+use RoadRunner\Centrifugo\Request\Connect;
 use RoadRunner\Centrifugo\Payload\ConnectResponse;
-use RoadRunner\Centrifugo\RequestInterface;
+use RoadRunner\Centrifugo\Request\RequestInterface;
 use Spiral\RoadRunnerBridge\Centrifugo\ServiceInterface;
 
 class ConnectService implements ServiceInterface
 {
     /**
-     * @param ConnectRequest $request
+     * @param Connect $request
      */
     public function handle(RequestInterface $request): void
     {

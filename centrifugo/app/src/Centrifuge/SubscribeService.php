@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Centrifuge;
 
 use RoadRunner\Centrifugo\Payload\SubscribeResponse;
-use RoadRunner\Centrifugo\RequestInterface;
-use RoadRunner\Centrifugo\SubscribeRequest;
+use RoadRunner\Centrifugo\Request\RequestInterface;
+use RoadRunner\Centrifugo\Request\Subscribe;
 use Spiral\RoadRunnerBridge\Centrifugo\ServiceInterface;
 
 final class SubscribeService implements ServiceInterface
 {
     /**
-     * @param SubscribeRequest $request
+     * @param Subscribe $request
      */
     public function handle(RequestInterface $request): void
     {
