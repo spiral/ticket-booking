@@ -6,8 +6,8 @@ namespace App\Centrifuge;
 
 use App\Application\Query;
 use RoadRunner\Centrifugo\Payload\RPCResponse;
-use RoadRunner\Centrifugo\RequestInterface;
-use RoadRunner\Centrifugo\RPCRequest;
+use RoadRunner\Centrifugo\Request\RequestInterface;
+use RoadRunner\Centrifugo\Request\RPC;
 use Spiral\Cqrs\QueryBusInterface;
 use Spiral\RoadRunnerBridge\Centrifugo\ServiceInterface;
 
@@ -19,7 +19,7 @@ final class RPCService implements ServiceInterface
     }
 
     /**
-     * @param RPCRequest $request
+     * @param RPC $request
      */
     public function handle(RequestInterface $request): void
     {
@@ -27,7 +27,9 @@ final class RPCService implements ServiceInterface
 
         $result = match ($request->method) {
             'cinema.Schedule' => $this->queryBus->ask(new Query\ActiveScreeningsQuery()),
-            'cinema.screening' => $this->queryBus->ask(new Query\ScreeningByIdQuery(screeningId: $request->data['id'])),
+            'cinema.screening' => $this->queryBus->ask(
+                new Query\ScreeningByIdQuery(screeningId: $request->getData()['id'])
+            ),
             'user.tickets' => $userId ? $this->queryBus->ask(
                 new Query\UserTicketsQuery(userId: $userId)
             ) : ['error' => 'Unauthorized', 'code' => 401],

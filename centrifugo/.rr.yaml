@@ -12,6 +12,6 @@ logs:
 
 centrifuge:
     proxy_address: "tcp://0.0.0.0:10001"
-    grpc_api_address: "tcp://centrifugo:10000"
+    grpc_api_address: "centrifugo:10000"
     poll:
         num_workers: 2

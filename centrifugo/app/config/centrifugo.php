@@ -5,7 +5,7 @@ declare(strict_types=1);
 use App\Centrifuge\ConnectService;
 use App\Centrifuge\RPCService;
 use App\Centrifuge\SubscribeService;
-use RoadRunner\Centrifugo\RequestType;
+use RoadRunner\Centrifugo\Request\RequestType;
 use App\Centrifuge\Interceptor;
 
 return [
