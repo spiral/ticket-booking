@@ -30,7 +30,7 @@
         "spiral/roadrunner-cli": "^2.0"
     },
     "require-dev": {
-        "spiral/framework": "dev-feature/telemetry as 3.1",
+        "spiral/framework": "^3.3",
         "nette/php-generator": "^4.0",
         "mockery/mockery": "^1.5",
         "phpunit/phpunit": "^9.5.20",

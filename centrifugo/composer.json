@@ -26,11 +26,11 @@
         "doctrine/collections": "^1.6",
         "spiral-packages/cqrs": "^2.0",
         "spiral-packages/event-bus": "dev-master",
-        "spiral/framework": "dev-master as 3.2",
+        "spiral/framework": "dev-master as 3.3",
         "spiral/nyholm-bridge": "^1.2",
         "spiral/otel-bridge": "dev-master",
         "spiral/shared": "*",
-        "spiral/roadrunner-bridge": "dev-feauture/centrifugo"
+        "spiral/roadrunner-bridge": "^2.3"
     },
     "require-dev": {
         "nunomaduro/collision": "^6.2",
