@@ -32,7 +32,7 @@
         "spiral-packages/symfony-validator": "^1.0",
         "spiral/cycle-bridge": "2.0.x-dev as 2.0",
         "spiral/data-grid-bridge": "^3.0",
-        "spiral/framework": "dev-master as 3.3",
+        "spiral/framework": "^3.3",
         "spiral/nyholm-bridge": "^1.2",
         "spiral/otel-bridge": "^1.0",
         "spiral/roadrunner-bridge": "^2.3",

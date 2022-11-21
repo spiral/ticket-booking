@@ -27,7 +27,7 @@
         "spiral/cycle-bridge": "2.0.x-dev as 2.0",
         "spiral-packages/cqrs": "^2.0",
         "spiral-packages/event-bus": "dev-master",
-        "spiral/framework": "dev-master as 3.3",
+        "spiral/framework": "^3.3",
         "spiral/nyholm-bridge": "^1.2",
         "spiral/otel-bridge": "^1.0",
         "spiral/temporal-bridge": "^2.0",
