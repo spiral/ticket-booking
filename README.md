@@ -1,5 +1,7 @@
 # Ticket booking system
 
+![Ticket booking](https://user-images.githubusercontent.com/773481/204212124-d6de2a92-5450-40e6-9438-effce70741b2.jpg)
+
 This is an example project base on Spiral Framework and GRPC microservices.
 
 ## Requirements
