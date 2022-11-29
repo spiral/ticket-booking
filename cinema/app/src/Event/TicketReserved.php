@@ -17,7 +17,7 @@ final class TicketReserved implements ShouldBroadcastInterface
 
     public function getBroadcastTopics(): iterable|string|\Stringable
     {
-        return ['screening.' . $this->reservation->getScreening()->getId()];
+        return ['public:screening.' . $this->reservation->getScreening()->getId()];
     }
 
     public function getPayload(): array

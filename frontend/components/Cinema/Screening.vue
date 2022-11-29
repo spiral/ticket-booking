@@ -81,6 +81,7 @@ export default {
       .listen('cinema.reservation.canceled', (data) => {
         this.reserved = this.reserved.filter(id => data.seats.indexOf(id) === -1)
       })
+      .presence()
   },
   beforeDestroy() {
     this.$ws.channel('screening.' + this.screening.id).unsubscribe()

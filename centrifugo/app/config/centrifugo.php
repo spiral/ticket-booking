@@ -16,14 +16,17 @@ return [
     ],
     'interceptors' => [
         RequestType::Connect->value => [
+            Interceptor\LoggingInterceptor::class,
             Interceptor\TelemetryInterceptor::class,
             Interceptor\AuthInterceptor::class,
         ],
         RequestType::Subscribe->value => [
+            Interceptor\LoggingInterceptor::class,
             Interceptor\TelemetryInterceptor::class,
             Interceptor\AuthInterceptor::class,
         ],
         RequestType::RPC->value => [
+            Interceptor\LoggingInterceptor::class,
             Interceptor\TelemetryInterceptor::class,
             Interceptor\AuthInterceptor::class,
         ],

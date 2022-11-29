@@ -48,6 +48,14 @@ export class WsClient {
     this.centrifuge.disconnect()
   }
 
+  publicChannel(channel) {
+    return this.channel(`public:${channel}`)
+  }
+
+  userChannel(id) {
+    return this.channel(`user#${id}`)
+  }
+
   channel(channel) {
     if (!this.channels[channel]) {
       this.channels[channel] = new Channel(this, channel);

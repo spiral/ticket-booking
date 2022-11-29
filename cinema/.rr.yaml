@@ -26,11 +26,12 @@ jobs:
 
 grpc:
     listen: "tcp://0.0.0.0:9000"
-    pool:
-        num_workers: 5
     proto:
         - "./proto/api/cinema/v1/service.proto"
 
 centrifuge:
     grpc_api_address: "centrifugo:10000"
     version: "1.0.0"
+
+metrics:
+    address: 0.0.0.0:2112

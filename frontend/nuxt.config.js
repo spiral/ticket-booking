@@ -2,7 +2,7 @@ export default {
   ssr: false,
   env: {
     BASE_URL: process.env.BASE_URL || 'http://127.0.0.1:8080',
-    WS_URL: process.env.WS_URL || 'ws://127.0.0.1:8089/connection/websocket',
+    WS_URL: process.env.WS_URL || null,
   },
   head: {
     title: 'Ticket booking system',

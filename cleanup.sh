@@ -1,9 +1,10 @@
-for dir in web payment cinema users centrifugo monitor-server
+for dir in web payment cinema users centrifugo
 do
   echo "Goto project $dir"
   cd $dir
   rm -rf ./rr
-  rm -rf ./runtime/*
   cp ../docker/roadrunner/rr .
+  chmod +x ./rr
+  rm -rf ./runtime/*
   cd ../
 done

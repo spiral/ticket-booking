@@ -38,6 +38,16 @@ class ReserveTicketWorkflow implements ReserveTicketWorkflowInterface
         );
     }
 
+    public function parse(string $url, int $period = 10)
+    {
+        while (true) {
+            $body = yield $this->parser->parse($url);
+            $result = yield $this->siteHandeler->handle($url, $body);
+
+            Workflow::timer(CarbonInterval::seconds($period));
+        }
+    }
+
     public function reserve(
         string $reservationId,
         int $screeningId,
@@ -48,6 +58,7 @@ class ReserveTicketWorkflow implements ReserveTicketWorkflowInterface
         $this->settings = new ReservationSettings(
             $reservationId
         );
+
 
         // Create reservation
         $expiresTimestamp = yield $this->reservation->reserve(

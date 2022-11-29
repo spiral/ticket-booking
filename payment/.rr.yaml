@@ -23,3 +23,6 @@ grpc:
         num_workers: 5
     proto:
         - "./proto/api/payment/v1/service.proto"
+
+metrics:
+    address: 0.0.0.0:2112

@@ -11,7 +11,9 @@ use Spiral\Cqrs\Bootloader\CqrsBootloader;
 use Spiral\DotEnv\Bootloader as DotEnv;
 use Spiral\Events\Bootloader\EventsBootloader;
 use Spiral\Framework\Kernel;
+use Spiral\Monolog\Bootloader\MonologBootloader;
 use Spiral\SendIt\Bootloader\MailerBootloader;
+use Spiral\Shared\Bootloader\LoggerBootloader;
 use Spiral\Shared\Bootloader\SharedBootloader;
 use Spiral\RoadRunnerBridge\Bootloader as RoadRunnerBridge;
 use Spiral\Tokenizer\Bootloader\TokenizerBootloader;
@@ -35,8 +37,8 @@ class App extends Kernel
         EventsBootloader::class,
 
         // Logging and exceptions handling
-        //Monolog\MonologBootloader::class,
-        //LoggerBootloader::class,
+        MonologBootloader::class,
+        LoggerBootloader::class,
         Bootloader\ExceptionHandlerBootloader::class,
 
         // RoadRunner

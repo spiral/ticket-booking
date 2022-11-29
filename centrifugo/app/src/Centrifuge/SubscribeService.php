@@ -17,7 +17,9 @@ final class SubscribeService implements ServiceInterface
     public function handle(RequestInterface $request): void
     {
         try {
-            $request->respond(new SubscribeResponse());
+            $request->respond(
+                new SubscribeResponse()
+            );
         } catch (\Throwable $e) {
             $request->error($e->getCode(), $e->getMessage());
         }

@@ -10,6 +10,9 @@ server:
 logs:
     level: info
 
+metrics:
+    address: 0.0.0.0:2112
+
 centrifuge:
     proxy_address: "tcp://0.0.0.0:10001"
     grpc_api_address: "centrifugo:10000"

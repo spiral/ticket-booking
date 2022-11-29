@@ -1,26 +1,20 @@
 version: "3.7"
 
 services:
-  birddog:
-    image: ghcr.io/roadrunner-server/birddog:0.0.9
+  nginx:
+    image: nginx
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     ports:
-      - "3001:8080"
-      - "3002:3000"
-    environment:
-      DEFAULT_RPC_SERVER: cinema
-      RPC_SERVER_CINEMA: tcp://cinema:6001
-      RPC_SERVER_WEB: tcp://web:6001
-      RPC_SERVER_USERS: tcp://users:6001
-      RPC_SERVER_PAYMENT: tcp://payment:6001
-      API_URL: http://127.0.0.1:3001
+      - "8000:80"
 
   frontend:
     build:
       dockerfile: ./docker/npm/Dockerfile
     environment:
       NODE_OPTIONS: --openssl-legacy-provider
-    ports:
-      - "3000:3000"
+#    ports:
+#      - "3000:3000"
     volumes:
       - ./frontend:/app
     depends_on:
@@ -55,8 +49,8 @@ services:
     environment:
       DB_DATABASE: homestead
       OTEL_SERVICE_NAME: php-web
-    ports:
-      - "8080:8080"
+#    ports:
+#      - "8080:8080"
     volumes:
       - ./web:/var/www/
       - ./proto:/var/www/proto/
@@ -149,8 +143,8 @@ services:
       POSTGRES_USER: homestead
       POSTGRES_DB: homestead
       POSTGRES_PASSWORD: secret
-    ports:
-      - "5432:5432"
+#    ports:
+#      - "5432:5432"
     logging:
       driver: none
 
@@ -189,8 +183,8 @@ services:
       - TEMPORAL_GRPC_ENDPOINT=temporal:7233
       - TEMPORAL_PERMIT_WRITE_API=true
     image: temporalio/web
-    ports:
-      - "8088:8088"
+#    ports:
+#      - "8088:8088"
     logging:
       driver: none
 
@@ -204,8 +198,8 @@ services:
 
   zipkin:
     image: openzipkin/zipkin-slim
-    ports:
-      - "9411:9411"
+#    ports:
+#      - "9411:9411"
     logging:
       driver: none
 
@@ -220,8 +214,6 @@ services:
     volumes:
       - ./docker/centrifugo/config.json:/centrifugo/config.json
     command: centrifugo -c config.json
-    ports:
-      - 8089:8000
     depends_on:
       - centrifugo-rpc
     ulimits:
@@ -231,8 +223,21 @@ services:
 
   buggregator:
     image: butschster/buggregator:beta
-    ports:
-      - 23517:8000
-      - 1025:1025
-      - 9912:9912
-      - 9913:9913
+#    ports:
+#      - 23517:8000
+#      - 1025:1025
+#      - 9912:9912
+#      - 9913:9913
+
+  birddog:
+    image: ghcr.io/roadrunner-server/birddog:0.3.1
+#    ports:
+#      - "3001:80"
+    environment:
+      RR_LOG_LEVEL: debug
+      DEFAULT_RPC_SERVER: cinema
+      RPC_SERVER_CINEMA: tcp://cinema:6001
+      RPC_SERVER_WEB: tcp://web:6001
+      RPC_SERVER_USERS: tcp://users:6001
+      RPC_SERVER_PAYMENT: tcp://payment:6001
+      RPC_SERVER_CENTRIFUGO: tcp://centrifugo-rpc:6001

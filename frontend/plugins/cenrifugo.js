@@ -1,7 +1,10 @@
 import {WsClient} from '~/modules/Websocket/Client'
 import {Centrifuge} from 'centrifuge'
 
-const WS_URL = process.env.WS_URL
+const host = window.location.host
+const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws'
+
+const WS_URL = process.env.WS_URL || `${wsProtocol}://${host}/connection/websocket`
 const API_GATEWAY_URL = process.env.BASE_URL
 
 const getAuthToken = ($auth) => () => $auth.strategy.token.get()

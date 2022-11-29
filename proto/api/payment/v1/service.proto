@@ -2,12 +2,35 @@ syntax = "proto3";
 
 package api.payment.v1;
 
-option php_namespace = "Spiral\\Shared\\Services\\Payment\\v1";
-option php_metadata_namespace = "Spiral\\Shared\\Services\\Payment\\v1\\GPBMetadata";
+option php_namespace = "GRPC\\Services\\Payment";
+option php_metadata_namespace = "GRPC\\Services\\Payment";
 
-import "api/payment/v1/message.proto";
+import "google/protobuf/timestamp.proto";
 
 service PaymentService {
-    rpc Charge (api.payment.v1.dto.ChargeRequest) returns (api.payment.v1.dto.ChargeResponse) {
-    }
+    rpc Charge (api.payment.v1.dto.ChargeRequest)
+        returns (api.payment.v1.dto.ChargeResponse) {}
+}
+
+message Payment {
+    string description = 1;
+    string email = 2;
+    api.common.v1.dto.Money money = 3;
+    string payment_method = 4;
+}
+
+message Receipt {
+    string id = 1;
+    string transaction_id = 2;
+    api.common.v1.dto.Money money = 4;
+    api.common.v1.dto.Money fee = 5;
+    google.protobuf.Timestamp created_at = 7;
+}
+
+message ChargeRequest {
+    Payment payment = 1;
+}
+
+message ChargeResponse {
+    Receipt receipt = 1;
 }
