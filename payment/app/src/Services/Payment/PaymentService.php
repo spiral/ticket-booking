@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Services\Payment;
 
-use Google\Protobuf\Timestamp;
 use Ramsey\Uuid\Uuid;
 use Spiral\Cqrs\CommandBusInterface;
+use Spiral\RoadRunner\Metrics\MetricsInterface;
 use Spiral\Shared\CQRS\Command\SendEmailCommand;
 use Spiral\Shared\Mappers\MoneyFactory;
 use Spiral\Shared\Mappers\TimestampFactory;
-use Spiral\Shared\Services\Common\v1\DTO\Money;
 use Spiral\RoadRunner\GRPC;
 use Spiral\Shared\Services\Payment\v1\DTO\ChargeRequest;
 use Spiral\Shared\Services\Payment\v1\DTO\ChargeResponse;
@@ -23,7 +22,8 @@ final class PaymentService implements PaymentServiceInterface
 {
     public function __construct(
         private readonly TracerInterface $tracer,
-        private readonly CommandBusInterface $commandBus
+        private readonly CommandBusInterface $commandBus,
+        private readonly MetricsInterface $metrics
     ) {
     }
 
@@ -56,6 +56,10 @@ final class PaymentService implements PaymentServiceInterface
             },
         );
 
+        $this->metrics->add('total_transactions', 1);
+        $this->metrics->add('money_sum', $payment->getMoney()->getAmount());
+        $this->metrics->add('money_fee_sum', $receipt->getFee()->getAmount());
+
         $this->commandBus->dispatch(
             new SendEmailCommand(
                 template: 'receipt.dark.php',
@@ -72,7 +76,7 @@ final class PaymentService implements PaymentServiceInterface
         );
 
         return new ChargeResponse([
-            'receipt' => $receipt
+            'receipt' => $receipt,
         ]);
     }
 }

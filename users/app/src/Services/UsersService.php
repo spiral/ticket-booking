@@ -18,6 +18,7 @@ use Carbon\Carbon;
 use Cycle\ORM\EntityManagerInterface;
 use Google\Protobuf\Timestamp;
 use Spiral\RoadRunner\GRPC;
+use Spiral\RoadRunner\Metrics\MetricsInterface;
 use Spiral\Shared\Mappers\TimestampFactory;
 use Spiral\Shared\Services\Tokens\v1\DTO\CreateRequest;
 use Spiral\Shared\Services\Tokens\v1\TokensServiceInterface;
@@ -32,7 +33,8 @@ class UsersService implements UsersServiceInterface
         private readonly PasswordHasher $hasher,
         private readonly EntityManagerInterface $entityManager,
         private readonly UniqueEmailSpecification $uniqueEmailSpecification,
-        private readonly PasswordIsSecureSpecification $passwordIsSecureSpecification
+        private readonly PasswordIsSecureSpecification $passwordIsSecureSpecification,
+        private readonly MetricsInterface $metrics
     ) {
     }
 
@@ -80,6 +82,8 @@ class UsersService implements UsersServiceInterface
         );
 
         $this->entityManager->run();
+
+        $this->metrics->add('total_users', 1);
 
         return new DTO\RegisterResponse([
             'user' => UserFactory::fromUserEntity($user),

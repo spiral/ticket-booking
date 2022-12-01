@@ -214,6 +214,24 @@ services:
     logging:
       driver: none
 
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./docker/prometheus/:/etc/prometheus/
+    restart: always
+
+  grafana:
+    image: grafana/grafana
+    depends_on:
+      - prometheus
+    ports:
+      - 3001:3000
+    volumes:
+      - ./docker/grafana/provisioning/:/etc/grafana/provisioning/
+    env_file:
+      - ./docker/grafana/config.monitoring
+    restart: always
+
   centrifugo:
     container_name: centrifugo
     image: centrifugo/centrifugo:latest
@@ -236,3 +254,8 @@ services:
       - 1025:1025
       - 9912:9912
       - 9913:9913
+
+  birddog:
+    image: ghcr.io/roadrunner-server/birddog:0.3.1
+    ports:
+      - 8082:80

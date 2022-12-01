@@ -3,9 +3,6 @@ version: '2.7'
 rpc:
     listen: tcp://0.0.0.0:6001
 
-metrics:
-    address: 0.0.0.0:2112
-
 logs:
     level: info
 
@@ -57,3 +54,6 @@ broadcast:
         config:
             addrs:
                 - redis:6379
+
+metrics:
+    address: 0.0.0.0:2112

@@ -15,3 +15,6 @@ centrifuge:
     grpc_api_address: "centrifugo:10000"
     poll:
         num_workers: 2
+
+metrics:
+    address: 0.0.0.0:2112

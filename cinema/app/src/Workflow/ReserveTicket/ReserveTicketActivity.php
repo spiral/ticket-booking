@@ -15,6 +15,7 @@ use App\Repository\ScreeningRepositoryInterface;
 use Cycle\Database\Injection\Parameter;
 use Cycle\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Spiral\RoadRunner\Metrics\MetricsInterface;
 
 class ReserveTicketActivity implements ReserveTicketActivityInterface
 {
@@ -25,6 +26,7 @@ class ReserveTicketActivity implements ReserveTicketActivityInterface
         private readonly SeatRepositoryInterface $seats,
         private readonly EntityManagerInterface $entityManager,
         private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly MetricsInterface $metrics
     ) {
     }
 
@@ -61,12 +63,21 @@ class ReserveTicketActivity implements ReserveTicketActivityInterface
 
         $this->eventDispatcher->dispatch(new TicketReserved($reservation));
 
+        $this->metrics->add('reservations', 1);
+        $this->metrics->add('tickets_reservation', \count($seats), [
+            $screening->getMovie()->getTitle(),
+            $screening->getAuditorium()->getName(),
+            (string) $screening->getPrice()->getValue(),
+        ]);
+
         return $reservation->getExpiresAt()->getTimestamp();
     }
 
     public function cancel(string $reservationId)
     {
         $reservation = $this->reservations->getByPK($reservationId);
+
+        $this->metrics->sub('reservations', 1);
 
         if ($reservation->isPaid()) {
             throw new \Exception(\sprintf('reservation %s was paid', $reservationId));

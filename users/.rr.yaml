@@ -29,3 +29,10 @@ broadcast:
         config:
             addrs:
                 - redis:6379
+
+metrics:
+    address: 0.0.0.0:2112
+    collect:
+        total_users:
+            type: counter
+            help: "Total registered users"

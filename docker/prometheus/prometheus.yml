@@ -1,0 +1,12 @@
+# my global config
+global:
+  scrape_interval: 60s
+  evaluation_interval: 60s
+  external_labels:
+    monitor: 'Metrics'
+
+scrape_configs:
+  - job_name: 'prometheus'
+    scrape_interval: 60s
+    static_configs:
+      - targets: [ 'web:2112', 'users:2112', 'centrifugo-rpc:2112', 'payment:2112', 'cinema:2112' ]

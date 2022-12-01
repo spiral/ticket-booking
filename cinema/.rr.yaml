@@ -34,3 +34,14 @@ grpc:
 centrifuge:
     grpc_api_address: "centrifugo:10000"
     version: "1.0.0"
+
+metrics:
+    address: 0.0.0.0:2112
+    collect:
+        tickets_reservation:
+            type: gauge
+            help: "Ticket reservations"
+            labels: [ 'movie', 'auditorium', 'price' ]
+        reservations:
+            type: counter
+            help: "Total reservations"

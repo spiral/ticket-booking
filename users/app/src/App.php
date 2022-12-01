@@ -48,6 +48,7 @@ class App extends Kernel
         RoadRunnerBridge\QueueBootloader::class,
         RoadRunnerBridge\RoadRunnerBootloader::class,
         RoadRunnerBridge\BroadcastingBootloader::class,
+        RoadRunnerBridge\MetricsBootloader::class,
         TemporalBridgeBootloader::class,
 
         EventsBootloader::class,

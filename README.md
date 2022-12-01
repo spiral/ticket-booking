@@ -24,6 +24,7 @@ chmod +x run.sh
 ## Project structure
 
 - `frontend` - SPA GUI
+- `centrifugo` - Centrifugo API
 - `web` - REST API
 - `users` - GRPC microservice. It's responsible for user management and auth tokens management. Works only with database.
 - `cinema` - GRPC microservice. It's responsible for movies and reservation. Works with database and temporal.
@@ -33,10 +34,11 @@ chmod +x run.sh
 `docker-compose.yaml` contains all necessary containers to run project.
  - http://127.0.0.1:3000/ - Ticket booking system
  - http://127.0.0.1:9411/ - Zipkin
+ - http://127.0.0.1:3001/ - Grafana (login: `admin`, password: `secret`)
  - http://127.0.0.1:3002/ - Birddog
  - http://127.0.0.1:8088/ - Temporal
  - http://127.0.0.1:8089/ - Centrifugo
-- http://127.0.0.1:23517/ - Buggregator
+ - http://127.0.0.1:23517/ - Buggregator
 
 ### Database
 

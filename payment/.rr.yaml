@@ -23,3 +23,17 @@ grpc:
         num_workers: 5
     proto:
         - "./proto/api/payment/v1/service.proto"
+
+metrics:
+    address: 0.0.0.0:2112
+    collect:
+        total_transactions:
+            type: counter
+            help: "Total transactions"
+        money_sum:
+            type: counter
+            help: "Total money"
+        money_fee_sum:
+            type: counter
+            help: "Total fee"
+
