@@ -2,7 +2,9 @@
 
 ![Ticket booking](https://user-images.githubusercontent.com/773481/204212124-d6de2a92-5450-40e6-9438-effce70741b2.jpg)
 
-This is an example project base on Spiral Framework and GRPC microservices.
+This is an example project base on Spiral Framework and GRPC microservices with Grafana dashboard.
+
+![Grafana dashboard](https://user-images.githubusercontent.com/773481/205066017-ecddefc4-1d07-4428-b3ad-af49baadad0a.png)
 
 ## Requirements
 
@@ -21,6 +23,16 @@ chmod +x run.sh
 ./run.sh
 ```
 
+## Services dashboards
+
+- http://127.0.0.1:3000/ - Ticket booking system
+- http://127.0.0.1:9411/ - Zipkin
+- http://127.0.0.1:3001/ - Grafana (login: `admin`, password: `secret`)
+- http://127.0.0.1:3002/ - Birddog
+- http://127.0.0.1:8088/ - Temporal
+- http://127.0.0.1:8089/ - Centrifugo
+- http://127.0.0.1:23517/ - Buggregator
+
 ## Project structure
 
 - `frontend` - SPA GUI
@@ -30,15 +42,7 @@ chmod +x run.sh
 - `cinema` - GRPC microservice. It's responsible for movies and reservation. Works with database and temporal.
 - `payment` - GRPC microservice. Fake payment gateway. It's receives requests for money charging and responses with receipt.
 - `shared` - Shared package for all microservices. It contains common classes, proto files and compiler, DTO's, GRPC clients, e.t.c.
-
 `docker-compose.yaml` contains all necessary containers to run project.
- - http://127.0.0.1:3000/ - Ticket booking system
- - http://127.0.0.1:9411/ - Zipkin
- - http://127.0.0.1:3001/ - Grafana (login: `admin`, password: `secret`)
- - http://127.0.0.1:3002/ - Birddog
- - http://127.0.0.1:8088/ - Temporal
- - http://127.0.0.1:8089/ - Centrifugo
- - http://127.0.0.1:23517/ - Buggregator
 
 ### Database
 
@@ -46,7 +50,6 @@ chmod +x run.sh
  - Username: `homestead`
  - Password: `secret`
  - Database: `homestead`
-
 
 ### TODO
 
