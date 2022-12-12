@@ -20,24 +20,27 @@ services:
   centrifugo-rpc:
     build:
       dockerfile: ./docker/php/Dockerfile
+      args:
+        SERVICE_NAME: 'centrifugo'
+    container_name: centrifugo-rpc
     env_file:
       - .env
     environment:
       OTEL_SERVICE_NAME: php-centrifugo-rpc
-    volumes:
-      - ./centrifugo:/var/www/
-      - ./shared:/var/shared/
     depends_on:
       - collector
       - redis
     command: >
-      bash -c "chmod +x ./rr
-      && ./rr serve"
+      bash -c "chmod +x ../server/rr
+      && ../server/rr serve"
     restart: on-failure
 
   web:
     build:
       dockerfile: ./docker/php/Dockerfile
+      args:
+        SERVICE_NAME: 'web'
+    container_name: web
     env_file:
       - .env
     environment:
@@ -46,69 +49,72 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./web:/var/www/
       - ./proto:/var/www/proto/
-      - ./shared:/var/shared/
     depends_on:
       - collector
       - redis
       - cinema
       - payment
     command: >
-      bash -c "chmod +x ./rr
+      bash -c "chmod +x ../server/rr
       && php app.php migrate
-      && ./rr serve"
+      && ../server/rr serve"
     restart: on-failure
 
   users:
     build:
       dockerfile: ./docker/php/Dockerfile
+      args:
+        SERVICE_NAME: 'users'
+    container_name: users
     env_file:
       - .env
     environment:
       DB_DATABASE: homestead
       OTEL_SERVICE_NAME: php-users
     volumes:
-      - ./users:/var/www/
       - ./proto:/var/www/proto/
-      - ./shared:/var/shared/
     depends_on:
       - temporal
       - collector
       - redis
     command: >
-      bash -c "chmod +x ./rr
+      bash -c "chmod +x ../server/rr
       && php app.php migrate
       && php app.php db:seed
-      && ./rr serve"
+      && ../server/rr serve"
     restart: on-failure
 
   payment:
     build:
       dockerfile: ./docker/php/Dockerfile
+      args:
+        SERVICE_NAME: 'payment'
+    container_name: payment
     env_file:
       - .env
     environment:
       DB_DATABASE: homestead
       OTEL_SERVICE_NAME: php-payment
     volumes:
-      - ./payment:/var/www/
       - ./proto:/var/www/proto/
-      - ./shared:/var/shared/
     depends_on:
       - temporal
       - collector
       - redis
     command: >
-      bash -c "chmod +x ./rr
+      bash -c "chmod +x ../server/rr
       && php app.php migrate
       && php app.php db:seed
-      && ./rr serve"
+      && ../server/rr serve"
     restart: on-failure
 
   cinema:
     build:
       dockerfile: ./docker/php/Dockerfile
+      args:
+        SERVICE_NAME: 'cinema'
+    container_name: cinema
     env_file:
       - .env
     environment:
@@ -116,18 +122,16 @@ services:
       OTEL_SERVICE_NAME: php-cinema
       BROADCAST_CONNECTION: centrifugo
     volumes:
-      - ./cinema:/var/www/
       - ./proto:/var/www/proto/
-      - ./shared:/var/shared/
     depends_on:
       - temporal
       - collector
       - redis
     command: >
-      bash -c "chmod +x ./rr
+      bash -c "chmod +x ../server/rr
       && php app.php migrate
       && php app.php db:seed
-      && ./rr serve"
+      && ../server/rr serve"
     restart: on-failure
 
   db:

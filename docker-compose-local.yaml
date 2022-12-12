@@ -1,0 +1,22 @@
+version: "3.7"
+
+services:
+  centrifugo-rpc:
+    volumes:
+      - ./centrifugo:/var/www/
+
+  web:
+    volumes:
+      - ./web:/var/www/
+
+  users:
+    volumes:
+      - ./users:/var/www/
+
+  payment:
+    volumes:
+      - ./payment:/var/www/
+
+  cinema:
+    volumes:
+      - ./cinema:/var/www/
