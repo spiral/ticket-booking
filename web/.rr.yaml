@@ -12,7 +12,7 @@ server:
 
 http:
     address: 0.0.0.0:8080
-    middleware: [ "headers", "gzip", "websockets", "static", "otel" ]
+    middleware: [ "headers", "gzip", "static", "otel" ]
     headers:
         cors:
             allowed_origin: "*"

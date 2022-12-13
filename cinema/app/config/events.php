@@ -2,8 +2,7 @@
 
 declare(strict_types=1);
 
-
-use Spiral\Shared\Broadcasting\BroadcastEventInterceptor;
+use App\Broadcasting\BroadcastEventInterceptor;
 
 return [
     'interceptors' => [

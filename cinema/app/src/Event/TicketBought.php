@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Event;
 
+use App\Broadcasting\ShouldBroadcastInterface;
 use App\Entity\Reservation;
-use Spiral\Shared\Broadcasting\ShouldBroadcastInterface;
 
 final class TicketBought implements ShouldBroadcastInterface
 {
