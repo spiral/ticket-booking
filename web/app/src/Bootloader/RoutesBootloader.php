@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Bootloader;
 
-use App\UI\Web\Middleware\LocaleSelector;
 use App\UI\Web\Middleware\LoginMiddleware;
 use Spiral\Auth\Middleware\AuthTransportMiddleware;
 use Spiral\Auth\Middleware\Firewall\ExceptionFirewall;

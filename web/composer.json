@@ -26,14 +26,9 @@
     "require": {
         "php": ">=8.1",
         "ext-mbstring": "*",
-        "doctrine/collections": "^1.6",
         "firebase/php-jwt": "^6.3",
-        "moneyphp/money": "^3.3",
         "spiral-packages/cqrs": "^2.0",
-        "spiral-packages/database-seeder": "^2.0",
-        "spiral-packages/event-bus": "dev-master",
         "spiral-packages/symfony-validator": "^1.0",
-        "spiral/cycle-bridge": "2.0.x-dev as 2.0",
         "spiral/data-grid-bridge": "^3.0",
         "spiral/framework": "^3.3",
         "spiral/nyholm-bridge": "^1.2",
@@ -41,8 +36,8 @@
         "spiral/roadrunner-bridge": "^2.3",
         "spiral/shared": "*",
         "spiral/temporal-bridge": "^2.0",
-        "spiral/twig-bridge": "^2.0",
-        "symfony/var-dumper": "^6.0"
+        "symfony/var-dumper": "^6.0",
+        "webmozart/assert": "^1.11"
     },
     "require-dev": {
         "nunomaduro/collision": "^6.2",
@@ -60,17 +55,11 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/src",
-            "Database\\": "app/database"
+            "App\\": "app/src"
         },
         "files": [
             "app/src/helpers.php"
         ]
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\": "tests"
-        }
     },
     "extra": {
         "publish-cmd": "php app.php publish",

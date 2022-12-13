@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Bootloader;
 
+use App\Auth\TokenStorage;
 use Spiral\Auth\TokenStorageInterface;
 use Spiral\Boot\Bootloader\Bootloader;
-use Spiral\Shared\Auth\TokenStorage;
 
 final class AppBootloader extends Bootloader
 {

@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\UI\Web\Controller\Api\Cinema;
 
 use App\Application\Query\ActiveScreeningsQuery;
-use App\Event\ControllerRun;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use Spiral\Cqrs\QueryBusInterface;
 use Spiral\Router\Annotation\Route;
 

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Workflow\ReserveTicket;
 
+use App\Application\Command\SendEmailCommand;
+use App\Application\Query\GetUserQuery;
 use App\Entity\Auditorium\ReservedSeat;
 use App\Event\TicketBought;
 use App\Repository\ReservationRepositoryInterface;
@@ -11,8 +13,6 @@ use Cycle\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Spiral\Cqrs\CommandBusInterface;
 use Spiral\Cqrs\QueryBusInterface;
-use Spiral\Shared\CQRS\Command\SendEmailCommand;
-use Spiral\Shared\CQRS\Query\GetUserQuery;
 
 class BuyTicketActivity implements BuyTicketActivityInterface
 {

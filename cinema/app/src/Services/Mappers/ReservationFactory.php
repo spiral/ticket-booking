@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Services\Mappers;
 
 use App\Entity\Auditorium\ReservedSeat;
-use Spiral\Shared\Mappers\MoneyFactory;
-use Spiral\Shared\Mappers\TimestampFactory;
 use Spiral\Shared\Services\Cinema\v1\DTO\Reservation;
 
 final class ReservationFactory

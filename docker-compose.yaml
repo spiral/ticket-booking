@@ -57,7 +57,6 @@ services:
       - payment
     command: >
       bash -c "chmod +x ../server/rr
-      && php app.php migrate
       && ../server/rr serve"
     restart: on-failure
 

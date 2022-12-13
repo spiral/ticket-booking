@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Database\Factory;
 
 use App\Entity\Screening;
+use App\ValueObject\Money;
 use Spiral\DatabaseSeeder\Factory\AbstractFactory;
-use Spiral\Shared\ValueObjects\Money;
 
 class ScreeningFactory extends AbstractFactory
 {

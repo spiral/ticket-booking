@@ -7,7 +7,7 @@ namespace App\Entity;
 use App\Entity\Auditorium\ReservedSeat;
 use App\Entity\Reservation\Type;
 use App\Repository\Postgres\ReservationRepository;
-use Spiral\Shared\ValueObjects\Money;
+use App\ValueObject\Money;
 use Carbon\Carbon;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
