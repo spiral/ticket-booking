@@ -12,7 +12,7 @@ server:
 
 http:
     address: 0.0.0.0:8080
-    middleware: [ "headers", "gzip", "static", "otel" ]
+    middleware: [ "headers", "gzip", "otel" ]
     headers:
         cors:
             allowed_origin: "*"
@@ -21,9 +21,6 @@ http:
             allow_credentials: true
             exposed_headers: "Cache-Control,Content-Language,Content-Type,Expires,Last-Modified,Pragma"
             max_age: 600
-    static:
-        dir: "public"
-        forbid: [ ".php", ".htaccess" ]
     pool:
         num_workers: 1
         supervisor:
