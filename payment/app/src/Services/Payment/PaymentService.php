@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Services\Payment;
 
+use App\Application\Command\SendEmailCommand;
+use App\Services\Mappers\MoneyFactory;
+use App\Services\Mappers\TimestampFactory;
 use Ramsey\Uuid\Uuid;
 use Spiral\Cqrs\CommandBusInterface;
 use Spiral\RoadRunner\Metrics\MetricsInterface;
-use Spiral\Shared\CQRS\Command\SendEmailCommand;
-use Spiral\Shared\Mappers\MoneyFactory;
-use Spiral\Shared\Mappers\TimestampFactory;
 use Spiral\RoadRunner\GRPC;
 use Spiral\Shared\Services\Payment\v1\DTO\ChargeRequest;
 use Spiral\Shared\Services\Payment\v1\DTO\ChargeResponse;

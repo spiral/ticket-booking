@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Event;
 
-use Spiral\Shared\Broadcasting\ShouldBroadcastInterface;
+use App\Broadcasting\ShouldBroadcastInterface;
 use App\Entity\Auditorium\ReservedSeat;
 use App\Entity\Reservation;
 

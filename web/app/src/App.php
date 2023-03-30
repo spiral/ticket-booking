@@ -8,8 +8,6 @@ use App\Bootloader;
 use Spiral\Boot\Bootloader\CoreBootloader;
 use Spiral\Bootloader as Framework;
 use Spiral\DotEnv\Bootloader as DotEnv;
-use Spiral\EventBus\Bootloader\EventBusBootloader;
-use Spiral\Events\Bootloader\EventsBootloader;
 use Spiral\Framework\Kernel;
 use Spiral\Monolog\Bootloader as Monolog;
 use Spiral\Nyholm\Bootloader as Nyholm;
@@ -17,7 +15,6 @@ use Spiral\OpenTelemetry\Bootloader\OpenTelemetryBootloader;
 use Spiral\Prototype\Bootloader as Prototype;
 use Spiral\Router\Bootloader\AnnotatedRoutesBootloader;
 use Spiral\Scaffolder\Bootloader as Scaffolder;
-use Spiral\Cycle\Bootloader as CycleBridge;
 use Spiral\RoadRunnerBridge\Bootloader as RoadRunnerBridge;
 use Spiral\Serializer\Bootloader\SerializerBootloader;
 use Spiral\Shared\Bootloader\LoggerBootloader;
@@ -75,28 +72,10 @@ class App extends Kernel
         Framework\Http\PaginationBootloader::class,
         AnnotatedRoutesBootloader::class,
 
-        // Databases
-        CycleBridge\DatabaseBootloader::class,
-        CycleBridge\MigrationsBootloader::class,
-        // CycleBridge\DisconnectsBootloader::class,
-
-        // ORM
-        CycleBridge\SchemaBootloader::class,
-        CycleBridge\CycleOrmBootloader::class,
-        CycleBridge\AnnotatedBootloader::class,
-        CycleBridge\CommandBootloader::class,
-        CycleBridge\AuthTokensBootloader::class,
-
-        // DataGrid
-        CycleBridge\DataGridBootloader::class,
-
         // Auth
         Framework\Auth\HttpAuthBootloader::class,
         //Framework\Auth\TokenStorage\SessionTokensBootloader::class,
         Framework\Auth\SecurityActorBootloader::class,
-
-        // Entity checker
-        // CycleBridge\ValidationBootloader::class,
 
         // Views and view translation
         ViewsBootloader::class,
@@ -104,9 +83,6 @@ class App extends Kernel
 
         // Extensions and bridges
         SerializerBootloader::class,
-
-        EventsBootloader::class,
-        EventBusBootloader::class,
 
         // Framework commands
         Framework\CommandBootloader::class,
@@ -121,7 +97,6 @@ class App extends Kernel
 
         Bootloader\SecurityBootloader::class,
 
-        \Spiral\DatabaseSeeder\Bootloader\DatabaseSeederBootloader::class,
         \Spiral\TemporalBridge\Bootloader\TemporalBridgeBootloader::class,
         \Spiral\Cqrs\Bootloader\CqrsBootloader::class,
         SharedBootloader::class,

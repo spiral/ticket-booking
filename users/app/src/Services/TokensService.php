@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Services\Mappers\TimestampFactory;
 use Spiral\Auth\TokenInterface;
 use Spiral\Auth\TokenStorageInterface;
 use Spiral\RoadRunner\GRPC;
-use Spiral\Shared\Mappers\TimestampFactory;
 use Spiral\Shared\Services\Tokens\v1\TokensServiceInterface;
 use Spiral\Shared\Services\Tokens\v1\DTO;
 

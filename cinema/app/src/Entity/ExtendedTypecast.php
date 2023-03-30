@@ -6,7 +6,7 @@ namespace App\Entity;
 
 use App\ValueObject\Duration;
 use App\ValueObject\Email;
-use Spiral\Shared\ValueObjects\Money;
+use App\ValueObject\Money;
 use Cycle\ORM\Parser\CastableInterface;
 use Cycle\ORM\Parser\UncastableInterface;
 

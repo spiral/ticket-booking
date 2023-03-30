@@ -6,10 +6,11 @@ namespace App\Services\Cinema;
 
 use App\Application\Command\BuyTicketCommand;
 use App\Application\Command\CancelTicketCommand;
+use App\Application\Command\ChargeMoneyCommand;
 use App\Application\Command\ReserveTicketCommand;
+use App\Application\Query\GetUserQuery;
+use App\Services\Mappers\TimestampFactory;
 use Spiral\Cqrs\CommandBusInterface;
-use Spiral\Shared\CQRS\Command\ChargeMoneyCommand;
-use Spiral\Shared\CQRS\Query\GetUserQuery;
 use App\Entity\Auditorium\ReservedSeat;
 use App\Entity\Reservation;
 use App\Entity\Screening;
@@ -26,7 +27,6 @@ use Cycle\Database\Injection\Parameter;
 use Ramsey\Uuid\Uuid;
 use Spiral\Cqrs\QueryBusInterface;
 use Spiral\RoadRunner\GRPC;
-use Spiral\Shared\Mappers\TimestampFactory;
 use Spiral\Shared\Services\Cinema\v1\CinemaServiceInterface;
 use Spiral\Shared\Services\Cinema\v1\DTO;
 
