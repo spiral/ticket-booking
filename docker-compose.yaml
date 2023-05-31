@@ -149,17 +149,12 @@ services:
     image: postgres
     logging:
       driver: none
-    healthcheck:
-      test: pg_isready -d postgresql -U temporal
-      interval: 2s
-      timeout: 5s
-      start_period: 2s
 
   temporal:
     container_name: temporal
     depends_on:
       postgresql:
-        condition: service_healthy
+        condition: service_started
     environment:
       DB: postgresql
       DB_PORT: 5432
