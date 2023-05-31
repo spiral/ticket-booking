@@ -45,3 +45,7 @@ metrics:
         reservations:
             type: counter
             help: "Total reservations"
+        canceled_reservations:
+            type: counter
+            help: "Canceled reservations"
+

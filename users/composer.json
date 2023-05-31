@@ -24,22 +24,21 @@
         "php": ">=8.1",
         "ext-mbstring": "*",
         "doctrine/collections": "^1.6",
-        "spiral/cycle-bridge": "2.0.x-dev as 2.0",
-        "spiral-packages/event-bus": "dev-master",
-        "spiral/framework": "^3.3",
+        "spiral/cycle-bridge": "^v2.5",
+        "spiral-packages/event-bus": "^2.2",
+        "spiral/framework": "^3.7",
         "spiral/nyholm-bridge": "^1.2",
         "spiral/otel-bridge": "^1.0",
         "spiral/temporal-bridge": "^2.0",
         "spiral-packages/cqrs": "^2.0",
         "spiral/shared": "*",
-        "spiral/roadrunner-bridge": "^2.0"
+        "spiral/roadrunner-bridge": "^3.0"
     },
     "require-dev": {
         "nunomaduro/collision": "^6.2",
-        "phpunit/phpunit": "^9.5",
+        "spiral/testing": "^2.3",
         "spiral-packages/database-seeder": "^2.1",
-        "symfony/http-client": "^6.0",
-        "symfony/var-dumper": "^6.0"
+        "symfony/http-client": "^6.0"
     },
     "scripts": {
         "post-create-project-cmd": [

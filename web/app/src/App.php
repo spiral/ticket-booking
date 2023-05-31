@@ -25,6 +25,7 @@ use Spiral\Shared\Bootloader\SharedBootloader;
 use Spiral\Tokenizer\Bootloader\TokenizerBootloader;
 use Spiral\Validation\Symfony\Bootloader\ValidatorBootloader;
 use Spiral\Views\Bootloader\ViewsBootloader;
+use Spiral\YiiErrorHandler\Bootloader\YiiErrorHandlerBootloader;
 
 class App extends Kernel
 {
@@ -45,6 +46,7 @@ class App extends Kernel
         Monolog\MonologBootloader::class,
         LoggerBootloader::class,
         Bootloader\ExceptionHandlerBootloader::class,
+        YiiErrorHandlerBootloader::class,
 
         // RoadRunner
         RoadRunnerBridge\CacheBootloader::class,
@@ -53,7 +55,6 @@ class App extends Kernel
         RoadRunnerBridge\QueueBootloader::class,
         RoadRunnerBridge\RoadRunnerBootloader::class,
         RoadRunnerBridge\MetricsBootloader::class,
-        // RoadRunnerBridge\CentrifugoBootloader::class,
 
         // Core Services
         Framework\SnapshotsBootloader::class,

@@ -35,7 +35,7 @@ final class Invoker implements InvokerInterface
 
     public function invoke(ServiceInterface $service, Method $method, ContextInterface $ctx, ?string $input): string
     {
-        return $this->core->callAction($service::class, $method->getName(), [
+        return $this->core->callAction($service::class, $method->name, [
             'service' => $service,
             'ctx' => $ctx,
             'method' => $method,
