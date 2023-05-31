@@ -1,4 +1,4 @@
-version: '2.7'
+version: '3.0'
 
 rpc:
     listen: tcp://0.0.0.0:6001
@@ -52,3 +52,12 @@ metrics:
 status:
     address: 127.0.0.1:2114
     unavailable_status_code: 503
+
+otel:
+    insecure: true
+    compress: false
+    client: http
+    exporter: otlp
+    service_name: rr-cinema
+    service_version: 1.0.0
+    endpoint: collector:4318

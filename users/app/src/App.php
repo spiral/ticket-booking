@@ -8,11 +8,13 @@ use App\Bootloader;
 use Spiral\Boot\Bootloader\CoreBootloader;
 use Spiral\Bootloader as Framework;
 use Spiral\Cqrs\Bootloader\CqrsBootloader;
+use Spiral\Debug\Bootloader\DumperBootloader;
 use Spiral\DotEnv\Bootloader as DotEnv;
 use Spiral\EventBus\Bootloader\EventBusBootloader;
 use Spiral\Events\Bootloader\EventsBootloader;
 use Spiral\Framework\Kernel;
 use Spiral\Monolog\Bootloader as Monolog;
+use Spiral\OpenTelemetry\Bootloader\OpenTelemetryBootloader;
 use Spiral\Shared\Bootloader\LoggerBootloader;
 use Spiral\Shared\Bootloader\SharedBootloader;
 use Spiral\Cycle\Bootloader as CycleBridge;
@@ -25,6 +27,7 @@ class App extends Kernel
 {
     protected const SYSTEM = [
         CoreBootloader::class,
+        DumperBootloader::class,
         TokenizerBootloader::class,
         DotEnv\DotenvBootloader::class,
     ];
@@ -34,7 +37,7 @@ class App extends Kernel
      * within system container on application start.
      */
     protected const LOAD = [
-        \Spiral\OpenTelemetry\Bootloader\OpenTelemetryBootloader::class,
+        OpenTelemetryBootloader::class,
 
         EventsBootloader::class,
 

@@ -1,0 +1,16 @@
+ARG ROAD_RUNNER_IMAGE=2023.1.4
+
+# Build rr binary
+FROM ghcr.io/roadrunner-server/roadrunner:$ROAD_RUNNER_IMAGE as rr
+FROM spiralscout/php81-grpc:1.0.0
+
+ARG SERVICE_NAME
+
+RUN apk update
+RUN rm -rf /var/lib/apt/lists/*
+RUN docker-php-ext-install \
+        pgsql pdo_pgsql
+
+COPY --from=rr /usr/bin/rr /usr/bin
+
+WORKDIR /var/www

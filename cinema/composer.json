@@ -24,6 +24,8 @@
         "php": ">=8.1",
         "ext-mbstring": "*",
         "doctrine/collections": "^1.6",
+        "open-telemetry/exporter-otlp": "^0.0.17",
+        "open-telemetry/transport-grpc": "^0.0.17",
         "spiral/cycle-bridge": "^v2.5",
         "spiral-packages/cqrs": "^2.0",
         "spiral-packages/event-bus": "^2.2",
@@ -35,6 +37,7 @@
         "spiral/roadrunner-bridge": "^3.0"
     },
     "require-dev": {
+        "spiral/dumper": "^3.0",
         "spiral/testing": "^2.3",
         "spiral-packages/database-seeder": "^2.1",
         "symfony/http-client": "^6.0"

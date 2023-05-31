@@ -26,6 +26,8 @@
         "doctrine/collections": "^1.6",
         "firebase/php-jwt": "^6.3",
         "moneyphp/money": "^3.3",
+        "open-telemetry/exporter-otlp": "^0.0.17",
+        "open-telemetry/transport-grpc": "^0.0.17",
         "spiral-packages/cqrs": "^2.0",
         "spiral-packages/event-bus": "dev-master",
         "spiral-packages/symfony-validator": "^1.0",
@@ -40,7 +42,7 @@
         "spiral/twig-bridge": "^2.0"
     },
     "require-dev": {
-        "nunomaduro/collision": "^6.2",
+        "spiral/dumper": "^3.0",
         "spiral/testing": "^2.3",
         "spiral-packages/database-seeder": "^2.0",
         "spiral-packages/yii-error-handler-bridge": "^1.0"

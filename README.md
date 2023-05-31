@@ -31,13 +31,12 @@ Spiral Framework and the other tools we've used.
 
 ## Installation
 
-Clone project into a folder 
+Clone project into a desired folder 
 
 Run console commands
 
 ```bash
-chmod +x run.sh
-./run.sh
+docker compose up -d
 ```
 
 ## Services dashboards

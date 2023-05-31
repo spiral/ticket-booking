@@ -8,6 +8,7 @@ use App\Bootloader;
 use Spiral\Boot\Bootloader\CoreBootloader;
 use Spiral\Bootloader as Framework;
 use Spiral\Cqrs\Bootloader\CqrsBootloader;
+use Spiral\Debug\Bootloader\DumperBootloader;
 use Spiral\DotEnv\Bootloader as DotEnv;
 use Spiral\Events\Bootloader\EventsBootloader;
 use Spiral\Framework\Kernel;
@@ -21,6 +22,7 @@ class App extends Kernel
 {
     protected const SYSTEM = [
         CoreBootloader::class,
+        DumperBootloader::class,
         TokenizerBootloader::class,
         DotEnv\DotenvBootloader::class,
     ];

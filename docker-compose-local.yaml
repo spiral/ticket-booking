@@ -1,0 +1,289 @@
+version: "3.7"
+
+services:
+  frontend:
+    image: ghcr.io/spiral/ticket-booking-frontend:latest
+    ports:
+      - "3000:3000"
+    depends_on:
+      web:
+        condition: service_healthy
+
+  centrifugo-rpc:
+    build:
+      dockerfile: ./docker/php/Dockerfilelocal
+    env_file:
+      - .env
+    environment:
+      OTEL_SERVICE_NAME: php-centrifugo
+    volumes:
+      - ./centrifugo:/var/www/
+      - ./proto:/var/www/proto/
+      - ./shared:/var/shared/
+    depends_on:
+      collector:
+        condition: service_started
+      redis:
+        condition: service_healthy
+    restart: on-failure
+    command: >
+      bash -c "/usr/bin/rr serve"
+    healthcheck:
+      test: [ 'CMD-SHELL', 'wget --spider -q "http://127.0.0.1:2114/health?plugin=rpc"' ]
+      interval: 2s
+      timeout: 2s
+
+  web:
+    build:
+      dockerfile: ./docker/php/Dockerfilelocal
+    env_file:
+      - .env
+    volumes:
+      - ./web:/var/www/
+      - ./proto:/var/www/proto/
+      - ./shared:/var/shared/
+    environment:
+      DB_DATABASE: homestead
+      OTEL_SERVICE_NAME: php-web
+    ports:
+      - "8080:8080"
+    depends_on:
+      collector:
+        condition: service_started
+      cinema:
+        condition: service_healthy
+      payment:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: >
+      bash -c "php app.php migrate
+      && /usr/bin/rr serve"
+    restart: on-failure
+    healthcheck:
+      test: [ 'CMD-SHELL', 'wget --spider -q "http://127.0.0.1:2114/health?plugin=rpc"' ]
+      interval: 2s
+      timeout: 2s
+
+  users:
+    build:
+      dockerfile: ./docker/php/Dockerfilelocal
+    env_file:
+      - .env
+    volumes:
+      - ./users:/var/www/
+      - ./proto:/var/www/proto/
+      - ./shared:/var/shared/
+    environment:
+      DB_DATABASE: homestead
+      OTEL_SERVICE_NAME: php-users
+    ports:
+      - "2112:2112"
+    depends_on:
+      temporal:
+        condition: service_started
+      collector:
+        condition: service_started
+      redis:
+        condition: service_healthy
+    command: >
+      bash -c "php app.php migrate
+      && php app.php db:seed
+      && /usr/bin/rr serve"
+    restart: on-failure
+    healthcheck:
+      test: [ 'CMD-SHELL', 'wget --spider -q "http://127.0.0.1:2114/health?plugin=rpc"' ]
+      interval: 2s
+      timeout: 2s
+
+  payment:
+    build:
+      dockerfile: ./docker/php/Dockerfilelocal
+    env_file:
+      - .env
+    environment:
+      DB_DATABASE: homestead
+      OTEL_SERVICE_NAME: php-payment
+    volumes:
+      - ./payment:/var/www/
+      - ./proto:/var/www/proto/
+      - ./shared:/var/shared/
+    depends_on:
+      temporal:
+        condition: service_started
+      collector:
+        condition: service_started
+      redis:
+        condition: service_healthy
+    command: >
+      bash -c "php app.php migrate
+      && php app.php db:seed
+      && /usr/bin/rr serve"
+    restart: on-failure
+    healthcheck:
+      test: [ 'CMD-SHELL', 'wget --spider -q "http://127.0.0.1:2114/health?plugin=rpc"' ]
+      interval: 2s
+      timeout: 2s
+
+  cinema:
+    build:
+      dockerfile: ./docker/php/Dockerfilelocal
+    env_file:
+      - .env
+    environment:
+      DB_DATABASE: homestead
+      BROADCAST_CONNECTION: centrifugo
+      OTEL_SERVICE_NAME: php-cinema
+    volumes:
+      - ./cinema:/var/www/
+      - ./proto:/var/www/proto/
+      - ./shared:/var/shared/
+    depends_on:
+      temporal:
+        condition: service_started
+      collector:
+        condition: service_started
+      redis:
+        condition: service_healthy
+    command: >
+      bash -c "php app.php migrate
+      && php app.php db:seed
+      && /usr/bin/rr serve"
+    restart: on-failure
+    healthcheck:
+      test: [ 'CMD-SHELL', 'wget --spider -q "http://127.0.0.1:2114/health?plugin=rpc"' ]
+      interval: 2s
+      timeout: 2s
+
+  db:
+    container_name: db
+    image: postgres
+    environment:
+      POSTGRES_USER: homestead
+      POSTGRES_DB: homestead
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5432:5432"
+    logging:
+      driver: none
+    healthcheck:
+      test: pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER
+      interval: 2s
+      timeout: 5s
+      start_period: 2s
+
+  postgresql:
+    container_name: temporal-postgresql
+    environment:
+      POSTGRES_PASSWORD: temporal
+      POSTGRES_USER: temporal
+    image: postgres
+    logging:
+      driver: none
+
+  temporal:
+    container_name: temporal
+    depends_on:
+      postgresql:
+        condition: service_started
+    environment:
+      DB: postgresql
+      DB_PORT: 5432
+      POSTGRES_USER: temporal
+      POSTGRES_PWD: temporal
+      POSTGRES_SEEDS: postgresql
+      DYNAMIC_CONFIG_FILE_PATH: config/dynamicconfig/development-sql.yaml
+    image: temporalio/auto-setup
+    volumes:
+      - ./docker/temporal:/etc/temporal/config/dynamicconfig
+    restart: on-failure
+    logging:
+      driver: none
+
+  temporal-web:
+    container_name: temporal-web
+    depends_on:
+      - temporal
+    environment:
+      - TEMPORAL_GRPC_ENDPOINT=temporal:7233
+      - TEMPORAL_PERMIT_WRITE_API=true
+    image: temporalio/web
+    ports:
+      - "8088:8088"
+    logging:
+      driver: none
+
+  collector:
+    image: otel/opentelemetry-collector-contrib
+    command: [ "--config=/etc/otel-collector-config.yml" ]
+    volumes:
+      - ./docker/otel/otel-collector-config.yml:/etc/otel-collector-config.yml
+    logging:
+      driver: none
+
+  zipkin:
+    image: openzipkin/zipkin-slim
+    ports:
+      - "9411:9411"
+    logging:
+      driver: none
+
+  redis:
+    image: redis
+    logging:
+      driver: none
+    healthcheck:
+      test: [ 'CMD', 'redis-cli', 'ping' ]
+      interval: 500ms
+      timeout: 1s
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./docker/prometheus/:/etc/prometheus/
+    restart: always
+
+  grafana:
+    image: grafana/grafana
+    depends_on:
+      prometheus:
+        condition: service_started
+    ports:
+      - 3001:3000
+    volumes:
+      - ./docker/grafana/provisioning/:/etc/grafana/provisioning/
+    env_file:
+      - ./docker/grafana/config.monitoring
+    restart: always
+
+  centrifugo:
+    container_name: centrifugo
+    image: centrifugo/centrifugo:latest
+    volumes:
+      - ./docker/centrifugo/config.json:/centrifugo/config.json
+    command: centrifugo -c config.json
+    ports:
+      - 8089:8000
+    depends_on:
+      centrifugo-rpc:
+        condition: service_healthy
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+
+  buggregator:
+    image: butschster/buggregator:beta
+    ports:
+      - 8003:8000
+
+  birddog:
+    image: ghcr.io/roadrunner-server/birddog:0.4.0
+    ports:
+      - "8002:80"
+    environment:
+      DEFAULT_RPC_SERVER: cinema
+      RPC_SERVER_CINEMA: tcp://cinema:6001
+      RPC_SERVER_WEB: tcp://web:6001
+      RPC_SERVER_USERS: tcp://users:6001
+      RPC_SERVER_PAYMENT: tcp://payment:6001

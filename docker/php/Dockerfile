@@ -1,4 +1,4 @@
-ARG ROAD_RUNNER_IMAGE=2.12.3
+ARG ROAD_RUNNER_IMAGE=2023.1.4
 
 # Build rr binary
 FROM ghcr.io/roadrunner-server/roadrunner:$ROAD_RUNNER_IMAGE as rr
