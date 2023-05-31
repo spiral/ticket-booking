@@ -23,6 +23,13 @@ return [
         // 'rating-queue' => 'sync',
     ],
 
+    'pipelines' => [
+        'local' => [
+            'connector' => new MemoryCreateInfo('local'),
+            'consume' => true,
+        ],
+    ],
+
     /**
      * Queue connections
      * Drivers: "sync", "roadrunner"
@@ -35,12 +42,6 @@ return [
         'roadrunner' => [
             'driver' => 'roadrunner',
             'default' => 'local',
-            'pipelines' => [
-                'local' => [
-                    'connector' => new MemoryCreateInfo('local'),
-                    'consume' => true,
-                ],
-            ],
         ],
     ],
 
