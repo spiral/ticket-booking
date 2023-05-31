@@ -1,9 +1,27 @@
 # Demo application - Ticket booking system
 
 ![Ticket booking](https://user-images.githubusercontent.com/773481/204212124-d6de2a92-5450-40e6-9438-effce70741b2.jpg)
-This is an example project base on Spiral Framework and GRPC microservices with Grafana dashboard.
+
+It built on the Spiral Framework, which is a high-performance PHP framework that allows developers to create reusable, 
+independent, and easy-to-maintain services. In this demo application, you can find an example of using RoadRunner's 
+gRPC plugin to create and consume gRPC services.
+
+In this demo system, you can purchase tickets using a fake payment gateway. You can also view and manage your bookings, 
+and receive notifications about your tickets and transactions. It's a great way to get a feel for how a real ticket 
+booking system works, without any of the actual commitment (or expense).
+
+To ensure the best performance, reliability, and observability, we have used a number of powerful tools and technologies 
+such as **Opentelemetry**, **Centrifugo**, **RoadRunner**, **Grafana**, **Bidrdog**, **Buggregator**, and **Temporalio**. 
+These help us to understand how the system is behaving, identify and fix issues, and optimize the resources.
 
 ![Grafana dashboard](https://user-images.githubusercontent.com/773481/205066017-ecddefc4-1d07-4428-b3ad-af49baadad0a.png)
+
+Overall, our demo ticket booking system is a great example of how Spiral Framework and other tools can be used to build 
+a modern and efficient application. We hope you have a blast using it and learning more about the capabilities of 
+Spiral Framework and the other tools we've used. 
+
+### Happy (fake) ticket shopping!
+
 
 ## Requirements
 
