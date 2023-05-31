@@ -1,7 +1,7 @@
 # Clone the project
 FROM alpine/git as git
 
-ARG REPOSITORY=https://github.com/spiral/ticket-booking.git
+ARG REPOSITORY=https://github.com/spiral/ticket-booking
 ARG BRANCH=master
 ARG APP_VERSION=v1.0
 
