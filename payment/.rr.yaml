@@ -37,3 +37,6 @@ metrics:
             type: counter
             help: "Total fee"
 
+status:
+    address: 127.0.0.1:2114
+    unavailable_status_code: 503

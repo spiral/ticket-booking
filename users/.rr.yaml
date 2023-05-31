@@ -36,3 +36,7 @@ metrics:
         total_users:
             type: counter
             help: "Total registered users"
+
+status:
+    address: 127.0.0.1:2114
+    unavailable_status_code: 503

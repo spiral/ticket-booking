@@ -18,3 +18,7 @@ centrifuge:
 
 metrics:
     address: 0.0.0.0:2112
+
+status:
+    address: 127.0.0.1:2114
+    unavailable_status_code: 503

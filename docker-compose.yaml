@@ -6,17 +6,23 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - web
+      web:
+        condition: service_healthy
 
   centrifugo-rpc:
     image: ghcr.io/spiral/ticket-booking-centrifugo:latest
     env_file:
       - .env
     depends_on:
-      - collector
-      - redis
-    command: rr serve
+      collector:
+        condition: service_started
+      redis:
+        condition: service_healthy
     restart: on-failure
+    healthcheck:
+      test: [ 'CMD-SHELL', 'wget --spider -q "http://127.0.0.1:2114/health?plugin=rpc"' ]
+      interval: 2s
+      timeout: 2s
 
   web:
     image: ghcr.io/spiral/ticket-booking-web:latest
@@ -27,14 +33,22 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - collector
-      - redis
-      - cinema
-      - payment
+      collector:
+        condition: service_started
+      cinema:
+        condition: service_healthy
+      payment:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     command: >
       bash -c "php app.php migrate
       && ./rr serve"
     restart: on-failure
+    healthcheck:
+      test: [ 'CMD-SHELL', 'wget --spider -q "http://127.0.0.1:2114/health?plugin=rpc"' ]
+      interval: 2s
+      timeout: 2s
 
   users:
     image: ghcr.io/spiral/ticket-booking-users:latest
@@ -45,14 +59,21 @@ services:
     ports:
       - "2112:2112"
     depends_on:
-      - temporal
-      - collector
-      - redis
+      temporal:
+        condition: service_started
+      collector:
+        condition: service_started
+      redis:
+        condition: service_healthy
     command: >
       bash -c "php app.php migrate
       && php app.php db:seed
       && ./rr serve"
     restart: on-failure
+    healthcheck:
+      test: [ 'CMD-SHELL', 'wget --spider -q "http://127.0.0.1:2114/health?plugin=rpc"' ]
+      interval: 2s
+      timeout: 2s
 
   payment:
     image: ghcr.io/spiral/ticket-booking-payment:latest
@@ -61,14 +82,21 @@ services:
     environment:
       DB_DATABASE: homestead
     depends_on:
-      - temporal
-      - collector
-      - redis
+      temporal:
+        condition: service_started
+      collector:
+        condition: service_started
+      redis:
+        condition: service_healthy
     command: >
       bash -c "php app.php migrate
       && php app.php db:seed
       && ./rr serve"
     restart: on-failure
+    healthcheck:
+      test: [ 'CMD-SHELL', 'wget --spider -q "http://127.0.0.1:2114/health?plugin=rpc"' ]
+      interval: 2s
+      timeout: 2s
 
   cinema:
     image: ghcr.io/spiral/ticket-booking-cinema:latest
@@ -78,14 +106,21 @@ services:
       DB_DATABASE: homestead
       BROADCAST_CONNECTION: centrifugo
     depends_on:
-      - temporal
-      - collector
-      - redis
+      temporal:
+        condition: service_started
+      collector:
+        condition: service_started
+      redis:
+        condition: service_healthy
     command: >
       bash -c "php app.php migrate
       && php app.php db:seed
       && ./rr serve"
     restart: on-failure
+    healthcheck:
+      test: [ 'CMD-SHELL', 'wget --spider -q "http://127.0.0.1:2114/health?plugin=rpc"' ]
+      interval: 2s
+      timeout: 2s
 
   db:
     container_name: db
@@ -98,6 +133,11 @@ services:
       - "5432:5432"
     logging:
       driver: none
+    healthcheck:
+      test: pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER
+      interval: 2s
+      timeout: 5s
+      start_period: 2s
 
   postgresql:
     container_name: temporal-postgresql
@@ -107,11 +147,17 @@ services:
     image: postgres
     logging:
       driver: none
+    healthcheck:
+      test: pg_isready -d postgresql -U temporal
+      interval: 2s
+      timeout: 5s
+      start_period: 2s
 
   temporal:
     container_name: temporal
     depends_on:
-      - postgresql
+      postgresql:
+        condition: service_healthy
     environment:
       DB: postgresql
       DB_PORT: 5432
@@ -158,6 +204,10 @@ services:
     image: redis
     logging:
       driver: none
+    healthcheck:
+      test: [ 'CMD', 'redis-cli', 'ping' ]
+      interval: 500ms
+      timeout: 1s
 
   prometheus:
     image: prom/prometheus
@@ -168,7 +218,8 @@ services:
   grafana:
     image: grafana/grafana
     depends_on:
-      - prometheus
+      prometheus:
+        condition: service_started
     ports:
       - 3001:3000
     volumes:
@@ -186,7 +237,8 @@ services:
     ports:
       - 8089:8000
     depends_on:
-      - centrifugo-rpc
+      centrifugo-rpc:
+        condition: service_healthy
     ulimits:
       nofile:
         soft: 65535
