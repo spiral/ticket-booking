@@ -19,6 +19,8 @@ services:
       redis:
         condition: service_healthy
     restart: on-failure
+    command: >
+      bash -c "./rr serve"
     healthcheck:
       test: [ 'CMD-SHELL', 'wget --spider -q "http://127.0.0.1:2114/health?plugin=rpc"' ]
       interval: 2s
