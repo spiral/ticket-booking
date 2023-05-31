@@ -28,8 +28,8 @@ ENV OTEL_SERVICE_NAME=php-$SERVICE_NAME
 
 COPY --from=git /app/$SERVICE_NAME /app/$SERVICE_NAME
 COPY --from=rr /usr/bin/rr /app/$SERVICE_NAME
+COPY --from=git /app/proto /app/$SERVICE_NAME/proto
 COPY --from=git /app/shared /app/shared
-COPY --from=git /app/proto /app/proto
 
 WORKDIR /app/$SERVICE_NAME
 
