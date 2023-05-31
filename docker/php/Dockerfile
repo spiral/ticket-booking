@@ -26,15 +26,15 @@ ARG APP_VERSION=v1.0
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV OTEL_SERVICE_NAME=php-$SERVICE_NAME
 
-COPY --from=rr /usr/bin/rr /app/$SERVICE_NAME
 COPY --from=git /app/$SERVICE_NAME /app/$SERVICE_NAME
+COPY --from=rr /usr/bin/rr /app/$SERVICE_NAME
 COPY --from=git /app/shared /app/shared
 COPY --from=git /app/proto /app/proto
 
+WORKDIR /app/$SERVICE_NAME
+
 RUN composer config --no-plugins allow-plugins.spiral/composer-publish-plugin false
 RUN composer install --no-dev
-
-WORKDIR /app/$SERVICE_NAME
 
 LABEL org.opencontainers.image.source=$REPOSITORY
 LABEL org.opencontainers.image.description="Ticket booking $SERVICE_NAME"
