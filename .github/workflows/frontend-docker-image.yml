@@ -37,7 +37,7 @@ jobs:
           context: ./
           file: ./docker/npm/Dockerfile
           push: true
-          args:
+          build-args: |
             APP_VERSION=${{ steps.previoustag.outputs.tag }}
           tags:
             ghcr.io/spiral/ticket-booking-frontend:latest, ghcr.io/spiral/ticket-booking-frontend:${{ steps.previoustag.outputs.tag }}
