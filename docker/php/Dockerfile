@@ -6,7 +6,7 @@ FROM ghcr.io/roadrunner-server/roadrunner:$ROAD_RUNNER_IMAGE as rr
 # Clone the project
 FROM alpine/git as git
 
-ARG REPOSITORY=https://github.com/spiral/ticket-booking.git
+ARG REPOSITORY=https://github.com/spiral/ticket-booking
 ARG BRANCH=master
 
 RUN git clone -b $BRANCH $REPOSITORY /app
@@ -33,7 +33,7 @@ COPY --from=git /app/proto /app/proto
 
 WORKDIR /app/$SERVICE_NAME
 
-#RUN composer config --no-plugins allow-plugins.spiral/composer-publish-plugin false
+RUN composer config --no-plugins allow-plugins.spiral/composer-publish-plugin false
 RUN composer install --no-dev
 
 LABEL org.opencontainers.image.source=$REPOSITORY

@@ -37,7 +37,7 @@ jobs:
           context: ./
           file: ./docker/php/Dockerfile
           push: true
-          build-args:
+          args:
             APP_VERSION=${{ steps.previoustag.outputs.tag }}
             SERVICE_NAME=web
           tags:
