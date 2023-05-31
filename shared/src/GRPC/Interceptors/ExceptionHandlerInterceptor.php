@@ -33,10 +33,13 @@ final class ExceptionHandlerInterceptor implements CoreInterceptorInterface
             }
 
             $details = [];
-            while ($e->getPrevious()) {
+            $previous = $e->getPrevious();
+            while ($previous !== null) {
                 $details[] = new ErrorInfo([
                     'domain' => $controller,
                 ]);
+
+                $previous = $previous->getPrevious();
             }
 
             throw new GRPCException(
