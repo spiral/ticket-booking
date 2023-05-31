@@ -2,23 +2,16 @@ version: "3.7"
 
 services:
   frontend:
-    build:
-      dockerfile: ./docker/npm/Dockerfile
+    image: ghcr.io/spiral/ticket-booking-frontend:latest
     ports:
       - "3000:3000"
     depends_on:
       - web
 
   centrifugo-rpc:
-    build:
-      dockerfile: ./docker/php/Dockerfile
-      args:
-        SERVICE_NAME: centrifugo
+    image: ghcr.io/spiral/ticket-booking-centrifugo:latest
     env_file:
       - .env
-    volumes:
-      - ./centrifugo:/var/www/
-      - ./shared:/var/shared/\
     depends_on:
       - collector
       - redis
@@ -26,20 +19,13 @@ services:
     restart: on-failure
 
   web:
-    build:
-      dockerfile: ./docker/php/Dockerfile
-      args:
-        SERVICE_NAME: web
+    image: ghcr.io/spiral/ticket-booking-web:latest
     env_file:
       - .env
     environment:
       DB_DATABASE: homestead
     ports:
       - "8080:8080"
-    volumes:
-      - ./web:/var/www/
-      - ./proto:/var/www/proto/
-      - ./shared:/var/shared/
     depends_on:
       - collector
       - redis
@@ -51,10 +37,7 @@ services:
     restart: on-failure
 
   users:
-    build:
-      dockerfile: ./docker/php/Dockerfile
-      args:
-        SERVICE_NAME: users
+    image: ghcr.io/spiral/ticket-booking-users:latest
     env_file:
       - .env
     environment:
@@ -72,10 +55,7 @@ services:
     restart: on-failure
 
   payment:
-    build:
-      dockerfile: ./docker/php/Dockerfile
-      args:
-        SERVICE_NAME: payment
+    image: ghcr.io/spiral/ticket-booking-payment:latest
     env_file:
       - .env
     environment:
@@ -91,10 +71,7 @@ services:
     restart: on-failure
 
   cinema:
-    build:
-      dockerfile: ./docker/php/Dockerfile
-      args:
-        SERVICE_NAME: cinema
+    image: ghcr.io/spiral/ticket-booking-cinema:latest
     env_file:
       - .env
     environment:

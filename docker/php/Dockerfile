@@ -34,7 +34,7 @@ COPY --from=git /app/proto /app/proto
 WORKDIR /app/$SERVICE_NAME
 
 RUN composer config --no-plugins allow-plugins.spiral/composer-publish-plugin false
-RUN composer install --no-dev
+RUN composer install
 
 LABEL org.opencontainers.image.source=$REPOSITORY
 LABEL org.opencontainers.image.description="Ticket booking $SERVICE_NAME"
