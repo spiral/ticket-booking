@@ -200,16 +200,16 @@ services:
     logging:
       driver: none
 
-  temporal-web:
-    container_name: temporal-web
+  temporal-ui:
+    container_name: temporal-ui
     depends_on:
       - temporal
     environment:
-      - TEMPORAL_GRPC_ENDPOINT=temporal:7233
-      - TEMPORAL_PERMIT_WRITE_API=true
-    image: temporalio/web
+      - TEMPORAL_ADDRESS=temporal:7233
+      - TEMPORAL_CORS_ORIGINS=http://localhost:3000
+    image: temporalio/ui:latest
     ports:
-      - "8088:8088"
+      - "8088:8080"
     logging:
       driver: none
 
