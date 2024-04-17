@@ -77,7 +77,7 @@ class ReserveTicketActivity implements ReserveTicketActivityInterface
     {
         $reservation = $this->reservations->getByPK($reservationId);
 
-        $this->metrics->sub('reservations', 1);
+        $this->metrics->add('canceled_reservations', 1);
 
         if ($reservation->isPaid()) {
             throw new \Exception(\sprintf('reservation %s was paid', $reservationId));
