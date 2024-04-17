@@ -242,7 +242,7 @@ services:
         hard: 65535
 
   buggregator:
-    image: butschster/buggregator:beta
+    image: butschster/buggregator:latest
     ports:
       - 8003:8000
 
